@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v02 · Transcript — Jessie Chen</title>
+<style>
+  :root{--bg:#101214;--panel:#17191c;--ink:#e8e6df;--dim:#8b9099;--line:#2a2e34;--acc:#f2c14e;--acc2:#6fb3ff;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;--sans:-apple-system,"Inter","PingFang SC",system-ui,sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--sans)}
+  a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
+  .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--dim);z-index:9}
+
+  .top{position:sticky;top:0;background:linear-gradient(var(--bg) 70%,transparent);padding:44px 0 10px;z-index:5}
+  .top .in{width:min(100% - 32px,860px);margin:0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+  .live{font:12px var(--mono);color:var(--dim);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .live i{width:8px;height:8px;border-radius:50%;background:#e5484d;display:inline-block;animation:blink 1.4s infinite}
+  @keyframes blink{50%{opacity:.25}}
+  .marks{font:12px var(--mono);color:var(--dim)}
+  .marks b{color:var(--acc);font-weight:600}
+
+  .who{width:min(100% - 32px,860px);margin:18px auto 8px;display:flex;gap:16px;align-items:center}
+  .who .av{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe9a8,#c98a1a);flex-shrink:0;font:600 15px var(--mono);color:#201800;display:grid;place-items:center}
+  .who h1{margin:0;font-size:18px;font-weight:600}
+  .who p{margin:0;font-size:13px;color:var(--dim)}
+  .hint{width:min(100% - 32px,860px);margin:0 auto 18px;font:12px var(--mono);color:var(--dim)}
+
+  .tr{width:min(100% - 32px,860px);margin:0 auto 80px;display:grid;grid-template-columns:64px 1fr;row-gap:2px}
+  .t{font:12px var(--mono);color:var(--dim);padding-top:11px;text-align:right;padding-right:14px}
+  .s{padding:8px 12px;border-radius:6px;cursor:default;position:relative}
+  .s.q{cursor:pointer}
+  .s.q:hover{background:var(--panel)}
+  .s.q::after{content:"mark";position:absolute;right:12px;top:10px;font:10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--dim);opacity:0}
+  .s.q:hover::after{opacity:1}
+  .s.on{background:var(--panel);box-shadow:inset 3px 0 0 var(--acc)}
+  .s.on::after{content:"marked";opacity:1;color:var(--acc)}
+  .s .say{margin:0}
+  .s .say em{font-style:normal;color:var(--acc)}
+  .ex{display:none;margin:10px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:#121417;font-size:14px}
+  .s.on .ex{display:block}
+  .ex .r{font:11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+  .ex p{margin:0 0 8px;color:#cfd3da}
+  .ex .n{display:flex;gap:18px;flex-wrap:wrap;font:13px var(--mono);color:var(--dim);margin-bottom:8px}
+  .ex .n b{color:var(--ink);font-weight:600}
+  .ex .l a{margin-right:14px;font-size:13px}
+  .pause{grid-column:1/-1;height:14px}
+  .end{grid-column:2;padding:14px 12px;border-top:1px solid var(--line);margin-top:10px;font-size:14px;color:var(--dim)}
+  .end a{margin-right:14px}
+  @media (max-width:560px){.tr{grid-template-columns:1fr}.t{text-align:left;padding:10px 12px 0;font-size:11px}.s.q::after{display:none}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+
+<div class="top"><div class="in">
+  <span class="live"><i></i> Live transcript · Jessie Chen</span>
+  <span class="marks"><b id="c">0</b> marks · <b>0</b> typed</span>
+</div></div>
+
+<div class="who">
+  <div class="av">JC</div>
+  <div><h1>Jessie Chen</h1><p>AI product · UChicago MA Computational Social Science, class of 2027 · Chicago / Shanghai</p></div>
+</div>
+<p class="hint">Click a sentence to mark it. That is the whole interaction of Lecture Companion: a question is one click on what was just said.</p>
+
+<div class="tr">
+  <div class="t">00:00</div><div class="s"><p class="say">Hi. I am looking for an AI product manager role, and I would rather show you what I shipped than tell you what I am like.</p></div>
+  <div class="t">00:06</div><div class="s"><p class="say">In the past year I took <em>five AI products</em> from requirements to launch, on my own. Three of them still run in production every day.</p></div>
+  <div class="t">00:12</div><div class="s"><p class="say">My rule is simple: product judgment is proven by products that ship. So every number I say here can name its dashboard and its read date.</p></div>
+  <div class="pause"></div>
+
+  <div class="t">00:20</div><div class="s q"><p class="say">The first one is <em>Lecture Companion</em>. The bottleneck for asking questions in class is input friction, not model capability, so I made a question a single click on a transcript sentence. Like the one you are reading.</p>
+    <div class="ex"><div class="r">01 · real-time lecture AI assistant · solo build</div>
+      <p>Multimodal retrieval fills in whiteboard and formulas. The North Star is after-class review behavior; cost lives in a usage ledger, line by line.</p>
+      <div class="n"><span><b>63</b> marks, 59 with zero typing</span><span><b>3</b>-stage rollout, zero rollbacks</span><span>ASR cost cut to <b>1/4</b></span></div>
+      <div class="l"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">Live demo</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">Walkthrough</a></div></div></div>
+
+  <div class="t">00:31</div><div class="s q"><p class="say">The second is <em>xhs-threads</em>. People bookmark constantly and organize never. So the user only saves, and the AI threads the bookmarks into trains of thought and checks its own work.</p>
+    <div class="ex"><div class="r">02 · recovering the thinking behind Xiaohongshu bookmarks · solo build</div>
+      <p>Zero-label proactive archiving. Differentiation came from a survey of four competitor types; output quality is gated by an independent reviewer model.</p>
+      <div class="n"><span><b>11</b> threads, <b>63</b> nodes (2026-09)</span><span><b>90%</b> of calls on the light tier</span><span>¥<b>0.05–0.10</b> per item</span></div>
+      <div class="l"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study</a><a href="https://47.94.34.146:8443/demo">Guided demo</a><a href="https://47.94.34.146:8443/try">Try it</a></div></div></div>
+
+  <div class="t">00:42</div><div class="s q"><p class="say">The third is <em>Nous</em>. Other bots learn how you talk. This one learns how you decide, and warns you when you are about to say yes to something you will not actually do.</p>
+    <div class="ex"><div class="r">03 · cognitive-twin message agent · three clients</div>
+      <p>A nine-dimension cognitive model drives a message agent: it judges whether to reply, drafts in your way, and raises a quality warning. Feishu bot, Mac floating assistant and Web, all in daily production use.</p>
+      <div class="n"><span>behavior prediction <b>49→71%</b></span><span><b>3</b> clients live</span><span>correction flywheel <b>closed</b></span></div>
+      <div class="l"><a href="https://jessieyiqichen.github.io/projects/nous.html">Case study</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Guided demo</a><a href="https://web-ten-omega-72.vercel.app/agent">Vision sandbox</a></div></div></div>
+
+  <div class="t">00:53</div><div class="s q"><p class="say">The fourth is <em>JobPilot</em>, which I built because the job search is blocked by people, not information. It is open source, and every one of its six trade-offs has a written why.</p>
+    <div class="ex"><div class="r">04 · AI job-search strategist · solo build · open source</div>
+      <p>Existing tools stop at the behavior layer. JobPilot plugs in a cognitive model and language samples for personal diagnosis and messaging that sounds like you.</p>
+      <div class="n"><span><b>349</b> jobs collected, <b>37</b> high-score</span><span><b>31</b> CLI commands, <b>544</b> tests (2026-09)</span><span>CI + read-only demo</span></div>
+      <div class="l"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case study</a><a href="https://jobpilot-demo-delta.vercel.app">Live demo</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></div></div></div>
+
+  <div class="t">01:04</div><div class="s q"><p class="say">The fifth is <em>MusiClaw</em>: public ticketing data for Shanghai musicals, turned into a data product that updates itself every day and feeds a real content account.</p>
+    <div class="ex"><div class="r">05 · Shanghai musical-theatre market data platform · solo build</div>
+      <p>Seat-map snapshots, cast attribution analysis, four content pipelines. The AI's scope of responsibility is fully documented.</p>
+      <div class="n"><span><b>86</b> shows snapshotted daily</span><span><b>4</b> content pipelines</span><span>fixed <b>24h</b> post-publish review</span></div>
+      <div class="l"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a></div></div></div>
+  <div class="pause"></div>
+
+  <div class="t">01:15</div><div class="s"><p class="say">Four things run through all of them. I find the layer the bottleneck lives in before I build. I ship in stages so a problem points at its own layer. I define a metric before I report a number. And I treat cost as a product parameter, logged per call.</p></div>
+  <div class="t">01:28</div><div class="s"><p class="say">Before this I did a BSc in Economics at CUHK. Now I am at UChicago, MA in Computational Social Science, GPA 4.0, graduating 2027.</p></div>
+  <div class="t">01:34</div><div class="s"><p class="say">If you want to go deeper on any of these, or want the full resume, email me. That is the end of the transcript.</p></div>
+  <div class="end">
+    <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="https://github.com/jessieyiqichen">github.com/jessieyiqichen</a>
+    <span style="float:right;font:11px var(--mono)">© 2026 Jessie Chen · hand-written HTML/CSS · no tracking</span>
+  </div>
+</div>
+
+<script>
+  var c=document.getElementById('c');
+  document.querySelectorAll('.s.q').forEach(function(el){
+    el.addEventListener('click',function(e){
+      if(e.target.closest('a'))return;
+      el.classList.toggle('on');
+      c.textContent=document.querySelectorAll('.s.on').length;
+    });
+  });
+</script>
+</body>
+</html>
