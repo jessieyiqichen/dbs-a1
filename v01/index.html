@@ -3,128 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v01 · Ledger — Jessie Chen</title>
+<title>v01 · Single column — Jessie Chen</title>
 <style>
-  :root{
-    --paper:#f6f2e6;--ink:#2a2622;--muted:#7a7366;--rule:#d9d2bf;--red:#b8483c;--blue:#2b4ea3;
-    --serif:"Songti SC","Noto Serif SC",Georgia,serif;
-    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
-    --sans:-apple-system,"PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
-  }
+  :root{--bg:#fbfaf7;--ink:#1e2126;--body:#3b4048;--muted:#7d838d;--line:#e3e0d8;--acc:#2b4ea3;
+    --serif:"Iowan Old Style","Palatino Linotype","Songti SC",Georgia,serif;
+    --sans:-apple-system,"Inter","PingFang SC",system-ui,sans-serif}
   *{box-sizing:border-box}
-  body{margin:0;background:#e9e4d6;color:var(--ink);font:15px/1.7 var(--sans)}
-  a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
-  .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--muted);z-index:9}
-
-  .book{width:min(100% - 24px,900px);margin:48px auto 64px;background:var(--paper);
-    box-shadow:0 1px 0 #d6cfbc,0 12px 30px rgba(60,40,10,.12);position:relative;padding:40px 48px 48px 72px}
-  .book::before{content:"";position:absolute;top:0;bottom:0;left:52px;width:1px;background:var(--red);opacity:.65}
-  .book::after{content:"";position:absolute;inset:0;pointer-events:none;
-    background:repeating-linear-gradient(to bottom,transparent 0 27px,rgba(90,70,30,.08) 27px 28px);mix-blend-mode:multiply}
-  .book>*{position:relative;z-index:1}
-
-  .cover{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:6px}
-  .cover h1{font:600 28px/1.2 var(--serif);margin:0;letter-spacing:.02em;white-space:nowrap;flex-shrink:0}
-  .cover h1 small{display:block;font:12px var(--mono);letter-spacing:.2em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
-  .cover .acct{font:12px/1.9 var(--mono);color:var(--muted);text-align:right;white-space:nowrap}
-  .claim{font:400 17px/1.75 var(--serif);margin:18px 0 6px;max-width:640px}
-  .claim b{font-weight:600}
-
-  h2{font:600 13px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:38px 0 8px;display:flex;gap:12px;align-items:baseline}
-  h2 span.sub{font:12px var(--sans);letter-spacing:0;text-transform:none;color:var(--muted);font-weight:400}
-
-  .tbl{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
-  th{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--ink)}
-  td{padding:5px 8px;vertical-align:top;border-bottom:1px dotted var(--rule)}
-  td.d,th.d{font-family:var(--mono);color:var(--muted);white-space:nowrap;font-size:12px}
-  td.num,th.num{font-family:var(--mono);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-  td.num b{font-weight:600;color:var(--ink)}
-  td.src{color:var(--muted);font-size:12.5px}
-  tr.head td{font-family:var(--serif);font-weight:600;font-size:15px;padding-top:16px;border-bottom:none}
-  tr.head td small{font:12px var(--sans);color:var(--muted);font-weight:400;margin-left:8px}
-  tr.bal td{border-top:1px solid var(--ink);border-bottom:3px double var(--ink);font-family:var(--serif)}
-  tr.bal td.lbl{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-  tr.bal td.num{font-family:var(--mono)}
-  .links{font-size:12.5px}.links a{margin-right:12px}
-
-  ol.rules{margin:0;padding-left:1.2em;font-size:14px}
-  ol.rules li{padding:4px 0;border-bottom:1px dotted var(--rule)}
-  ol.rules b{font-family:var(--serif)}
-
-  .carry{margin-top:38px;border-top:1px solid var(--ink);padding-top:10px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13.5px}
-  .carry .lbl{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block}
-  .stamp{position:absolute;right:56px;bottom:88px;border:2px solid var(--red);color:var(--red);font:600 12px/1.3 var(--mono);letter-spacing:.12em;padding:6px 10px;transform:rotate(-6deg);opacity:.75;text-transform:uppercase}
-  footer{width:min(100% - 24px,900px);margin:0 auto 40px;font:11px var(--mono);color:#8a8273;letter-spacing:.08em;text-align:center}
-  @media (max-width:640px){.book{padding:32px 18px 36px 36px}.book::before{left:24px}.cover{display:block}.cover .acct{text-align:left;margin-top:8px}.stamp{display:none}}
+  body{margin:0;background:var(--bg);color:var(--body);font:17px/1.75 var(--sans)}
+  a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
+  .back{position:fixed;top:14px;left:16px;font:12px ui-monospace,Menlo,monospace;color:var(--muted);z-index:9}
+  main{width:min(100% - 40px,600px);margin:0 auto;padding:110px 0 90px}
+  h1{font:400 34px/1.25 var(--serif);color:var(--ink);margin:0 0 6px;letter-spacing:-.005em}
+  .sub{color:var(--muted);font-size:15px;margin:0 0 40px}
+  .intro{font:400 20px/1.6 var(--serif);color:var(--ink);margin:0 0 18px}
+  p{margin:0 0 18px}
+  h2{font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:56px 0 18px;padding-top:18px;border-top:1px solid var(--line)}
+  .proj{margin:0 0 26px}
+  .proj h3{font:600 17px/1.4 var(--sans);color:var(--ink);margin:0 0 2px}
+  .proj h3 span{font-weight:400;color:var(--muted);margin-left:8px;font-size:14px}
+  .proj p{margin:0 0 6px;font-size:16px}
+  .proj .f{font-size:14px;color:var(--muted)}
+  .proj .f b{color:var(--body);font-weight:600}
+  .proj .f a{margin-left:10px}
+  ol{padding-left:1.2em;margin:0}
+  ol li{margin:0 0 12px;font-size:16px}
+  ol li b{color:var(--ink);font-weight:600}
+  .contact{font-size:16px}
+  footer{margin-top:60px;font-size:12px;color:var(--muted)}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
+<main>
+  <h1>Jessie Chen</h1>
+  <p class="sub">AI product · University of Chicago, MA Computational Social Science, class of 2027 · Chicago / Shanghai</p>
 
-<main class="book">
-  <div class="stamp">Reconciled · current site</div>
-  <div class="cover">
-    <h1><small>Ledger · General account</small>Jessie Chen <span style="font-weight:400">陈亦奇</span></h1>
-    <div class="acct">
-      Account　AI product manager · class of 2027<br>
-      Opened　MA Computational Social Science, UChicago (economics track) · GPA 4.0<br>
-      Prior　BSc Economics, CUHK<br>
-      Period　as of 2026-09-21 (current-site reading)
-    </div>
-  </div>
-  <p class="claim"><b>Product judgment is proven by products that ship.</b> In the past year I took five AI products from requirements to launch, solo; three still run in production every day. Every number below states which dashboard it came from, on what basis, and when it was read.</p>
+  <p class="intro">Product judgment is proven by products that ship.</p>
+  <p>In the past year I took five AI products from requirements through development to launch, on my own. Three of them still run automatically in production every day. I work from data and evidence: the North Star gets its definition first, every model call is logged, and every number on this page can name its dashboard, its metric and its read date.</p>
 
-  <h2>Account I · Project ledgers <span class="sub">five books, in launch order</span></h2>
-  <div class="tbl">
-  <table>
-    <thead><tr><th class="d">Read</th><th>Entry</th><th class="num">Amount</th><th>Source / basis</th></tr></thead>
-    <tbody>
-      <tr class="head"><td colspan="4">01 Lecture Companion <small>real-time lecture AI assistant · solo build</small></td></tr>
-      <tr><td class="d">in period</td><td>In-class marks (a question = one click on a transcript sentence)</td><td class="num"><b>63</b></td><td class="src">product dashboard · 59 of them with zero typing</td></tr>
-      <tr><td class="d">in period</td><td>Multimodal retrieval rollout</td><td class="num"><b>3</b> stages</td><td class="src">release log · zero rollbacks</td></tr>
-      <tr><td class="d">in period</td><td>ASR cost</td><td class="num">cut to <b>1/4</b></td><td class="src">usage ledger · line by line</td></tr>
-      <tr class="bal"><td class="lbl">Balance</td><td colspan="2">The bottleneck is input friction, not model capability; the North Star is after-class review.</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case</a><a href="https://jessieyiqichen.github.io/lc-demo/">Demo</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">Walkthrough</a></td></tr>
+  <h2>Five projects</h2>
 
-      <tr class="head"><td colspan="4">02 xhs-threads <small>recovering the thinking behind Xiaohongshu bookmarks · solo build</small></td></tr>
-      <tr><td class="d">2026-09</td><td>Threads / nodes</td><td class="num"><b>11</b> · <b>63</b></td><td class="src">production DB · live server read</td></tr>
-      <tr><td class="d">in period</td><td>Calls on the light model tier</td><td class="num"><b>90%</b></td><td class="src">call ledger · routed by task</td></tr>
-      <tr><td class="d">in period</td><td>Cost per item</td><td class="num">¥<b>0.05–0.10</b></td><td class="src">ledger range · pending re-measurement</td></tr>
-      <tr class="bal"><td class="lbl">Balance</td><td colspan="2">Saving is frequent, organizing never happens; organizing became zero-label proactive archiving, gated by an independent reviewer model.</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case</a><a href="https://47.94.34.146:8443/demo">Demo</a><a href="https://47.94.34.146:8443/try">Try</a></td></tr>
-
-      <tr class="head"><td colspan="4">03 Nous <small>cognitive-twin message agent · three clients</small></td></tr>
-      <tr><td class="d">in period</td><td>Behavior prediction accuracy</td><td class="num"><b>49 → 71%</b></td><td class="src">correction flywheel · closed loop</td></tr>
-      <tr><td class="d">in period</td><td>Clients live</td><td class="num"><b>3</b></td><td class="src">Feishu bot · Mac floating assistant · Web</td></tr>
-      <tr class="bal"><td class="lbl">Balance</td><td colspan="2">Other bots learn how you talk; this one learns how you decide.</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/nous.html">Case</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Demo</a><a href="https://web-ten-omega-72.vercel.app/agent">Sandbox</a></td></tr>
-
-      <tr class="head"><td colspan="4">04 JobPilot <small>AI job-search strategist · solo build · open source</small></td></tr>
-      <tr><td class="d">in period</td><td>Jobs collected / high-score</td><td class="num"><b>349</b> · <b>37</b></td><td class="src">collection DB</td></tr>
-      <tr><td class="d">2026-09</td><td>CLI commands / tests</td><td class="num"><b>31</b> · <b>544</b></td><td class="src">repository · CI green</td></tr>
-      <tr class="bal"><td class="lbl">Balance</td><td colspan="2">The job search is blocked by people, not information; all six trade-offs have a written why.</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case</a><a href="https://jobpilot-demo-delta.vercel.app">Demo</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></td></tr>
-
-      <tr class="head"><td colspan="4">05 MusiClaw <small>Shanghai musical-theatre market data · solo build</small></td></tr>
-      <tr><td class="d">in period</td><td>Seat-map snapshots, daily</td><td class="num"><b>86</b> shows</td><td class="src">public ticketing data · auto-updated daily</td></tr>
-      <tr><td class="d">in period</td><td>Content pipelines</td><td class="num"><b>4</b></td><td class="src">feeding a real, operating data account</td></tr>
-      <tr><td class="d">in period</td><td>Fixed post-publish review</td><td class="num"><b>24</b> h</td><td class="src">operations SOP</td></tr>
-      <tr class="bal"><td class="lbl">Balance</td><td colspan="2">Public data turned into a self-updating data product; the AI's scope of responsibility is fully documented.</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a></td></tr>
-    </tbody>
-  </table>
+  <div class="proj">
+    <h3>Lecture Companion <span>real-time lecture AI assistant</span></h3>
+    <p>The bottleneck for asking questions in class is input friction, not model capability. A question became one click on a transcript sentence; multimodal retrieval fills in whiteboard and formulas. The North Star is after-class review.</p>
+    <div class="f"><b>63</b> marks, 59 with zero typing · <b>3</b>-stage rollout, zero rollbacks · ASR cost cut to <b>1/4</b> <a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">Demo</a></div>
   </div>
 
-  <h2>Account II · Bookkeeping rules <span class="sub">four, across every project</span></h2>
-  <ol class="rules">
+  <div class="proj">
+    <h3>xhs-threads <span>the thinking behind your bookmarks</span></h3>
+    <p>Bookmarking is frequent; organizing almost never happens. So the user only saves, and the AI threads bookmarks into trains of thought, annotates them, and checks its own output through an independent reviewer model.</p>
+    <div class="f"><b>11</b> threads, <b>63</b> nodes (2026-09) · <b>90%</b> of calls on the light tier · ¥<b>0.05–0.10</b> per item <a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study</a><a href="https://47.94.34.146:8443/demo">Demo</a></div>
+  </div>
+
+  <div class="proj">
+    <h3>Nous <span>cognitive-twin message agent</span></h3>
+    <p>Other bots learn how you talk; this one learns how you decide. A nine-dimension cognitive model judges whether to reply, drafts in your way, and warns you when you are about to say yes to something you will not do. Feishu bot, Mac assistant and Web, all in daily use.</p>
+    <div class="f">behavior prediction <b>49→71%</b> · <b>3</b> clients live · correction flywheel closed <a href="https://jessieyiqichen.github.io/projects/nous.html">Case study</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Demo</a></div>
+  </div>
+
+  <div class="proj">
+    <h3>JobPilot <span>AI job-search strategist · open source</span></h3>
+    <p>The job search is blocked by people, not information. Existing tools stop at the behavior layer; JobPilot adds a cognitive model and language samples for personal diagnosis and messaging that sounds like you. All six trade-offs have a written why.</p>
+    <div class="f"><b>349</b> jobs collected, <b>37</b> high-score · <b>31</b> CLI commands, <b>544</b> tests (2026-09) <a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case study</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></div>
+  </div>
+
+  <div class="proj">
+    <h3>MusiClaw <span>Shanghai musical-theatre market data</span></h3>
+    <p>Public ticketing data turned into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution, four content pipelines feeding a real data account. The AI's scope of responsibility is fully documented.</p>
+    <div class="f"><b>86</b> shows daily · <b>4</b> content pipelines · fixed <b>24h</b> post-publish review <a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a></div>
+  </div>
+
+  <h2>How I work</h2>
+  <ol>
     <li><b>Pain point before solution.</b> Confirm which layer the bottleneck lives in before building. Get the layer wrong and no feature fixes it.</li>
     <li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its layer immediately.</li>
-    <li><b>Define the metric before the number.</b> Pick a North Star that reflects real value; any number in a report must name its dashboard, metric and read date.</li>
-    <li><b>Cost is a product parameter.</b> Every model call is logged; before cutting cost, a shadow run proves quality holds. Savings are the result of verification, not the goal.</li>
+    <li><b>Define the metric before the number.</b> A North Star that reflects real value; any reported number names its dashboard, metric and read date.</li>
+    <li><b>Cost is a product parameter.</b> Every model call logged; a shadow run proves quality holds before cost is cut.</li>
   </ol>
 
-  <div class="carry">
-    <div><span class="lbl">Carried forward</span>Looking for AI product roles. To audit any row, or for the full resume, email me.</div>
-    <div><span class="lbl">Email</span><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a></div>
-    <div><span class="lbl">GitHub</span><a href="https://github.com/jessieyiqichen">jessieyiqichen</a></div>
-  </div>
+  <h2>Contact</h2>
+  <p class="contact">Looking for AI product roles, class of 2027. For any project in depth, or the full resume: <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a> · <a href="https://github.com/jessieyiqichen">GitHub</a></p>
+  <p class="contact" style="color:var(--muted);font-size:14px">Before this: BSc Economics, The Chinese University of Hong Kong.</p>
+
+  <footer>© 2026 Jessie Chen · hand-written HTML/CSS · no frameworks · no tracking</footer>
 </main>
-<footer>© 2026 Jessie Chen · hand-written HTML/CSS · no frameworks · no tracking</footer>
 </body>
 </html>
