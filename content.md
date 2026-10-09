@@ -2,6 +2,9 @@
 
 Source: the live personal site, index.html as of 2026-09-21. Numbers follow that site; read dates are noted where the site gives them.
 
+## Language note
+- The five products, their case-study pages and demos are in Chinese (they serve Chinese users). Screenshots stay as they are. Every version: English captions that say what is on screen, and a "(Chinese)" hint next to outbound links.
+
 ## Identity
 - Name: Jessie Chen (陈亦奇 Chen Yiqi)
 - One line: AI Product · Chicago / Shanghai · Open to Opportunities
