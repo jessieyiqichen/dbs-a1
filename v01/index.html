@@ -3,89 +3,226 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v01 · Single column — Jessie Chen</title>
+<title>v01 · Interactive résumé — Jessie Chen</title>
 <style>
-  :root{--bg:#fbfaf7;--ink:#1e2126;--body:#3b4048;--muted:#7d838d;--line:#e3e0d8;--acc:#2b4ea3;
-    --serif:"Iowan Old Style","Palatino Linotype","Songti SC",Georgia,serif;
-    --sans:-apple-system,"Inter","PingFang SC",system-ui,sans-serif}
+  :root{--bg:#ecebe7;--sheet:#fff;--ink:#17191c;--body:#363a41;--muted:#7a7f88;--line:#e2e1dc;--acc:#2b4ea3;--hl:#f3f6fd;
+    --sans:-apple-system,"Inter","Helvetica Neue","PingFang SC",system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--body);font:17px/1.75 var(--sans)}
+  body{margin:0;background:var(--bg);color:var(--body);font:15px/1.6 var(--sans)}
   a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
-  .back{position:fixed;top:14px;left:16px;font:12px ui-monospace,Menlo,monospace;color:var(--muted);z-index:9}
-  main{width:min(100% - 40px,600px);margin:0 auto;padding:110px 0 90px}
-  h1{font:400 34px/1.25 var(--serif);color:var(--ink);margin:0 0 6px;letter-spacing:-.005em}
-  .sub{color:var(--muted);font-size:15px;margin:0 0 40px}
-  .intro{font:400 20px/1.6 var(--serif);color:var(--ink);margin:0 0 18px}
-  p{margin:0 0 18px}
-  h2{font:500 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:56px 0 18px;padding-top:18px;border-top:1px solid var(--line)}
-  .proj{margin:0 0 26px}
-  .proj h3{font:600 17px/1.4 var(--sans);color:var(--ink);margin:0 0 2px}
-  .proj h3 span{font-weight:400;color:var(--muted);margin-left:8px;font-size:14px}
-  .proj p{margin:0 0 6px;font-size:16px}
-  .proj .f{font-size:14px;color:var(--muted)}
-  .proj .f b{color:var(--body);font-weight:600}
-  .proj .f a{margin-left:10px}
-  ol{padding-left:1.2em;margin:0}
-  ol li{margin:0 0 12px;font-size:16px}
-  ol li b{color:var(--ink);font-weight:600}
-  .contact{font-size:16px}
-  footer{margin-top:60px;font-size:12px;color:var(--muted)}
+  .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--muted);z-index:9}
+
+  .sheet{width:min(100% - 24px,820px);margin:48px auto 60px;background:var(--sheet);padding:56px 64px 60px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08)}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .head h1{margin:0;font-size:30px;letter-spacing:-.01em;color:var(--ink);font-weight:700}
+  .head .role{margin:2px 0 0;color:var(--muted)}
+  .head .ct{text-align:right;font-size:13px;line-height:1.7;color:var(--muted)}
+  .hint{margin:14px 0 0;font:12px var(--mono);color:var(--muted)}
+  .hint b{color:var(--acc);font-weight:600}
+
+  h2{font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+
+  .e{display:grid;grid-template-columns:118px 1fr;gap:0 18px;padding:9px 10px;margin:0 -10px;border-radius:6px;cursor:pointer;position:relative}
+  .e:hover{background:var(--hl)}
+  .e.open{background:var(--hl)}
+  .e .when{font:12px/1.5 var(--mono);color:var(--muted);padding-top:3px}
+  .e .ttl{font-weight:600;color:var(--ink);display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .e .ttl span{font-weight:400;color:var(--muted);font-size:13px;white-space:nowrap}
+  .e ul{margin:3px 0 0;padding-left:1.1em}
+  .e li{margin:1px 0}
+  .e .more{position:absolute;right:12px;top:9px;font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--acc);opacity:0}
+  .e:hover .more{opacity:1}
+  .e.open .more{opacity:1}
+
+  .d{grid-column:2;display:none;margin-top:12px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:6px;cursor:default}
+  .e.open .d{display:block}
+  .d .why{font-size:14px;color:var(--body);margin:0 0 10px}
+  .d .why b{color:var(--ink)}
+  .d img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px;margin:0 0 10px}
+  .d .n{display:flex;gap:16px;flex-wrap:wrap;font:13px var(--mono);color:var(--muted);margin-bottom:10px}
+  .d .n b{color:var(--ink);font-weight:600}
+  .d .l{font-size:13px}.d .l a{margin-right:14px}
+  .d .l a::before{content:"→ "}
+
+  .row{display:grid;grid-template-columns:118px 1fr;gap:0 18px;padding:6px 0}
+  .row .k{font:12px/1.5 var(--mono);color:var(--muted);padding-top:3px}
+  footer{margin-top:40px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  @media (max-width:640px){.sheet{padding:36px 22px}.e,.row{grid-template-columns:1fr}.d{grid-column:1}.head .ct{text-align:left}.e .more{display:none}}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
-<main>
-  <h1>Jessie Chen</h1>
-  <p class="sub">AI product · University of Chicago, MA Computational Social Science, class of 2027 · Chicago / Shanghai</p>
 
-  <p class="intro">Product judgment is proven by products that ship.</p>
-  <p>In the past year I took five AI products from requirements through development to launch, on my own. Three of them still run automatically in production every day. I work from data and evidence: the North Star gets its definition first, every model call is logged, and every number on this page can name its dashboard, its metric and its read date.</p>
+<main class="sheet">
+  <div class="head">
+    <div>
+      <h1>Jessie Chen</h1>
+      <p class="role">AI Product Manager candidate · class of 2027 · Chicago / Shanghai</p>
+    </div>
+    <div class="ct">
+      <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><br>
+      <a href="https://github.com/jessieyiqichen">github.com/jessieyiqichen</a>
+    </div>
+  </div>
+  <p class="hint">This résumé is clickable. <b>Click any entry</b> to see why it is there, what it looked like, and where to verify it.</p>
 
-  <h2>Five projects</h2>
-
-  <div class="proj">
-    <h3>Lecture Companion <span>real-time lecture AI assistant</span></h3>
-    <p>The bottleneck for asking questions in class is input friction, not model capability. A question became one click on a transcript sentence; multimodal retrieval fills in whiteboard and formulas. The North Star is after-class review.</p>
-    <div class="f"><b>63</b> marks, 59 with zero typing · <b>3</b>-stage rollout, zero rollbacks · ASR cost cut to <b>1/4</b> <a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">Demo</a></div>
+  <h2>Summary</h2>
+  <div class="e" data-e>
+    <div class="when">2025–26</div>
+    <div>
+      <div class="ttl">Five AI products shipped solo, three still running in production daily <span>product · engineering · data</span></div>
+      <ul><li>Product judgment is proven by products that ship. Every number below names its dashboard, metric and read date.</li></ul>
+      <div class="d">
+        <p class="why"><b>Why this line is first.</b> I would rather be judged on what I shipped than on how I describe myself. The five projects below each cover a different part of an AI PM's job: interaction, positioning, research-to-product, trade-offs, data operations. Numbers are as of 2026-09 unless stated.</p>
+        <div class="l"><a href="https://jessieyiqichen.github.io/">Current personal site</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
   </div>
 
-  <div class="proj">
-    <h3>xhs-threads <span>the thinking behind your bookmarks</span></h3>
-    <p>Bookmarking is frequent; organizing almost never happens. So the user only saves, and the AI threads bookmarks into trains of thought, annotates them, and checks its own output through an independent reviewer model.</p>
-    <div class="f"><b>11</b> threads, <b>63</b> nodes (2026-09) · <b>90%</b> of calls on the light tier · ¥<b>0.05–0.10</b> per item <a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study</a><a href="https://47.94.34.146:8443/demo">Demo</a></div>
+  <h2>Projects</h2>
+
+  <div class="e" data-e>
+    <div class="when">Solo build</div>
+    <div>
+      <div class="ttl">Lecture Companion <span>real-time lecture AI assistant</span></div>
+      <ul>
+        <li>Compressed a classroom question into one click on a transcript sentence; 63 marks, 59 with zero typing.</li>
+        <li>Shipped multimodal retrieval in 3 stages, zero rollbacks; cut ASR cost to one quarter.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>What it proves: interaction design, a metrics system, cost engineering.</b> The bottleneck for asking questions in class is input friction, not model capability. Multimodal retrieval fills in whiteboard and formulas. The North Star is after-class review behavior, not in-class marks; cost is managed line by line in a usage ledger.</p>
+        <img src="../assets/img/lecture-companion.png" alt="Lecture Companion product interface" loading="lazy">
+        <div class="n"><span><b>63</b> marks, 59 zero-typing</span><span><b>3</b>-stage rollout, 0 rollbacks</span><span>ASR cost <b>1/4</b></span></div>
+        <div class="l"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">Live demo</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">Guided walkthrough</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
   </div>
 
-  <div class="proj">
-    <h3>Nous <span>cognitive-twin message agent</span></h3>
-    <p>Other bots learn how you talk; this one learns how you decide. A nine-dimension cognitive model judges whether to reply, drafts in your way, and warns you when you are about to say yes to something you will not do. Feishu bot, Mac assistant and Web, all in daily use.</p>
-    <div class="f">behavior prediction <b>49→71%</b> · <b>3</b> clients live · correction flywheel closed <a href="https://jessieyiqichen.github.io/projects/nous.html">Case study</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Demo</a></div>
+  <div class="e" data-e>
+    <div class="when">Solo build</div>
+    <div>
+      <div class="ttl">xhs-threads <span>thought threads from Xiaohongshu bookmarks</span></div>
+      <ul>
+        <li>Zero-label proactive archiving: the user only saves, the AI threads, annotates and checks; 11 threads, 63 nodes.</li>
+        <li>Routed 90% of calls to the light model tier; ¥0.05–0.10 per item.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>What it proves: differentiated positioning and an AI evaluation system.</b> Bookmarking is frequent; organizing almost never happens, because it needs the user to start. Differentiation came from a survey of four competitor types. Output quality is gated by an independent reviewer model.</p>
+        <img src="../assets/img/xhs-threads.png" alt="xhs-threads: a thought-thread archive" loading="lazy">
+        <div class="n"><span><b>11</b> threads · <b>63</b> nodes (2026-09)</span><span><b>90%</b> light tier</span><span>¥<b>0.05–0.10</b> / item</span></div>
+        <div class="l"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study</a><a href="https://47.94.34.146:8443/demo">Guided demo</a><a href="https://47.94.34.146:8443/try">Try it</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
   </div>
 
-  <div class="proj">
-    <h3>JobPilot <span>AI job-search strategist · open source</span></h3>
-    <p>The job search is blocked by people, not information. Existing tools stop at the behavior layer; JobPilot adds a cognitive model and language samples for personal diagnosis and messaging that sounds like you. All six trade-offs have a written why.</p>
-    <div class="f"><b>349</b> jobs collected, <b>37</b> high-score · <b>31</b> CLI commands, <b>544</b> tests (2026-09) <a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case study</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></div>
+  <div class="e" data-e>
+    <div class="when">Three clients</div>
+    <div>
+      <div class="ttl">Nous <span>cognitive-twin message agent</span></div>
+      <ul>
+        <li>Nine-dimension cognitive model that learns how you decide, not how you talk; behavior prediction 49→71%.</li>
+        <li>Feishu bot, Mac floating assistant and Web, all three in daily production use.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>What it proves: the full path from research to product.</b> The agent judges whether to reply, drafts in your way, and raises a quality warning when you are about to say yes to something you will not do. The correction flywheel is closed: corrections feed the model.</p>
+        <img src="../assets/img/nous.png" alt="Nous product interface" loading="lazy">
+        <div class="n"><span>prediction <b>49→71%</b></span><span><b>3</b> clients live</span><span>flywheel <b>closed</b></span></div>
+        <div class="l"><a href="https://jessieyiqichen.github.io/projects/nous.html">Case study</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Guided demo</a><a href="https://web-ten-omega-72.vercel.app/agent">Vision sandbox</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
   </div>
 
-  <div class="proj">
-    <h3>MusiClaw <span>Shanghai musical-theatre market data</span></h3>
-    <p>Public ticketing data turned into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution, four content pipelines feeding a real data account. The AI's scope of responsibility is fully documented.</p>
-    <div class="f"><b>86</b> shows daily · <b>4</b> content pipelines · fixed <b>24h</b> post-publish review <a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a></div>
+  <div class="e" data-e>
+    <div class="when">Open source</div>
+    <div>
+      <div class="ttl">JobPilot <span>AI job-search strategist</span></div>
+      <ul>
+        <li>Personal diagnosis and messaging that sounds like you, from a cognitive model plus language samples; 349 jobs collected, 37 high-score.</li>
+        <li>31 CLI commands, 544 tests, CI, read-only live demo.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>What it proves: product insight, feature trade-offs, engineering quality.</b> The job search is blocked by people, not information; existing tools stop at the behavior layer. All six product trade-offs have a written why.</p>
+        <img src="../assets/img/job-pilot.png" alt="JobPilot strategist page" loading="lazy">
+        <div class="n"><span><b>349</b> jobs · <b>37</b> high-score</span><span><b>31</b> commands · <b>544</b> tests (2026-09)</span></div>
+        <div class="l"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case study</a><a href="https://jobpilot-demo-delta.vercel.app">Live demo</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
+  </div>
+
+  <div class="e" data-e>
+    <div class="when">Solo build</div>
+    <div>
+      <div class="ttl">MusiClaw <span>Shanghai musical-theatre market data</span></div>
+      <ul>
+        <li>Public ticketing data turned into a self-updating data product: seat-map snapshots for 86 shows, cast attribution, 4 content pipelines.</li>
+        <li>Feeds a real data account with a fixed 24h post-publish review.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>What it proves: a data product with a content operations loop.</b> The AI's scope of responsibility is fully documented, so what it may and may not decide is written down, not assumed.</p>
+        <img src="../assets/img/musiclaw.png" alt="MusiClaw data dashboard" loading="lazy">
+        <div class="n"><span><b>86</b> shows daily</span><span><b>4</b> pipelines</span><span><b>24h</b> review</span></div>
+        <div class="l"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a></div>
+      </div>
+    </div>
+    <span class="more">details</span>
+  </div>
+
+  <h2>Education</h2>
+  <div class="e" data-e>
+    <div class="when">2027</div>
+    <div>
+      <div class="ttl">University of Chicago <span>MA, Computational Social Science</span></div>
+      <ul><li>Economics track · GPA 4.0</li></ul>
+      <div class="d"><p class="why"><b>Why it matters for product.</b> The economics track is where the habit of defining a metric before reporting a number comes from: North Star by after-class review, daily actives by UV not PV.</p></div>
+    </div>
+    <span class="more">details</span>
+  </div>
+  <div class="e" data-e>
+    <div class="when">Prior</div>
+    <div>
+      <div class="ttl">The Chinese University of Hong Kong <span>BSc, Economics</span></div>
+      <div class="d"><p class="why">Undergraduate degree in economics, the base for the data-and-evidence way of working above.</p></div>
+    </div>
+    <span class="more">details</span>
   </div>
 
   <h2>How I work</h2>
-  <ol>
-    <li><b>Pain point before solution.</b> Confirm which layer the bottleneck lives in before building. Get the layer wrong and no feature fixes it.</li>
-    <li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its layer immediately.</li>
-    <li><b>Define the metric before the number.</b> A North Star that reflects real value; any reported number names its dashboard, metric and read date.</li>
-    <li><b>Cost is a product parameter.</b> Every model call logged; a shadow run proves quality holds before cost is cut.</li>
-  </ol>
+  <div class="e" data-e>
+    <div class="when">Principles</div>
+    <div>
+      <ul>
+        <li>Pain point before solution.</li>
+        <li>Staged rollout and attribution.</li>
+        <li>Define the metric before the number.</li>
+        <li>Cost is a product parameter.</li>
+      </ul>
+      <div class="d">
+        <p class="why"><b>Pain point before solution.</b> Confirm which layer the bottleneck lives in before building. Get the layer wrong and no feature fixes it.</p>
+        <p class="why"><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its layer immediately. Multimodal retrieval shipped in three stages, merged in two days, zero rollbacks.</p>
+        <p class="why"><b>Define the metric before the number.</b> Any number in a report must name its dashboard, its metric and its read date.</p>
+        <p class="why"><b>Cost is a product parameter.</b> Every model call logged and routed by task tier; a shadow run proves quality holds before cost is cut. Savings are the result of verification, not the goal.</p>
+      </div>
+    </div>
+    <span class="more">details</span>
+  </div>
 
-  <h2>Contact</h2>
-  <p class="contact">Looking for AI product roles, class of 2027. For any project in depth, or the full resume: <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a> · <a href="https://github.com/jessieyiqichen">GitHub</a></p>
-  <p class="contact" style="color:var(--muted);font-size:14px">Before this: BSc Economics, The Chinese University of Hong Kong.</p>
+  <div class="row"><div class="k">Skills</div><div>Product definition · AI engineering · Data analysis · Full-stack development</div></div>
 
-  <footer>© 2026 Jessie Chen · hand-written HTML/CSS · no frameworks · no tracking</footer>
+  <footer><span>© 2026 Jessie Chen</span><span>hand-written HTML/CSS · no frameworks · no tracking</span></footer>
 </main>
+
+<script>
+  document.querySelectorAll('[data-e]').forEach(function(el){
+    el.setAttribute('tabindex','0');
+    function toggle(e){ if(e.target.closest('a')||e.target.closest('.d'))return; el.classList.toggle('open'); }
+    el.addEventListener('click',toggle);
+    el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();el.classList.toggle('open');} });
+  });
+</script>
 </body>
 </html>
