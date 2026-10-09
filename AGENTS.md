@@ -27,6 +27,11 @@ This assignment questions whether that form is right. It is one candidate, not t
 - Three acts: v01–v10 go wide; v11–v18 narrow to two or three lines and combine; v19–v25 refine one line only.
 - End with the final choice and why.
 
+## Judging criteria (from my own reactions to early versions)
+1. The form must be real, not a costume. If the page pretends to be something it is not (a ledger, a fake transcript), it reads as a gimmick.
+2. The visitor must actually see the projects (real screenshots, prominent) and come away understanding who I am. If a form gets in the way of either, drop it.
+3. A familiar format with depth on click beats a novel format with nothing to do.
+
 ## Direction rules
 - Changing only colors or fonts is not a new version. Every new direction changes at least one axis: layout / audience / mood / era / medium metaphor / visitor action.
 - Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
