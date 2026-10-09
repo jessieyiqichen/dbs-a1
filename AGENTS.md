@@ -32,6 +32,9 @@ This assignment questions whether that form is right. It is one candidate, not t
 2. The visitor must actually see the projects (real screenshots, prominent) and come away understanding who I am. If a form gets in the way of either, drop it.
 3. A familiar format with depth on click beats a novel format with nothing to do.
 
+## Workflow rule (hard)
+- Every version is discussed first and built only after Jessie explicitly approves the direction. Propose, wait for a yes, then build. Never start a version on your own, and never rebuild a version without approval.
+
 ## Direction rules
 - Changing only colors or fonts is not a new version. Every new direction changes at least one axis: layout / audience / mood / era / medium metaphor / visitor action.
 - Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
