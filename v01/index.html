@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v01 · 账本 — 陈亦奇 Jessie Chen</title>
+<style>
+  :root{
+    --paper:#f6f2e6;--ink:#2a2622;--muted:#7a7366;--rule:#d9d2bf;--red:#b8483c;--blue:#2b4ea3;
+    --serif:"Songti SC","Noto Serif SC",Georgia,serif;
+    --mono:"SF Mono","JetBrains Mono",ui-monospace,Menlo,monospace;
+    --sans:-apple-system,"PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9e4d6;color:var(--ink);font:15px/1.7 var(--sans)}
+  a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+  .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--muted);z-index:9}
+
+  .book{width:min(100% - 24px,900px);margin:48px auto 64px;background:var(--paper);
+    box-shadow:0 1px 0 #d6cfbc,0 12px 30px rgba(60,40,10,.12);position:relative;padding:40px 48px 48px 72px}
+  .book::before{content:"";position:absolute;top:0;bottom:0;left:52px;width:1px;background:var(--red);opacity:.65}
+  .book::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(to bottom,transparent 0 27px,rgba(90,70,30,.08) 27px 28px);mix-blend-mode:multiply}
+  .book>*{position:relative;z-index:1}
+
+  .cover{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:6px}
+  .cover h1{font:600 30px/1.2 var(--serif);margin:0;letter-spacing:.02em}
+  .cover h1 small{display:block;font:12px var(--mono);letter-spacing:.2em;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+  .cover .acct{font:12px/1.9 var(--mono);color:var(--muted);text-align:right;white-space:nowrap}
+  .claim{font:400 17px/1.75 var(--serif);margin:18px 0 6px;max-width:640px}
+  .claim b{font-weight:600}
+
+  h2{font:600 13px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:38px 0 8px;display:flex;gap:12px;align-items:baseline}
+  h2 span.sub{font:12px var(--sans);letter-spacing:0;text-transform:none;color:var(--muted);font-weight:400}
+
+  .tbl{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1px solid var(--ink)}
+  td{padding:5px 8px;vertical-align:top;border-bottom:1px dotted var(--rule)}
+  td.d,th.d{font-family:var(--mono);color:var(--muted);white-space:nowrap;font-size:12px}
+  td.num,th.num{font-family:var(--mono);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  td.num b{font-weight:600;color:var(--ink)}
+  td.src{color:var(--muted);font-size:12.5px}
+  tr.head td{font-family:var(--serif);font-weight:600;font-size:15px;padding-top:16px;border-bottom:none}
+  tr.head td small{font:12px var(--sans);color:var(--muted);font-weight:400;margin-left:8px}
+  tr.bal td{border-top:1px solid var(--ink);border-bottom:3px double var(--ink);font-family:var(--serif)}
+  tr.bal td.lbl{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  tr.bal td.num{font-family:var(--mono)}
+  .links{font-size:12.5px}.links a{margin-right:12px}
+
+  ol.rules{margin:0;padding-left:1.2em;font-size:14px}
+  ol.rules li{padding:4px 0;border-bottom:1px dotted var(--rule)}
+  ol.rules b{font-family:var(--serif)}
+
+  .carry{margin-top:38px;border-top:1px solid var(--ink);padding-top:10px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13.5px}
+  .carry .lbl{font:11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:block}
+  .stamp{position:absolute;right:48px;top:36px;border:2px solid var(--red);color:var(--red);font:600 12px/1.3 var(--mono);letter-spacing:.12em;padding:6px 10px;transform:rotate(-6deg);opacity:.75;text-transform:uppercase}
+  footer{width:min(100% - 24px,900px);margin:0 auto 40px;font:11px var(--mono);color:#8a8273;letter-spacing:.08em;text-align:center}
+  @media (max-width:640px){.book{padding:32px 18px 36px 36px}.book::before{left:24px}.cover{display:block}.cover .acct{text-align:left;margin-top:8px}.stamp{display:none}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+
+<main class="book">
+  <div class="stamp">已核对 · 现站口径</div>
+  <div class="cover">
+    <h1><small>Ledger · 总账</small>陈亦奇 <span style="font-weight:400">Jessie Chen</span></h1>
+    <div class="acct">
+      户名　AI 产品经理 · 2027 届<br>
+      开户　芝加哥大学 计算社会科学硕士（经济学方向）· GPA 4.0<br>
+      前账　香港中文大学 经济学学士<br>
+      账期　截至 2026-09-21（现站读数）
+    </div>
+  </div>
+  <p class="claim"><b>产品判断值不值钱，要用上线的产品来验证。</b>过去一年五个 AI 产品从需求定义到上线全程独立完成，三个至今每天在生产环境自动运行。下面每一行数字，都写明了它来自哪个后台、哪个口径、哪天的读数。</p>
+
+  <h2>科目一 · 项目分类账 <span class="sub">五本，按上线顺序</span></h2>
+  <div class="tbl">
+  <table>
+    <thead><tr><th class="d">读数</th><th>摘要</th><th class="num">数额</th><th>来源 / 口径</th></tr></thead>
+    <tbody>
+      <tr class="head"><td colspan="4">01 Lecture Companion <small>实时听课 AI 助手 · 独立开发</small></td></tr>
+      <tr><td class="d">账期内</td><td>课中标记（提问压缩为对转写句的一次点击）</td><td class="num"><b>63</b> 次</td><td class="src">产品后台 · 其中 59 次零输入</td></tr>
+      <tr><td class="d">账期内</td><td>多模态检索灰度上线</td><td class="num"><b>3</b> 期</td><td class="src">发布记录 · 零回滚</td></tr>
+      <tr><td class="d">账期内</td><td>ASR 成本</td><td class="num">降至 <b>1/4</b></td><td class="src">用量账本 · 逐项记账</td></tr>
+      <tr class="bal"><td class="lbl">结余</td><td colspan="2">瓶颈在输入摩擦，不在模型能力；北极星定在课后复习行为。</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">案例</a><a href="https://jessieyiqichen.github.io/lc-demo/">演示</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">走读</a></td></tr>
+
+      <tr class="head"><td colspan="4">02 xhs-threads <small>小红书收藏的思考轨迹还原 · 独立开发</small></td></tr>
+      <tr><td class="d">2026-09</td><td>思考轨迹 / 节点</td><td class="num"><b>11</b> 条 · <b>63</b> 个</td><td class="src">生产库 · 服务器实时</td></tr>
+      <tr><td class="d">账期内</td><td>调用走轻量档</td><td class="num"><b>90%</b></td><td class="src">调用账本 · 按任务分档路由</td></tr>
+      <tr><td class="d">账期内</td><td>单条成本</td><td class="num">¥<b>0.05–0.10</b></td><td class="src">账本区间值 · 待重新计量</td></tr>
+      <tr class="bal"><td class="lbl">结余</td><td colspan="2">收藏高频、整理不发生；把整理做成零标注的主动归档，产出由独立审核模型把关。</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">案例</a><a href="https://47.94.34.146:8443/demo">演示</a><a href="https://47.94.34.146:8443/try">试玩</a></td></tr>
+
+      <tr class="head"><td colspan="4">03 Nous <small>认知分身消息代理 · 三端</small></td></tr>
+      <tr><td class="d">账期内</td><td>行为预测准确率</td><td class="num"><b>49 → 71%</b></td><td class="src">修正飞轮 · 已闭环</td></tr>
+      <tr><td class="d">账期内</td><td>真实在线端</td><td class="num"><b>3</b> 端</td><td class="src">飞书 bot · Mac 悬浮助手 · Web</td></tr>
+      <tr class="bal"><td class="lbl">结余</td><td colspan="2">别人的 bot 学你怎么说话，它学你怎么做决定。</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/nous.html">案例</a><a href="https://jessieyiqichen.github.io/demos/nous.html">演示</a><a href="https://web-ten-omega-72.vercel.app/agent">沙盒</a></td></tr>
+
+      <tr class="head"><td colspan="4">04 JobPilot <small>AI 求职军师 · 独立开发 · 开源</small></td></tr>
+      <tr><td class="d">账期内</td><td>岗位采集 / 高分岗</td><td class="num"><b>349</b> · <b>37</b></td><td class="src">采集库</td></tr>
+      <tr><td class="d">2026-09</td><td>CLI 命令 / 测试</td><td class="num"><b>31</b> · <b>544</b></td><td class="src">仓库 · CI 通过</td></tr>
+      <tr class="bal"><td class="lbl">结余</td><td colspan="2">求职的卡点不在信息，在人；六条产品取舍全部想清楚了为什么。</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">案例</a><a href="https://jobpilot-demo-delta.vercel.app">demo</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></td></tr>
+
+      <tr class="head"><td colspan="4">05 MusiClaw <small>上海音乐剧市场数据平台 · 独立开发</small></td></tr>
+      <tr><td class="d">账期内</td><td>座位图每日快照</td><td class="num"><b>86</b> 部剧</td><td class="src">公开售票数据 · 每天自动更新</td></tr>
+      <tr><td class="d">账期内</td><td>内容产线</td><td class="num"><b>4</b> 条</td><td class="src">支撑一个真实运营的数据账号</td></tr>
+      <tr><td class="d">账期内</td><td>发布后固定复盘</td><td class="num"><b>24</b> h</td><td class="src">运营 SOP</td></tr>
+      <tr class="bal"><td class="lbl">结余</td><td colspan="2">把公开数据做成每天自动更新的数据产品，AI 的职责边界全部落成文档。</td><td class="links"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">案例</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">仪表盘</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>科目二 · 记账原则 <span class="sub">四条，贯穿所有项目</span></h2>
+  <ol class="rules">
+    <li><b>痛点先于方案。</b>动手前先确认瓶颈在哪一层。层判断错了，功能做得再好也不解决问题。</li>
+    <li><b>灰度与归因。</b>上线拆期，每期只引入一层变更，问题出现时立即定位责任层。</li>
+    <li><b>指标先定口径。</b>北极星选真正反映价值的；任何进报告的数字，都要能说出哪个后台、哪个指标、哪天的读数。</li>
+    <li><b>成本是产品参数。</b>每次模型调用逐笔记账；降本之前先用影子双跑证明质量不掉。省钱是验证的结果，不是目标。</li>
+  </ol>
+
+  <div class="carry">
+    <div><span class="lbl">余额结转</span>正在寻找 AI 产品方向的机会。想核对任何一行，或者需要完整简历，邮件联系。</div>
+    <div><span class="lbl">Email</span><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a></div>
+    <div><span class="lbl">GitHub</span><a href="https://github.com/jessieyiqichen">jessieyiqichen</a></div>
+  </div>
+</main>
+<footer>© 2026 陈亦奇 Jessie Chen · 手写 HTML/CSS · 无框架 · 无跟踪</footer>
+</body>
+</html>
