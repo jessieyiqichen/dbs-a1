@@ -62,14 +62,14 @@
   /* about overlay */
   .ov{position:fixed;inset:0;background:rgba(10,10,10,.86);display:none;place-items:center;z-index:30;padding:24px}
   .ov.on{display:grid}
-  .ov .box{max-width:560px;background:var(--tile);border:1px solid var(--line);padding:28px 30px;color:var(--body);font-size:16px;line-height:1.6}
+  .ov .box{max-width:560px;max-height:calc(100vh - 48px);overflow:auto;background:var(--tile);border:1px solid var(--line);padding:28px 30px;color:var(--body);font-size:16px;line-height:1.6}
   .ov h3{margin:0 0 10px;font:600 24px/1.2 var(--serif);color:var(--ink)}
   .ov h3 span{font:400 18px var(--cn);letter-spacing:.15em;color:var(--muted);margin-left:10px}
   .ov p{margin:0 0 12px}
   .ov .x{float:right;cursor:pointer;color:var(--muted);font-size:14px}
   /* expand overlay for screenshots */
   .ov .big{max-width:min(1100px,96vw);width:100%}
-  .ov .big img{width:100%;height:auto;display:block;border:1px solid var(--line);margin:12px 0}
+  .ov .big img{width:100%;max-height:60vh;object-fit:contain;object-position:top left;height:auto;display:block;border:1px solid var(--line);margin:12px 0;background:#fff}
   .ov .big .n{color:var(--muted);font-size:14px;margin:0 0 8px}
   .ov .big .n b{color:var(--ink);font-weight:600}
   .ov .big .lk a{margin-right:16px}
