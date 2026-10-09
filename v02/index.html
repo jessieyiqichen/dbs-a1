@@ -225,8 +225,8 @@
     function kick(){ if(reduce){draw(true);return;} cancelAnimationFrame(raf); raf=requestAnimationFrame(()=>draw(false)); }
     tile.addEventListener('mouseenter',()=>{hover=true;kick();});
     tile.addEventListener('mouseleave',()=>{hover=false;kick();});
-    tile.addEventListener('focus',()=>{hover=true;kick();});
-    tile.addEventListener('blur',()=>{hover=false;kick();});
+    tile.addEventListener('focus',()=>{ if(tile.matches(':focus-visible')){hover=true;kick();} });
+    tile.addEventListener('blur',()=>{ if(!tile.matches(':hover')){hover=false;kick();} });
     if(document.fonts&&document.fonts.load) document.fonts.load('600 40px "Source Serif 4"').then(build,build); else build();
     new ResizeObserver(build).observe(tile);
   });
