@@ -1,35 +1,36 @@
-# dbs-a1 · 个人网站的 25 版探索
+# dbs-a1 · 25 versions of one personal landing page
 
-课程作业：Design, Build, Ship · MPCS 51238 · Assignment 1 "Accelerated Prototyping"。
-一个想法，25 个落地页版本，从放开探索到收敛，外加一个讲过程的 gallery。
+Course assignment: Design, Build, Ship · MPCS 51238 · Assignment 1 "Accelerated Prototyping".
+One idea, 25 landing-page versions from wide exploration to a final choice, plus a gallery that tells the story.
 
-## 这页是什么
-陈亦奇（Jessie Chen）的个人落地页。访客＝AI 产品岗的面试官 / 招聘方。
-访客看完应该明白：这个人怎么思考和交付 AI 产品；然后去看某个项目的案例，或发邮件。
+## What the page is
+Jessie Chen's (陈亦奇) personal landing page. Visitor = a hiring manager for an AI product role.
+After reading, the visitor should understand how I think about and ship AI products, then open one case study or send an email.
 
-起点：我已经有一个上线的个人站（jessieyiqichen.github.io 仓库，Vercel 部署，编辑部式证据陈列）。
-这次作业是在质疑它的形态对不对。它算候选之一，不算答案。
+Starting point: I already have a live personal site (repo jessieyiqichen.github.io, deployed on Vercel; editorial "evidence on paper" style).
+This assignment questions whether that form is right. It is one candidate, not the answer.
 
-## 内容来源（硬规则）
-- 所有版本只用 `content.md` 里的文案、数字、链接和图片。不许编造项目、数字或占位文案。
-- 可以删、可以重组、可以换语气，不能加没有的事实。
+## Content source (hard rule)
+- Every version uses only the copy, numbers, links and images in `content.md`. No invented projects, numbers or placeholder text.
+- Cutting, regrouping and changing tone is fine. Adding facts that are not there is not.
+- All pages are in English.
 
-## 技术约束（硬规则）
-- 纯 HTML + CSS，可选少量原生 JS。不加框架、不加包、不加 build step、不接 API、不存数据。
-- 你提议加任何依赖我都会拒绝，请不要提。
-- 每个版本一个目录 `vNN/index.html`，自带全部样式，不共用 CSS（方向之间不能互相渗透）。
-- 每个版本页面有一个回 gallery 的链接，固定写法：`<a class="back" href="../">← Gallery</a>`。
-- 图片共用 `assets/img/`。
+## Tech constraints (hard rule)
+- Plain HTML + CSS, optional small vanilla JS. No frameworks, no packages, no build step, no external APIs, no data storage.
+- Do not propose adding any dependency; I will refuse.
+- One directory per version, `vNN/index.html`, fully self-contained styles. No shared CSS (directions must not leak into each other).
+- Every version has a link back to the gallery, always written as `<a class="back" href="../">← Gallery</a>`.
+- Images are shared from `assets/img/`.
 
 ## Gallery
-- `index.html` 是 gallery：25 格，每格＝缩略图 + 方向名 + 一句"这版在试什么 / 改了什么" + 链接。
-- 分三段讲故事：v01–v10 放开探；v11–v18 收到两三条线并组合；v19–v25 只打磨一条线。
-- 最后要写明最终选择和为什么。
+- `index.html` is the gallery: 25 cells, each = thumbnail + direction name + one line on what this version tries or changes + link.
+- Three acts: v01–v10 go wide; v11–v18 narrow to two or three lines and combine; v19–v25 refine one line only.
+- End with the final choice and why.
 
-## 方向规则
-- 只改颜色字体不算新版本。每个新方向至少换一个轴：布局 / 受众 / 情绪 / 年代 / 媒介隐喻 / 访客动作。
-- 优先从五个项目自己的视觉语言里长方向（账本、座位图、转写流、思考轨迹、认知雷达、终端……）。
-- 每做完一版：更新 gallery 那一格，然后一个 commit，message 就是 gallery 里那句话。
+## Direction rules
+- Changing only colors or fonts is not a new version. Every new direction changes at least one axis: layout / audience / mood / era / medium metaphor / visitor action.
+- Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
+- After each version: update its gallery cell, then one commit whose message is that gallery line.
 
-## 工作日志
-- `log.md` 记"我让它做什么 / 它给了什么 / 我哪里不同意 / 我自己拍板了什么"。课上要讲。
+## Work log
+- `log.md` (Chinese, personal) records what I asked for / what the agent gave / where I pushed back / what I decided myself. Needed for the in-class explanation.
