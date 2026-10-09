@@ -13,10 +13,11 @@
   .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--muted);z-index:9}
 
   .sheet{width:min(100% - 24px,820px);margin:48px auto 60px;background:var(--sheet);padding:56px 64px 60px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08)}
-  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;position:relative;padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:nowrap;position:relative;padding-bottom:16px;border-bottom:2px solid var(--ink)}
   .head h1{margin:0;font-size:30px;letter-spacing:-.01em;color:var(--ink);font-weight:700}
   .head .role{margin:2px 0 0;color:var(--muted)}
-  .head .ct{text-align:right;font-size:13px;line-height:1.7;color:var(--muted)}
+  .head>div:first-child{flex:1 1 auto;min-width:0}
+  .head .ct{text-align:right;font-size:13px;line-height:1.7;color:var(--muted);flex-shrink:0}
   .hint{margin:14px 0 0;font:12px var(--mono);color:var(--muted)}
   .hint b{color:var(--acc);font-weight:600}
 
@@ -69,7 +70,7 @@
   .bubble button.sec{background:var(--hl);color:var(--acc)}
   .bubble .step{font:11px var(--mono);color:var(--muted);margin-bottom:4px}
   @media (prefers-reduced-motion:reduce){.guide{transition:none}.guide img{animation:none}}
-  @media (max-width:640px){.slot{display:none}.hint{max-width:none}.guide.home{position:fixed;right:18px;bottom:18px;left:auto;top:auto;transition:none}.sheet{padding:36px 22px}.e,.row{grid-template-columns:1fr}.d{grid-column:1}.head .ct{text-align:left}.e .more{display:none}}
+  @media (max-width:640px){.head{flex-wrap:wrap}.slot{display:none}.hint{max-width:none}.guide.home{position:fixed;right:18px;bottom:18px;left:auto;top:auto;transition:none}.sheet{padding:36px 22px}.e,.row{grid-template-columns:1fr}.d{grid-column:1}.head .ct{text-align:left}.e .more{display:none}}
 </style>
 </head>
 <body>
@@ -284,8 +285,9 @@ const GUIDE = {
     g.style.top=(r.top+scrollY)+'px';
   }
   function idle(){
-    i=-1; clearMark(); home();
+    i=-1; clearMark();
     bub.innerHTML='<p>'+esc(GUIDE.invite)+'</p><div class="btns"><button data-start>'+esc(GUIDE.startLabel)+'</button></div>';
+    home();
   }
   function placeBeside(el){
     const sheet=document.querySelector('.sheet').getBoundingClientRect();
