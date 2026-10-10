@@ -55,9 +55,10 @@
   .board .shot img{display:block;width:100%;height:auto}
   .board .shot figcaption{font:11px/1.35 var(--type);color:var(--muted);margin-top:5px}
   .lk{font:12.5px var(--type);margin-top:8px}
-  .board .plain{font-size:15.5px;color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.25)}
-  .board .plain p{margin:0 0 8px}
-  .board .plain b{font:700 17px var(--sans);letter-spacing:-.01em}
+  .board .plain{font-size:18px;line-height:1.6;color:var(--ink);text-shadow:0 1px 0 rgba(255,255,255,.25)}
+  .board .plain p{margin:0 0 10px}
+  .board .plain b{font:700 21px var(--sans);letter-spacing:-.01em}
+  .board .plain .lk{font-size:14px}
   .board .plain .lk a{color:var(--ink)}
   .lk a{margin-right:10px}
 
@@ -129,21 +130,21 @@
   </section>
 
   <!-- 04 · the other four -->
-  <section class="board" style="min-height:1120px">
+  <section class="board" style="min-height:1560px">
     <div class="num">04</div>
     <h2 class="title" style="left:0;top:0;transform:rotate(-1deg)"><span>The other four,</span><br><span class="r">all shipped this year.</span></h2>
 
-    <figure class="piece shot" style="left:0;top:150px;width:330px;transform:rotate(-2deg)"><span class="tape tl"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface"><figcaption>Lecture Companion · a question in class is one click on a transcript sentence</figcaption></figure>
-    <div class="plain" style="left:390px;top:170px;width:300px;transform:rotate(0deg)"><p><b>Lecture Companion.</b> The bottleneck was input friction, not model capability. 63 marks, 59 with zero typing; shipped in three stages, zero rollbacks; ASR cost cut to a quarter.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case</a><a href="https://jessieyiqichen.github.io/lc-demo/">demo</a></p></div>
+    <figure class="piece shot" style="left:0;top:150px;width:360px;transform:rotate(-2deg)"><span class="tape tl"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface"><figcaption>Lecture Companion · a question in class is one click on a transcript sentence</figcaption></figure>
+    <div class="plain" style="left:420px;top:170px;width:440px"><p><b>Lecture Companion.</b> The bottleneck was input friction, not model capability. 63 marks, 59 with zero typing; shipped in three stages, zero rollbacks; ASR cost cut to a quarter.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case</a><a href="https://jessieyiqichen.github.io/lc-demo/">demo</a></p></div>
 
-    <div class="plain" style="left:0;top:470px;width:300px;transform:rotate(0deg)"><p><b>xhs-threads.</b> People bookmark constantly and organize never. The user only saves; the AI threads, annotates, and an independent reviewer model checks the output. 90% of calls on the light tier.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">case</a><a href="https://47.94.34.146:8443/demo">demo</a></p></div>
-    <figure class="piece shot" style="left:340px;top:440px;width:260px;transform:rotate(2deg)"><span class="pin"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive"><figcaption>xhs-threads · 11 threads, 63 nodes</figcaption></figure>
+    <div class="plain" style="left:0;top:520px;width:440px"><p><b>xhs-threads.</b> People bookmark constantly and organize never. The user only saves; the AI threads, annotates, and an independent reviewer model checks the output. 90% of calls on the light tier.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">case</a><a href="https://47.94.34.146:8443/demo">demo</a></p></div>
+    <figure class="piece shot" style="right:0;top:500px;width:340px;transform:rotate(2deg)"><span class="pin"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive"><figcaption>xhs-threads · 11 threads, 63 nodes</figcaption></figure>
 
-    <figure class="piece shot" style="left:0;top:770px;width:340px;transform:rotate(1.5deg)"><span class="tape tr"></span><img src="../assets/img/nous.png" alt="Nous floating assistant"><figcaption>Nous · learns how you decide, not how you talk</figcaption></figure>
-    <div class="plain" style="left:400px;top:770px;width:290px;transform:rotate(0deg)"><p><b>Nous.</b> A nine-dimension cognitive model drives a message agent: it judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Three clients in daily use.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/nous.html">case</a><a href="https://jessieyiqichen.github.io/demos/nous.html">demo</a></p></div>
+    <figure class="piece shot" style="left:0;top:870px;width:360px;transform:rotate(1.5deg)"><span class="tape tr"></span><img src="../assets/img/nous.png" alt="Nous floating assistant"><figcaption>Nous · learns how you decide, not how you talk</figcaption></figure>
+    <div class="plain" style="left:420px;top:890px;width:440px"><p><b>Nous.</b> A nine-dimension cognitive model drives a message agent: it judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Three clients in daily use.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/nous.html">case</a><a href="https://jessieyiqichen.github.io/demos/nous.html">demo</a></p></div>
 
-    <figure class="piece shot" style="right:20px;top:920px;width:300px;transform:rotate(-2.5deg)"><span class="tape tl"></span><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page"><figcaption>JobPilot · open source, 544 tests</figcaption></figure>
-    <div class="plain" style="left:40px;top:1000px;width:320px;transform:rotate(0deg)"><p><b>JobPilot.</b> The job search is blocked by people, not information. 349 jobs collected, 37 high-score; 31 CLI commands, 544 tests, CI. Six trade-offs, each with a written why.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">case</a><a href="https://github.com/jessieyiqichen/job-pilot">code</a></p></div>
+    <figure class="piece shot" style="right:0;top:1230px;width:360px;transform:rotate(-2deg)"><span class="tape tl"></span><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page"><figcaption>JobPilot · open source, 544 tests</figcaption></figure>
+    <div class="plain" style="left:0;top:1250px;width:440px"><p><b>JobPilot.</b> The job search is blocked by people, not information. 349 jobs collected, 37 high-score; 31 CLI commands, 544 tests, CI. Six trade-offs, each with a written why.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">case</a><a href="https://github.com/jessieyiqichen/job-pilot">code</a></p></div>
   </section>
 
   <!-- 05 · off hours -->
