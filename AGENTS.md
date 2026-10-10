@@ -38,6 +38,8 @@ This assignment questions whether that form is right. It is one candidate, not t
 ## Direction rules
 - Changing only colors or fonts is not a new version. Every new direction changes at least one axis: layout / audience / mood / era / medium metaphor / visitor action.
 - Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
+- Act 2 combinations (v11–v18): a combination must change the layout axis of its base version; carry over voice, type, mechanism and material. Swapping one component only (as the first v12 did) reads as the same page.
+- A version that is dropped stays in the gallery with its verdict and the reason; dropped versions are part of the story.
 - After each version: update its gallery cell, then one commit whose message is that gallery line.
 
 ## Work log
