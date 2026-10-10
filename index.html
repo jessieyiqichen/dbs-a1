@@ -26,7 +26,8 @@
   .cap{padding:10px 12px 12px}
   .n{font:11px var(--mono);color:var(--muted)}
   .t{font-weight:600;font-size:14px;margin:2px 0 4px}
-  .note{font-size:12.5px;color:#5a606b;line-height:1.55}
+  .note{font-size:12.5px;color:#5a606b;line-height:1.55;max-height:5.4em;overflow-y:auto;padding-right:6px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .note::-webkit-scrollbar{width:4px}.note::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
   .todo{opacity:.45;pointer-events:none}
   .todo .thumb{background:repeating-linear-gradient(45deg,#eceae2,#eceae2 8px,#e4e2d9 8px,#e4e2d9 16px)}
   .final{margin-top:56px;padding:22px 24px;border:1px solid var(--ink);background:#fbfaf6;max-width:720px}
