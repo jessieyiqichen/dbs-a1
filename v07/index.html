@@ -10,116 +10,161 @@
   @font-face{font-family:"Source Serif 4";src:url("../assets/fonts/SourceSerif4-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
   @font-face{font-family:"Source Serif 4";src:url("../assets/fonts/SourceSerif4-It.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
   @font-face{font-family:"Source Serif 4";src:url("../assets/fonts/SourceSerif4-Semibold.woff2") format("woff2");font-weight:600;font-display:swap}
-  :root{--kraft:#c9a97a;--kraft2:#b8955f;--paper:#fbf8f0;--ink:#1d1a16;--muted:#6b6256;--red:#b3261e;--sticky:#ffe76a;--tape:rgba(255,255,255,.45);
-    --type:"Courier Prime","Courier New",monospace;--serif:"Source Serif 4",Georgia,serif;--sans:-apple-system,"Helvetica Neue",Arial Black,Arial,sans-serif}
+  :root{--kraft:#c9a97a;--paper:#fbf8f0;--ink:#1d1a16;--muted:#6b6256;--red:#b3261e;--sticky:#ffe76a;--pink:#ffd1c9;--blue:#d9ecff;--mint:#d7f0dc;--tape:rgba(255,255,255,.45);
+    --type:"Courier Prime","Courier New",monospace;--serif:"Source Serif 4",Georgia,serif;--sans:-apple-system,"Helvetica Neue","Arial Black",Arial,sans-serif}
   *{box-sizing:border-box}
   body{margin:0;background:var(--kraft);color:var(--ink);font:16px/1.55 var(--serif);overflow-x:hidden;
     background-image:radial-gradient(ellipse at 20% 10%,rgba(255,255,255,.18),transparent 55%),radial-gradient(ellipse at 80% 90%,rgba(0,0,0,.12),transparent 50%)}
-  /* paper grain over everything, generated, no image files */
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;mix-blend-mode:multiply;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   a{color:var(--ink)}
   .back{position:fixed;top:12px;left:16px;font:12px var(--type);color:var(--ink);z-index:9;text-decoration:none;background:var(--paper);padding:3px 8px;transform:rotate(-2deg);box-shadow:1px 2px 0 rgba(0,0,0,.15)}
-  .page{position:relative;z-index:1;width:min(100% - 32px,980px);margin:0 auto;padding:70px 0 120px}
+  .page{position:relative;z-index:1;width:min(100% - 32px,1000px);margin:0 auto;padding:70px 0 120px}
 
-  /* pieces */
   .piece{position:relative;box-shadow:0 1px 1px rgba(0,0,0,.12),0 6px 14px rgba(40,25,5,.18)}
   .paper{background:var(--paper);padding:18px 22px}
-  .clip{background:#fff;padding:8px 8px 10px}
-  .clip img{display:block;width:100%;height:auto}
-  .clip figcaption{font:12px/1.4 var(--type);color:var(--muted);margin-top:6px}
-  .tape{position:absolute;width:92px;height:26px;background:var(--tape);border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);backdrop-filter:blur(.5px);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .photo{background:#fff;padding:8px 8px 26px;display:block;margin:0}
+  .photo img{display:block;width:100%;height:auto}
+  .photo figcaption{font:12px/1.4 var(--type);color:var(--muted);margin:8px 0 -14px}
+  .photo.polaroid{padding-bottom:40px}
+  .tape{position:absolute;width:92px;height:26px;background:var(--tape);border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);box-shadow:0 1px 2px rgba(0,0,0,.08);z-index:2}
   .tape.tl{left:-22px;top:-12px;transform:rotate(-38deg)}.tape.tr{right:-22px;top:-12px;transform:rotate(38deg)}.tape.tc{left:50%;top:-13px;transform:translateX(-50%) rotate(-2deg)}
-  .sticky{background:var(--sticky);width:170px;padding:16px 16px 20px;font:14px/1.35 var(--type);color:var(--ink);box-shadow:0 1px 1px rgba(0,0,0,.08),0 10px 18px rgba(40,25,5,.2);transform:rotate(3deg)}
+  .pin{position:absolute;left:50%;top:-8px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8a80,var(--red));box-shadow:0 2px 3px rgba(0,0,0,.3);transform:translateX(-50%);z-index:2}
+  .sticky{position:relative;background:var(--sticky);width:170px;padding:16px 16px 20px;font:14px/1.35 var(--type);color:var(--ink);box-shadow:0 1px 1px rgba(0,0,0,.08),0 10px 18px rgba(40,25,5,.2);transform:rotate(3deg)}
   .sticky b{display:block;font:700 34px/1 var(--type);margin-bottom:6px}
   .sticky::before{content:"";position:absolute;left:0;right:0;top:0;height:22px;background:rgba(0,0,0,.05)}
   .label{display:inline-block;background:var(--paper);border:1px solid rgba(0,0,0,.18);font:12px/1.3 var(--type);letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;box-shadow:1px 2px 0 rgba(0,0,0,.14)}
-  .stamp{display:inline-block;border:3px double var(--red);color:var(--red);font:700 14px/1.1 var(--type);letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;transform:rotate(-8deg);opacity:.85;mix-blend-mode:multiply;mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 .35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");-webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 .35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .stamp{display:inline-block;border:3px double var(--red);color:var(--red);font:700 14px/1.1 var(--type);letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;transform:rotate(-8deg);opacity:.85;mix-blend-mode:multiply;
+    -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 .35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 .35'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   .seal{font-family:"Songti SC","Noto Serif CJK SC",serif;color:var(--red);border:2px solid var(--red);writing-mode:vertical-rl;letter-spacing:.2em;padding:8px 4px;font-size:20px;line-height:1;opacity:.85;mix-blend-mode:multiply;transform:rotate(4deg)}
-  .mark{position:absolute;pointer-events:none}
+  .mark{position:absolute;pointer-events:none;z-index:3}
   .mark path{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .cut{filter:drop-shadow(0 6px 8px rgba(40,25,5,.3))}
 
-  /* hero board */
-  .hero{position:relative;min-height:560px;margin-bottom:40px}
-  .hero .title{position:absolute;left:0;top:10px;width:min(560px,100%);transform:rotate(-1.5deg)}
-  .hero .title h1{margin:0;font:900 clamp(34px,5.6vw,58px)/1.28 var(--sans);letter-spacing:-.03em;color:var(--ink)}
-  .hero .title h1 span{background:var(--paper);padding:2px 10px;display:inline-block;margin:0 0 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone;box-shadow:0 2px 0 rgba(0,0,0,.12)}
-  .hero .title h1 span.r{color:var(--red)}
-  .hero .me{position:absolute;right:40px;top:0;width:200px;transform:rotate(5deg);filter:drop-shadow(0 8px 10px rgba(40,25,5,.3))}
-  .hero .me img{width:100%;height:auto}
-  .hero .intro{position:absolute;left:30px;top:250px;width:min(420px,calc(100% - 60px));transform:rotate(1deg);font-size:17px}
-  .hero .intro p{margin:0 0 10px}
-  .hero .intro .label{margin-top:6px}
-  .hero .n1{position:absolute;right:300px;top:260px}
-  .hero .n2{position:absolute;right:120px;top:330px;transform:rotate(-4deg)}
-  .hero .stamp1{position:absolute;right:20px;top:268px}
-  .hero .sealpos{position:absolute;right:30px;top:470px}
-  .hero .m1{right:230px;top:230px;width:90px;height:70px}
+  /* boards: a free canvas on desktop, a column on mobile */
+  .board{position:relative;margin:0 0 60px}
+  .board .num{position:absolute;left:-14px;top:-30px;font:900 120px/1 var(--sans);color:rgba(29,26,22,.11);letter-spacing:-.06em;pointer-events:none;z-index:0}
+  .board > *{position:absolute}
+  .board .title{font:900 clamp(30px,4.6vw,46px)/1.25 var(--sans);letter-spacing:-.03em;margin:0}
+  .board .title span{background:var(--paper);padding:2px 10px;display:inline-block;margin:0 0 4px;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+  .board .title span.r{color:var(--red)}
+  .board .note{font-size:15.5px}
+  .board .note p{margin:0 0 8px}
+  .board .note p:last-child{margin:0}
+  .board .shot{background:#fff;padding:6px 6px 8px}
+  .board .shot img{display:block;width:100%;height:auto}
+  .board .shot figcaption{font:11px/1.35 var(--type);color:var(--muted);margin-top:5px}
+  .lk{font:12.5px var(--type);margin-top:8px}
+  .lk a{margin-right:10px}
 
-  /* product board */
-  .board{position:relative;display:grid;grid-template-columns:1.15fr 1fr;gap:30px 40px;align-items:start;padding:40px 0 50px;margin-bottom:10px}
-  .board .num{position:absolute;left:-10px;top:-6px;font:900 110px/1 var(--sans);color:rgba(29,26,22,.12);letter-spacing:-.06em;pointer-events:none}
-  .board .clipwrap{transform:rotate(-2deg);margin-top:30px}
-  .board .text{transform:rotate(1.2deg);margin-top:18px}
-  .board .text h2{margin:0 0 4px;font:600 26px/1.1 var(--serif)}
-  .board .text .role{font:12px var(--type);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px}
-  .board .text p{margin:0 0 10px}
-  .board .text .lk{font:13px var(--type);margin-top:12px}
-  .board .text .lk a{margin-right:12px}
-  .board .text .lk small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
-  .board .stk{position:absolute}
-  .board.alt .clipwrap{order:2;transform:rotate(2deg)}
-  .board.alt .text{order:1;transform:rotate(-1deg)}
-  .next{font:italic 15px var(--serif);color:var(--muted);text-align:center;margin:0 0 20px}
-  @media (max-width:760px){
-    .hero{min-height:0;display:flex;flex-direction:column;gap:18px}
-    .hero > *{position:static!important;width:auto!important;transform:none!important}
-    .hero .me{width:140px!important;align-self:flex-end}
-    .hero .m1{display:none}
-    .board{grid-template-columns:1fr}.board .num{font-size:70px}.board .stk{position:static;margin-top:10px}
+  @media (max-width:860px){
+    .board{display:flex;flex-direction:column;gap:18px;min-height:0!important;margin-bottom:40px}
+    .board > *{position:static!important;transform:none!important;width:auto!important;max-width:420px}
+    .board .num{display:none}
+    .board .mark{display:none}
+    .sticky{width:220px}
   }
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
-
 <main class="page">
-  <section class="hero">
-    <div class="title"><h1><span>One year.</span><br><span>Five AI products,</span><br><span class="r">three still running.</span></h1></div>
-    <div class="me"><img src="../assets/img/jessie-wave.png" alt="Jessie, waving"></div>
-    <div class="piece paper intro">
-      <span class="tape tc"></span>
-      <p><b>Jessie Chen</b>, 陈亦奇. AI product manager candidate, University of Chicago, class of 2027.</p>
-      <p>This is the desk from the year I shipped five AI products on my own: the screenshots, the numbers I kept on sticky notes, the stamps I earned. Every number here names its dashboard and read date.</p>
+
+  <!-- 00 · who -->
+  <section class="board" style="min-height:760px">
+    <h1 class="title" style="left:0;top:0;width:560px;transform:rotate(-1.5deg)"><span>From Wuhan to Chicago,</span><br><span>by way of Hong Kong</span><br><span class="r">and Shanghai.</span></h1>
+    <figure class="piece photo polaroid" style="right:0;top:-10px;width:300px;transform:rotate(3deg)"><span class="pin"></span><img src="../assets/photos/ice-cave.jpg" alt="Jessie in an ice cave, winter gear, two peace signs"><figcaption>me, inside a glacier, very happy about it</figcaption></figure>
+    <div class="piece paper note" style="left:20px;top:250px;width:400px;transform:rotate(1deg)"><span class="tape tc"></span>
+      <p><b>Jessie Chen</b>, 陈亦奇. Born in Wuhan, Hubei. Economics at the Chinese University of Hong Kong, a product internship in Shanghai, now an MA in Computational Social Science at the University of Chicago, class of 2027.</p>
+      <p>I am looking for an AI product manager role. This page is the scrapbook version: the places, the animals, the musicals, and the five AI products I shipped on my own this past year.</p>
       <span class="label">kept as found · read 2026-09</span>
     </div>
-    <svg class="mark m1" viewBox="0 0 90 70"><path d="M4 60 C 20 30, 50 20, 84 10 M70 8 l14 2 -6 12"/></svg>
-    <div class="sticky n1"><b>5</b>products shipped, solo, in twelve months</div>
-    <div class="sticky n2" style="background:#ffd1c9"><b>3</b>still in production, running every day</div>
-    <span class="stamp stamp1">shipped</span>
-    <span class="seal sealpos">陈亦奇</span>
+    <figure class="piece photo" style="left:460px;top:300px;width:230px;transform:rotate(-4deg)"><span class="tape tl"></span><img src="../assets/photos/childhood-2005.jpg" alt="Christmas 2005, two kids and a cake"><figcaption>2005.12.25, Wuhan. the camera printed the date for me</figcaption></figure>
+    <div class="sticky" style="right:40px;top:420px"><b>5</b>AI products shipped solo in twelve months</div>
+    <div class="sticky" style="right:150px;top:560px;transform:rotate(-4deg);background:var(--pink)"><b>3</b>still running in production every day</div>
+    <img class="cut" src="../assets/img/jessie-wave.png" alt="" style="left:720px;top:520px;width:150px;transform:rotate(6deg)">
+    <span class="seal" style="right:0;top:640px">陈亦奇</span>
+    <svg class="mark" style="left:430px;top:200px;width:90px;height:70px" viewBox="0 0 90 70"><path d="M4 60 C 20 30, 50 20, 84 10 M70 8 l14 2 -6 12"/></svg>
   </section>
 
-  <section class="board">
+  <!-- 01 · Chicago now -->
+  <section class="board" style="min-height:720px">
     <div class="num">01</div>
-    <figure class="piece clip clipwrap">
-      <span class="tape tl"></span><span class="tape tr"></span>
-      <img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface">
-      <figcaption>Lecture Companion · transcript left, one-click marks, multimodal answers right · UI in Chinese</figcaption>
-    </figure>
-    <div class="piece paper text">
-      <h2>Lecture Companion</h2>
-      <p class="role">real-time lecture AI assistant · solo build</p>
-      <p>The bottleneck for asking questions in class is input friction, not model capability. So a question became one click on a transcript sentence, and multimodal retrieval fills in the whiteboard and formulas.</p>
-      <p>North Star: after-class review, not in-class activity. Cost lives in a usage ledger, line by line.</p>
-      <p class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">demo</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">walkthrough</a><small>pages in Chinese</small></p>
+    <h2 class="title" style="left:0;top:10px;transform:rotate(-1deg)"><span>Chicago, now.</span></h2>
+    <figure class="piece photo" style="left:0;top:110px;width:330px;transform:rotate(-2deg)"><span class="tape tl"></span><span class="tape tr"></span><img src="../assets/photos/chicago-lake-sunset.jpg" alt="Chicago skyline at sunset from the lake"><figcaption>the skyline from the lake, taken through a window, hence the reflections</figcaption></figure>
+    <figure class="piece photo" style="left:360px;top:60px;width:230px;transform:rotate(2.5deg)"><span class="pin"></span><img src="../assets/photos/chicago-river.jpg" alt="Chicago river and towers at dusk"><figcaption>the river, on the way home</figcaption></figure>
+    <figure class="piece photo" style="right:0;top:140px;width:240px;transform:rotate(-3deg)"><span class="tape tc"></span><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall in spring, blossoms and a lamp post"><figcaption>Saieh Hall, where economics lives at UChicago. spring.</figcaption></figure>
+    <div class="piece paper note" style="left:40px;top:470px;width:380px;transform:rotate(1deg)">
+      <p>The MA is computational social science on the economics track. The habit it gave me is simple: define the metric before you report the number. Daily actives by UV, not PV. Marks reviewed after class, not marks made in class.</p>
     </div>
-    <div class="sticky stk" style="right:-6px;bottom:-10px;transform:rotate(-5deg)"><b>63</b>marks, 59 of them with zero typing</div>
-    <div class="sticky stk" style="left:36%;bottom:-24px;transform:rotate(4deg);background:#d9ecff"><b>¼</b>ASR cost after optimization · 3 stages, 0 rollbacks</div>
-    <span class="stamp" style="position:absolute;left:46%;top:22px">in production</span>
+    <div class="sticky" style="left:470px;top:500px;background:var(--blue);transform:rotate(-3deg)"><b>4.0</b>GPA, which I mention once and then stop</div>
+    <span class="stamp" style="right:40px;top:560px">class of 2027</span>
   </section>
 
-  <p class="next">— preview stops here; four more boards follow in the full version —</p>
+  <!-- 02 · musicals -->
+  <section class="board" style="min-height:700px">
+    <div class="num">02</div>
+    <h2 class="title" style="left:0;top:0;transform:rotate(1deg)"><span>Musicals, wherever I live.</span></h2>
+    <figure class="piece photo" style="left:0;top:110px;width:320px;transform:rotate(-2.5deg)"><span class="tape tl"></span><img src="../assets/photos/playbills.jpg" alt="Three Playbills pinned to a corkboard: Phantom, Hamilton, Les Misérables"><figcaption>the corkboard above my desk. Phantom and Les Mis at the Cadillac Palace, Hamilton at the CIBC.</figcaption></figure>
+    <div class="piece paper note" style="left:360px;top:120px;width:380px;transform:rotate(1.5deg)"><span class="tape tc"></span>
+      <p>In Shanghai the habit turned into a product. <b>MusiClaw</b> takes public ticketing data for the city's musicals and turns it into something that updates itself every day: seat-map snapshots for 86 shows, cast attribution, four content pipelines feeding a real data account.</p>
+      <p>What the AI may and may not decide is written down, not assumed.</p>
+      <p class="lk"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">dashboard</a><span style="color:var(--muted)">· pages in Chinese</span></p>
+    </div>
+    <figure class="piece shot" style="left:420px;top:420px;width:300px;transform:rotate(-2deg)"><span class="tape tr"></span><img src="../assets/img/musiclaw.png" alt="MusiClaw dashboard"><figcaption>MusiClaw, the dashboard</figcaption></figure>
+    <div class="sticky" style="right:0;top:380px"><b>86</b>shows snapshotted every day</div>
+    <div class="sticky" style="right:60px;top:520px;transform:rotate(-5deg);background:var(--mint)"><b>24h</b>fixed review after every post</div>
+    <span class="stamp" style="left:60px;top:560px">in production</span>
+  </section>
+
+  <!-- 03 · the other four -->
+  <section class="board" style="min-height:1120px">
+    <div class="num">03</div>
+    <h2 class="title" style="left:0;top:0;transform:rotate(-1deg)"><span>The other four,</span><br><span class="r">all shipped this year.</span></h2>
+
+    <figure class="piece shot" style="left:0;top:150px;width:330px;transform:rotate(-2deg)"><span class="tape tl"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface"><figcaption>Lecture Companion · a question in class is one click on a transcript sentence</figcaption></figure>
+    <div class="piece paper note" style="left:360px;top:170px;width:300px;transform:rotate(1.5deg)"><p><b>Lecture Companion.</b> The bottleneck was input friction, not model capability. 63 marks, 59 with zero typing; shipped in three stages, zero rollbacks; ASR cost cut to a quarter.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case</a><a href="https://jessieyiqichen.github.io/lc-demo/">demo</a></p></div>
+    <div class="sticky" style="right:0;top:150px;transform:rotate(4deg)"><b>63</b>marks, 59 with zero typing</div>
+
+    <div class="piece paper note" style="left:0;top:470px;width:300px;transform:rotate(-1deg)"><p><b>xhs-threads.</b> People bookmark constantly and organize never. The user only saves; the AI threads, annotates, and an independent reviewer model checks the output. 90% of calls on the light tier.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">case</a><a href="https://47.94.34.146:8443/demo">demo</a></p></div>
+    <figure class="piece shot" style="left:340px;top:440px;width:260px;transform:rotate(2deg)"><span class="pin"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive"><figcaption>xhs-threads · 11 threads, 63 nodes</figcaption></figure>
+    <div class="sticky" style="right:30px;top:470px;background:var(--blue);transform:rotate(-3deg)"><b>¥0.05</b>to ¥0.10 per item, logged</div>
+
+    <figure class="piece shot" style="left:0;top:770px;width:340px;transform:rotate(1.5deg)"><span class="tape tr"></span><img src="../assets/img/nous.png" alt="Nous floating assistant"><figcaption>Nous · learns how you decide, not how you talk</figcaption></figure>
+    <div class="piece paper note" style="left:370px;top:760px;width:290px;transform:rotate(-1.5deg)"><p><b>Nous.</b> A nine-dimension cognitive model drives a message agent: it judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Three clients in daily use.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/nous.html">case</a><a href="https://jessieyiqichen.github.io/demos/nous.html">demo</a></p></div>
+    <div class="sticky" style="right:0;top:780px;background:var(--pink)"><b>49→71%</b>behavior prediction</div>
+
+    <figure class="piece shot" style="right:20px;top:920px;width:300px;transform:rotate(-2.5deg)"><span class="tape tl"></span><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page"><figcaption>JobPilot · open source, 544 tests</figcaption></figure>
+    <div class="piece paper note" style="left:40px;top:1000px;width:320px;transform:rotate(1deg)"><p><b>JobPilot.</b> The job search is blocked by people, not information. 349 jobs collected, 37 high-score; 31 CLI commands, 544 tests, CI. Six trade-offs, each with a written why.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">case</a><a href="https://github.com/jessieyiqichen/job-pilot">code</a></p></div>
+    <span class="stamp" style="left:400px;top:1040px">open source</span>
+  </section>
+
+  <!-- 04 · off hours -->
+  <section class="board" style="min-height:720px">
+    <div class="num">04</div>
+    <h2 class="title" style="left:0;top:0;transform:rotate(1deg)"><span>Off hours.</span></h2>
+    <figure class="piece photo" style="left:0;top:100px;width:250px;transform:rotate(-3deg)"><span class="pin"></span><img src="../assets/photos/dog-flowers.jpg" alt="A small fluffy dog sitting in front of flower beds"><figcaption>the dog, posing on purpose</figcaption></figure>
+    <figure class="piece photo" style="left:270px;top:60px;width:300px;transform:rotate(2deg)"><span class="tape tl"></span><span class="tape tr"></span><img src="../assets/photos/cat-laptop.jpg" alt="A cat on a sofa next to an open laptop"><figcaption>the cat, reviewing my pull request</figcaption></figure>
+    <figure class="piece photo" style="right:0;top:110px;width:230px;transform:rotate(-2deg)"><span class="tape tc"></span><img src="../assets/photos/dog-tulips.jpg" alt="The dog by a window with tulips and snow outside"><figcaption>tulips, snow, dog</figcaption></figure>
+    <figure class="piece photo" style="left:40px;top:470px;width:220px;transform:rotate(2deg)"><span class="tape tr"></span><img src="../assets/photos/ski-gondola.jpg" alt="A ski gondola against a sunset over snowy mountains"><figcaption>winter is for skiing</figcaption></figure>
+    <figure class="piece photo" style="left:300px;top:430px;width:300px;transform:rotate(-1.5deg)"><span class="pin"></span><img src="../assets/photos/cap-parking-lot.jpg" alt="Jessie from behind, blue cap, a sunny parking lot"><figcaption>somewhere sunny, facing the other way</figcaption></figure>
+    <div class="piece paper note" style="right:0;top:470px;width:300px;transform:rotate(1.5deg)">
+      <p>Four rules I keep at work, off hours too: pain point before solution; one layer of change per stage; define the metric before the number; cost is a product parameter.</p>
+    </div>
+  </section>
+
+  <!-- 05 · contact -->
+  <section class="board" style="min-height:300px">
+    <div class="num">05</div>
+    <h2 class="title" style="left:0;top:0;transform:rotate(-1deg)"><span>Say hello.</span></h2>
+    <div class="piece paper note" style="left:0;top:100px;width:460px;transform:rotate(.8deg)"><span class="tape tc"></span>
+      <p style="font:700 20px var(--type);margin:0 0 6px"><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a></p>
+      <p class="lk" style="font-size:14px"><a href="../assets/Jessie_Chen_Resume.pdf">résumé (pdf)</a><a href="https://github.com/jessieyiqichen">github</a><a href="https://jessieyiqichen.github.io/">current site</a></p>
+      <p style="font-size:13px;color:var(--muted);margin-top:10px">Chicago / Shanghai. Products and case pages are in Chinese; this page is in English. Hand-written HTML and CSS, no frameworks, no tracking.</p>
+    </div>
+    <div class="sticky" style="left:500px;top:90px;transform:rotate(-4deg)"><b>it is</b>what it is</div>
+    <span class="stamp" style="left:720px;top:150px">open to roles</span>
+  </section>
 </main>
 </body>
 </html>
