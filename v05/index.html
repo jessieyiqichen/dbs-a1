@@ -239,7 +239,7 @@
   /* pan + zoom */
   let x=0,y=0,scale=1,dragging=false,sx=0,sy=0,moved=false;
   function apply(){ world.style.transform=`translate(${x}px,${y}px) scale(${scale})`; }
-  function fit(){ if(mobile()) return; const W=innerWidth,H=innerHeight; scale=Math.min(1,Math.max(.45,W/2500)); x=(W-2400*scale)/2; y=Math.max(20,(H-1500*scale)/2); apply(); draw(); }
+  function fit(){ if(mobile()) return; const W=innerWidth,H=innerHeight; scale=Math.min(1,Math.max(.55,H/1480)); x=Math.max(24,(W-2400*scale)/2); y=Math.max(16,(H-1500*scale)/2); apply(); draw(); }
   vp.addEventListener('pointerdown',e=>{ if(mobile()||e.target.closest('a,.tg,.node.rule'))return; dragging=true;moved=false;sx=e.clientX-x;sy=e.clientY-y;vp.classList.add('drag');vp.setPointerCapture(e.pointerId); });
   vp.addEventListener('pointermove',e=>{ if(!dragging)return; x=e.clientX-sx;y=e.clientY-sy;moved=true;apply(); });
   vp.addEventListener('pointerup',()=>{dragging=false;vp.classList.remove('drag');});
