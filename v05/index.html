@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v05 · Pipeline canvas — Jessie Chen</title>
+<style>
+  @font-face{font-family:"IBM Plex Mono";src:url("../assets/fonts/IBMPlexMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+  @font-face{font-family:"IBM Plex Mono";src:url("../assets/fonts/IBMPlexMono-Medium.woff2") format("woff2");font-weight:500;font-display:swap}
+  :root{--bg:#eef0f2;--dot:#cfd3d8;--card:#fff;--line:#d5d9de;--ink:#15181c;--body:#3a3f46;--muted:#7a8088;--amber:#e0a100;--amber2:#fff3c4;--wire:#b9bfc6;
+    --sans:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--body);font:14px/1.5 var(--sans);overflow:hidden}
+  a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--amber)}
+  .back{position:fixed;top:12px;left:16px;font:12px var(--mono);color:var(--muted);z-index:9;text-decoration:none}
+  .hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font:11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);z-index:9;pointer-events:none}
+
+  .vp{position:fixed;inset:0;cursor:grab;background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);background-size:22px 22px}
+  .vp.drag{cursor:grabbing}
+  .world{position:absolute;left:0;top:0;width:2400px;height:1500px;transform-origin:0 0;will-change:transform}
+  svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+  svg.wires path{fill:none;stroke:var(--wire);stroke-width:1.5}
+  svg.wires path.flow{stroke:var(--amber);stroke-width:2;stroke-dasharray:2 10;stroke-linecap:round;animation:flow 1.6s linear infinite}
+  @keyframes flow{to{stroke-dashoffset:-12}}
+  svg.wires path.flow.dim{opacity:.18}
+
+  .node{position:absolute;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(20,30,40,.07);width:300px}
+  .node .hd{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-bottom:1px solid var(--line);font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .node .hd b{font-weight:500;color:var(--ink)}
+  .node .hd b::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:8px;vertical-align:1px}
+  .node .bd{padding:12px 14px 14px}
+  .node h2{margin:0 0 2px;font:600 20px/1.2 var(--sans);color:var(--ink);letter-spacing:-.01em}
+  .node .sub{font:12px var(--mono);color:var(--muted);margin:0 0 10px}
+  .node p{margin:0 0 8px;font-size:13.5px}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 4px}
+  .tags span{font:11.5px var(--mono);border:1px solid var(--line);border-radius:4px;padding:2px 7px;color:var(--body);background:#fafbfc}
+  .tags span.on{border-color:var(--amber);background:var(--amber2);color:var(--ink)}
+  .node img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:4px;margin:8px 0 6px}
+  .node .ft{display:flex;justify-content:space-between;align-items:center;font:11.5px var(--mono);color:var(--muted);margin-top:8px}
+  .node .ft a{font:12px var(--mono)}
+  .port{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--card);border:2px solid var(--wire)}
+  .port.in{left:-6px;top:50%;margin-top:-5px}.port.out{right:-6px;top:50%;margin-top:-5px}
+
+  /* trigger */
+  .node.trig{width:320px}
+  .node.trig img.me{width:84px;height:84px;border:0;margin:0 0 8px;border-radius:0}
+  .node.trig .claim{font:italic 14px/1.4 Georgia,serif;color:var(--ink);margin:0 0 8px}
+  .node.trig code{display:block;font:11.5px/1.6 var(--mono);background:#f6f7f8;border:1px solid var(--line);border-radius:4px;padding:8px 10px;color:var(--body);white-space:pre}
+  .node.trig code i{color:var(--amber);font-style:normal}
+
+  /* rules = switches */
+  .node.rule{width:250px;cursor:pointer;user-select:none}
+  .node.rule.on{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber2),0 8px 24px rgba(20,30,40,.07)}
+  .node.rule .bd{padding:10px 12px 12px}
+  .node.rule b{display:block;font-size:14px;color:var(--ink);margin-bottom:3px}
+  .node.rule p{font-size:12.5px;color:var(--muted);margin:0}
+  .sw{width:30px;height:16px;border-radius:9px;background:#d9dde2;position:relative;flex-shrink:0;margin-left:8px}
+  .sw::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .15s}
+  .node.rule.on .sw{background:var(--amber)}.node.rule.on .sw::after{left:16px}
+
+  /* products */
+  .node.proj{width:330px;transition:opacity .25s}
+  .node.proj.dim{opacity:.32}
+  .pipe{display:flex;align-items:center;gap:0;margin:4px 0 10px;font:11px var(--mono);color:var(--muted);flex-wrap:wrap}
+  .pipe span{border:1px solid var(--line);border-radius:3px;padding:2px 6px;background:#fafbfc;color:var(--body);white-space:nowrap}
+  .pipe span.m{border-color:var(--amber);background:var(--amber2);color:var(--ink)}
+  .pipe i{width:14px;height:1px;background:var(--wire);display:inline-block;margin:0 2px;position:relative}
+  .pipe i::after{content:"";position:absolute;right:-1px;top:-2px;border:2.5px solid transparent;border-left-color:var(--wire)}
+  .node.proj .n{font:11.5px var(--mono);color:var(--muted);margin:6px 0 0;line-height:1.7}
+  .node.proj .n b{color:var(--ink);font-weight:500}
+  .node.proj .more{display:none}
+  .node.proj.open .more{display:block}
+  .node.proj .tg{cursor:pointer;color:var(--ink);font:12px var(--mono);text-decoration:underline;text-decoration-color:var(--amber);text-underline-offset:3px}
+
+  /* output */
+  .node.out{width:300px}
+  .node.out .big{font:500 15px var(--mono);word-break:break-all}
+  .node.out .row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+  .node.out .row a{display:block;text-align:center;border:1px solid var(--line);border-radius:5px;padding:7px 4px;font:12px var(--mono);text-decoration:none;color:var(--ink)}
+  .node.out .row a:hover{border-color:var(--amber);background:var(--amber2)}
+  .node.out small{display:block;color:var(--muted);font-size:12px;margin-top:10px}
+
+  @media (max-width:760px){
+    body{overflow:auto}
+    .vp{position:static;background:none;cursor:auto}
+    .world{position:static;width:auto;height:auto;transform:none!important;padding:56px 16px 40px;display:flex;flex-direction:column;gap:14px}
+    .node{position:static!important;width:auto!important}
+    svg.wires,.port,.hint{display:none}
+    .node.proj.dim{opacity:.4}
+  }
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+<div class="hint">scroll, drag, or arrow keys to explore · click a rule to filter · click a product for details</div>
+
+<div class="vp" id="vp">
+<div class="world" id="world">
+  <svg class="wires" id="wires"></svg>
+
+  <section class="node trig" id="trig" style="left:80px;top:420px">
+    <div class="hd"><b>Trigger</b><span>trg_visitor</span></div>
+    <div class="bd">
+      <img class="me" src="../assets/img/jessie-wave.png" alt="Jessie, waving">
+      <h2>Jessie Chen</h2>
+      <div class="sub">AI product · UChicago MA Computational Social Science · class of 2027</div>
+      <p class="claim">Product judgment is proven by products that ship.</p>
+      <p>Five AI products built solo in the past year; three run in production daily. Every one of them is a pipeline, and in every one the metric and the cost are nodes, not afterthoughts.</p>
+      <code>{
+  shipped:   <i>5</i>,
+  in_prod:   <i>3</i>,
+  read_date: <i>"2026-09"</i>,
+  languages: <i>"products zh · page en"</i>
+}</code>
+    </div>
+    <span class="port out"></span>
+  </section>
+
+  <section class="node rule on" data-rule="pain" style="left:520px;top:140px"><div class="hd"><b>Rule 1</b><span class="sw"></span></div><div class="bd"><b>Pain point before solution</b><p>Find the layer the bottleneck lives in before building.</p></div><span class="port in"></span><span class="port out"></span></section>
+  <section class="node rule on" data-rule="stage" style="left:520px;top:340px"><div class="hd"><b>Rule 2</b><span class="sw"></span></div><div class="bd"><b>Staged rollout, attribution</b><p>One layer of change per stage, so a problem points at its layer.</p></div><span class="port in"></span><span class="port out"></span></section>
+  <section class="node rule on" data-rule="metric" style="left:520px;top:540px"><div class="hd"><b>Rule 3</b><span class="sw"></span></div><div class="bd"><b>Metric before number</b><p>Every number names its dashboard, metric and read date.</p></div><span class="port in"></span><span class="port out"></span></section>
+  <section class="node rule on" data-rule="cost" style="left:520px;top:740px"><div class="hd"><b>Rule 4</b><span class="sw"></span></div><div class="bd"><b>Cost is a product parameter</b><p>Every call logged; a shadow run proves quality before cost is cut.</p></div><span class="port in"></span><span class="port out"></span></section>
+
+  <section class="node proj" id="p1" data-rules="pain stage metric cost" style="left:1000px;top:60px">
+    <div class="hd"><b>Project</b><span>prj_lecture_companion</span></div>
+    <div class="bd">
+      <h2>Lecture Companion</h2><div class="sub">real-time lecture AI assistant · solo build</div>
+      <div class="pipe"><span>lecture audio</span><i></i><span>ASR</span><i></i><span>one-click mark</span><i></i><span>multimodal retrieval</span><i></i><span class="m">usage ledger</span><i></i><span>answer</span></div>
+      <p>The bottleneck is input friction, not model capability: a question is one click on a transcript sentence.</p>
+      <div class="n"><b>63</b> marks, 59 zero-typing · <b>3</b>-stage rollout, 0 rollbacks · ASR cost <b>× 0.25</b></div>
+      <div class="more"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface" loading="lazy"><p>Multimodal retrieval fills in whiteboard and formulas. North Star: after-class review behavior. Shipped in three stages over two days.</p><div class="ft"><span><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case</a> · <a href="https://jessieyiqichen.github.io/lc-demo/">demo</a> · <a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">walkthrough</a></span><span>zh</span></div></div>
+      <div class="ft"><span class="tags"><span>live</span><span>solo</span></span><span class="tg" data-tg>details →</span></div>
+    </div>
+    <span class="port in"></span>
+  </section>
+
+  <section class="node proj" id="p2" data-rules="pain metric cost" style="left:1000px;top:400px">
+    <div class="hd"><b>Project</b><span>prj_xhs_threads</span></div>
+    <div class="bd">
+      <h2>xhs-threads</h2><div class="sub">thought threads from Xiaohongshu bookmarks · solo build</div>
+      <div class="pipe"><span>save</span><i></i><span>thread</span><i></i><span>annotate</span><i></i><span class="m">reviewer model</span><i></i><span>archive</span></div>
+      <p>Bookmarking is frequent, organizing never happens: the user only saves, the AI does the rest and checks its own work.</p>
+      <div class="n"><b>11</b> threads · <b>63</b> nodes · <b>90%</b> light tier · ¥<b>0.05–0.10</b> / item</div>
+      <div class="more"><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive" loading="lazy"><p>Differentiation from a survey of four competitor types. Output quality gated by an independent reviewer model.</p><div class="ft"><span><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">case</a> · <a href="https://47.94.34.146:8443/demo">demo</a> · <a href="https://47.94.34.146:8443/try">try</a></span><span>zh</span></div></div>
+      <div class="ft"><span class="tags"><span>live</span><span>solo</span></span><span class="tg" data-tg>details →</span></div>
+    </div>
+    <span class="port in"></span>
+  </section>
+
+  <section class="node proj" id="p3" data-rules="pain metric" style="left:1000px;top:720px">
+    <div class="hd"><b>Project</b><span>prj_nous</span></div>
+    <div class="bd">
+      <h2>Nous</h2><div class="sub">cognitive-twin message agent · three clients</div>
+      <div class="pipe"><span>message</span><i></i><span class="m">9-dim cognitive model</span><i></i><span>reply? draft</span><i></i><span class="m">quality warning</span><i></i><span>you</span></div>
+      <p>Other bots learn how you talk; Nous learns how you decide, and warns before you agree to something you will not do.</p>
+      <div class="n">prediction <b>49 → 71%</b> · <b>3</b> clients daily · flywheel <b>closed</b></div>
+      <div class="more"><img src="../assets/img/nous.png" alt="Nous floating assistant" loading="lazy"><p>Feishu bot, Mac floating assistant, Web. Corrections feed the model.</p><div class="ft"><span><a href="https://jessieyiqichen.github.io/projects/nous.html">case</a> · <a href="https://jessieyiqichen.github.io/demos/nous.html">demo</a> · <a href="https://web-ten-omega-72.vercel.app/agent">sandbox</a></span><span>zh</span></div></div>
+      <div class="ft"><span class="tags"><span>live</span><span>3 clients</span></span><span class="tg" data-tg>details →</span></div>
+    </div>
+    <span class="port in"></span>
+  </section>
+
+  <section class="node proj" id="p4" data-rules="pain stage" style="left:1400px;top:240px">
+    <div class="hd"><b>Project</b><span>prj_jobpilot</span></div>
+    <div class="bd">
+      <h2>JobPilot</h2><div class="sub">AI job-search strategist · open source</div>
+      <div class="pipe"><span>349 jobs</span><i></i><span>score</span><i></i><span class="m">cognitive model + samples</span><i></i><span>diagnosis</span><i></i><span class="m">544 tests · CI</span></div>
+      <p>The job search is blocked by people, not information. Six trade-offs, each with a written why.</p>
+      <div class="n"><b>349</b> jobs · <b>37</b> high-score · <b>31</b> commands · <b>544</b> tests</div>
+      <div class="more"><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page" loading="lazy"><p>Personal diagnosis and messaging that sounds like you. Read-only live demo.</p><div class="ft"><span><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">case</a> · <a href="https://jobpilot-demo-delta.vercel.app">demo</a> · <a href="https://github.com/jessieyiqichen/job-pilot">code</a></span><span>zh · en</span></div></div>
+      <div class="ft"><span class="tags"><span>open source</span><span>solo</span></span><span class="tg" data-tg>details →</span></div>
+    </div>
+    <span class="port in"></span>
+  </section>
+
+  <section class="node proj" id="p5" data-rules="metric cost stage" style="left:1400px;top:600px">
+    <div class="hd"><b>Project</b><span>prj_musiclaw</span></div>
+    <div class="bd">
+      <h2>MusiClaw</h2><div class="sub">Shanghai musical-theatre market data · solo build</div>
+      <div class="pipe"><span>ticketing data</span><i></i><span>86 daily snapshots</span><i></i><span>cast attribution</span><i></i><span>4 pipelines</span><i></i><span class="m">24h review</span></div>
+      <p>Public data turned into a product that updates itself daily and feeds a real account. The AI's scope is written down.</p>
+      <div class="n"><b>86</b> shows / day · <b>4</b> pipelines · <b>24h</b> fixed review</div>
+      <div class="more"><img src="../assets/img/musiclaw.png" alt="MusiClaw dashboard" loading="lazy"><div class="ft"><span><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">case</a> · <a href="https://jessieyiqichen.github.io/musiclaw-demo/">dashboard</a></span><span>zh</span></div></div>
+      <div class="ft"><span class="tags"><span>live</span><span>solo</span></span><span class="tg" data-tg>details →</span></div>
+    </div>
+    <span class="port in"></span>
+  </section>
+
+  <section class="node out" id="out" style="left:1860px;top:440px">
+    <div class="hd"><b>Output</b><span>out_contact</span></div>
+    <div class="bd">
+      <h2>Talk to me.</h2>
+      <div class="big"><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a></div>
+      <div class="row"><a href="../assets/Jessie_Chen_Resume.pdf">résumé (pdf)</a><a href="https://github.com/jessieyiqichen">github</a><a href="https://jessieyiqichen.github.io/">current site</a><a href="mailto:jessiechenyiqi@outlook.com?subject=AI%20product%20role">email</a></div>
+      <small>Looking for AI product roles, class of 2027. Chicago / Shanghai. Products and case pages are in Chinese; this page is in English.</small>
+    </div>
+    <span class="port in"></span>
+  </section>
+</div>
+</div>
+
+<script>
+(function(){
+  const vp=document.getElementById('vp'), world=document.getElementById('world'), svg=document.getElementById('wires');
+  const mobile=()=>matchMedia('(max-width:760px)').matches;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* wires */
+  function port(el,side){ const r=el.getBoundingClientRect(), w=world.getBoundingClientRect(); const s=scale;
+    return {x:((side==='out'?r.right:r.left)-w.left)/s, y:(r.top+r.height/2-w.top)/s}; }
+  function path(a,b){ const dx=Math.max(60,(b.x-a.x)/2); return `M${a.x},${a.y} C${a.x+dx},${a.y} ${b.x-dx},${b.y} ${b.x},${b.y}`; }
+  const trig=document.getElementById('trig'), out=document.getElementById('out');
+  const rules=[...document.querySelectorAll('.node.rule')], projs=[...document.querySelectorAll('.node.proj')];
+  function draw(){
+    if(mobile()) return;
+    let h='';
+    const t=port(trig,'out');
+    rules.forEach(r=>{ const p=port(r,'in'); const on=r.classList.contains('on'); h+=`<path d="${path(t,p)}"/><path class="flow${on?'':' dim'}" d="${path(t,p)}"/>`; });
+    projs.forEach(pj=>{ const need=pj.dataset.rules.split(' '); const pin=port(pj,'in');
+      rules.forEach(r=>{ if(!need.includes(r.dataset.rule)) return; const po=port(r,'out'); const on=r.classList.contains('on')&&!pj.classList.contains('dim');
+        h+=`<path d="${path(po,pin)}"/><path class="flow${on?'':' dim'}" d="${path(po,pin)}"/>`; });
+      const po=port(pj,'out'); });
+    const o=port(out,'in');
+    projs.forEach(pj=>{ const r=pj.getBoundingClientRect(), w=world.getBoundingClientRect(); const a={x:(r.right-w.left)/scale,y:(r.top+r.height/2-w.top)/scale};
+      h+=`<path d="${path(a,o)}"/><path class="flow${pj.classList.contains('dim')?' dim':''}" d="${path(a,o)}"/>`; });
+    svg.innerHTML=h;
+  }
+
+  /* filter by rules */
+  function applyFilter(){
+    const on=rules.filter(r=>r.classList.contains('on')).map(r=>r.dataset.rule);
+    projs.forEach(pj=>{ const need=pj.dataset.rules.split(' '); const hit=on.length===0||need.some(x=>on.includes(x)); pj.classList.toggle('dim',!hit); });
+    draw();
+  }
+  rules.forEach(r=>{ r.setAttribute('tabindex','0'); const f=()=>{r.classList.toggle('on');applyFilter();}; r.addEventListener('click',f); r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}}); });
+  document.querySelectorAll('[data-tg]').forEach(t=>t.addEventListener('click',()=>{ const n=t.closest('.node.proj'); n.classList.toggle('open'); t.textContent=n.classList.contains('open')?'close ↑':'details →'; draw(); }));
+
+  /* pan + zoom */
+  let x=0,y=0,scale=1,dragging=false,sx=0,sy=0,moved=false;
+  function apply(){ world.style.transform=`translate(${x}px,${y}px) scale(${scale})`; }
+  function fit(){ if(mobile()) return; const W=innerWidth,H=innerHeight; scale=Math.min(1,Math.max(.45,W/2500)); x=(W-2400*scale)/2; y=Math.max(20,(H-1500*scale)/2); apply(); draw(); }
+  vp.addEventListener('pointerdown',e=>{ if(mobile()||e.target.closest('a,.tg,.node.rule'))return; dragging=true;moved=false;sx=e.clientX-x;sy=e.clientY-y;vp.classList.add('drag');vp.setPointerCapture(e.pointerId); });
+  vp.addEventListener('pointermove',e=>{ if(!dragging)return; x=e.clientX-sx;y=e.clientY-sy;moved=true;apply(); });
+  vp.addEventListener('pointerup',()=>{dragging=false;vp.classList.remove('drag');});
+  vp.addEventListener('wheel',e=>{ if(mobile())return; e.preventDefault(); if(e.ctrlKey||e.metaKey){ const k=Math.exp(-e.deltaY*0.0015); const ns=Math.min(1.6,Math.max(.4,scale*k)); const mx=e.clientX,my=e.clientY; x=mx-(mx-x)*ns/scale; y=my-(my-y)*ns/scale; scale=ns; } else { x-=e.deltaX; y-=e.deltaY; } apply(); },{passive:false});
+  addEventListener('keydown',e=>{ if(mobile()||e.target.closest('.node'))return; const s=60; if(e.key==='ArrowLeft'){x+=s}else if(e.key==='ArrowRight'){x-=s}else if(e.key==='ArrowUp'){y+=s}else if(e.key==='ArrowDown'){y-=s}else return; e.preventDefault(); apply(); });
+  addEventListener('resize',()=>{fit();});
+  if(reduce) document.querySelectorAll('.flow').forEach(p=>p.style.animation='none');
+  fit(); setTimeout(draw,50); if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
+})();
+</script>
+</body>
+</html>
