@@ -3,176 +3,250 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v11 · A letter with attachments — Jessie Chen</title>
+<title>v11 · Sheets on a desk — Jessie Chen</title>
 <style>
-  @font-face{font-family:Alegreya;src:url("../assets/fonts/Alegreya.woff2") format("woff2");font-weight:400 800;font-display:swap}
-  @font-face{font-family:Alegreya;src:url("../assets/fonts/Alegreya-Italic.woff2") format("woff2");font-weight:400 800;font-style:italic;font-display:swap}
-  :root{--paper:#fbfaf6;--ink:#1e2a44;--body:#2b3246;--muted:#6f7688;--line:#d9d6cc;--tray:#f1efe8;--hl:#fff3c4;
-        --serif:Alegreya,"Iowan Old Style",Georgia,serif;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+  @font-face{font-family:"Public Sans";src:url("../assets/fonts/PublicSans.woff2") format("woff2");font-weight:300 800;font-display:swap}
+  @font-face{font-family:"Public Sans";src:url("../assets/fonts/PublicSans-Italic.woff2") format("woff2");font-weight:300 800;font-style:italic;font-display:swap}
+  :root{--desk:#9d9a92;--paper:#fdfdfb;--ink:#15171a;--body:#2e3136;--muted:#6b6f76;--line:#d6d6d1;--teal:#166e66;
+        --sans:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;--gap:3.2vw}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--body);font:19px/1.55 var(--serif)}
+  html,body{height:100%}
+  body{margin:0;background:var(--desk);color:var(--body);font:15px/1.45 var(--sans);overflow:hidden}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   a{color:var(--ink)}
-  .back{position:fixed;top:12px;left:16px;font:12px var(--sans);color:var(--muted);text-decoration:none;z-index:9}
-  .back:hover{color:var(--ink)}
+  .back{position:fixed;top:12px;left:16px;z-index:9;font-size:12px;color:#f2f1ec;text-decoration:none;opacity:.85}
+  .back:hover{opacity:1}
 
-  .wrap{display:grid;grid-template-columns:minmax(0,640px) minmax(320px,1fr);gap:0;min-height:100vh}
-  .letter{padding:84px 56px 80px 9vw;border-right:1px solid var(--line)}
-  .date{font:15px var(--sans);color:var(--muted);margin:0 0 36px}
-  .letter p{margin:0 0 1.15em;max-width:62ch}
-  .letter p.sal{margin-bottom:1.3em}
-  .letter .att{appearance:none;font:inherit;font-style:italic;line-height:inherit;margin:0;color:var(--ink);text-decoration:none;background:linear-gradient(transparent 62%,var(--hl) 62%);padding:0 2px;cursor:pointer;border:0}
-  .letter .att:hover,.letter .att.on{background:var(--hl)}
-  .letter .att sup{font-style:normal;font:12px var(--sans);color:var(--muted);margin-left:2px}
-  .sig{margin-top:40px}
-  .sig .nm{font-size:28px;font-style:italic;color:var(--ink);margin:0}
-  .sig .nm span{font-style:normal;font-size:17px;color:var(--muted);margin-left:8px}
-  .sig .cn{font:15px/1.7 var(--sans);color:var(--muted);margin:10px 0 0}
-  .sig .cn a{margin-right:14px;color:var(--ink)}
-  .encl{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font:14px/1.7 var(--sans);color:var(--muted)}
-  .encl b{font-weight:500;color:var(--body)}
-  .encl button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid var(--line)}
-  .encl button:hover{border-color:var(--ink)}
+  .track{--sw:min(calc((100vh - 64px) * 1.414),92vw);position:relative;z-index:1;display:flex;align-items:center;height:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;padding:0 calc((100vw - var(--sw)) / 2)}
+  .track::-webkit-scrollbar{display:none}
+  .track>.sp{flex:0 0 var(--gap)}
+  .sheet{flex:0 0 var(--sw);width:var(--sw);aspect-ratio:1.414/1;scroll-snap-align:center;position:relative;
+    background:var(--paper);color:var(--body);box-shadow:0 1px 1px rgba(0,0,0,.25),0 14px 34px rgba(0,0,0,.22);container-type:inline-size;
+    display:grid;grid-template-rows:auto 1fr auto;padding:2.6cqw 3.4cqw 2.2cqw;cursor:default}
+  .sheet+.sheet{margin-left:var(--gap)}
+  .sheet:not(.cur){cursor:pointer}
+  .sheet:not(.cur) *{pointer-events:none}
 
-  .tray{background:var(--tray);padding:84px 5vw 60px 44px}
-  .tray .in{position:sticky;top:40px}
-  .tray h2{margin:0 0 6px;font:600 15px var(--sans);color:var(--muted)}
-  .tray h2 b{font-weight:600;color:var(--ink)}
-  .tray .sub{margin:0 0 20px;font:14px var(--sans);color:var(--muted)}
-  .tray .sub a{margin-right:10px;color:var(--ink)}
-  .list{display:grid;gap:12px}
-  .list button{all:unset;cursor:pointer;display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);padding:8px}
-  .list button:hover{border-color:var(--ink)}
-  .list img{display:block;width:120px;aspect-ratio:16/10;object-fit:cover;object-position:top left}
-  .list span{font:15px/1.35 var(--sans);color:var(--body)}
-  .list span small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
-  .one{display:none}
-  .one.show{display:block}
-  .list.hide{display:none}
-  .one .hd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:14px var(--sans);color:var(--muted);margin-bottom:10px}
-  .one .hd b{font:600 16px var(--sans);color:var(--ink)}
-  .one .hd button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid var(--line)}
-  .one img{display:block;width:100%;border:1px solid var(--line);background:#fff}
-  .one .cap{margin:8px 0 14px;font:13px/1.45 var(--sans);color:var(--muted)}
-  .one dl{margin:0;padding:0;border-top:1px solid var(--line)}
-  .one dl div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:16px}
-  .one dt{margin:0;color:var(--muted);font:14px var(--sans)}
-  .one dd{margin:0;color:var(--ink);text-align:right}
-  .one .lk{margin:14px 0 0;font:14px var(--sans)}
-  .one .lk a{margin-right:14px}
-  .one .pn{display:flex;justify-content:space-between;margin-top:18px;font:13px var(--sans)}
-  .one .pn button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid var(--line)}
-  .one .pn button:disabled{opacity:.3;cursor:default}
+  .head{display:grid;grid-template-columns:1fr auto 1fr;gap:2cqw;font-size:1.05cqw;color:var(--muted);padding-bottom:.9cqw;border-bottom:.18cqw solid var(--teal)}
+  .head span:nth-child(2){color:var(--ink);font-weight:500}
+  .head span:last-child{text-align:right;font-variant-numeric:tabular-nums}
+  .foot{display:grid;grid-template-columns:1fr auto 1fr;gap:2cqw;font-size:1cqw;color:var(--muted);padding-top:.9cqw;border-top:1px solid var(--line)}
+  .foot .pn{color:var(--ink);font-variant-numeric:tabular-nums}
+  .foot span:last-child{text-align:right}
 
-  @media (max-width:960px){
-    .wrap{grid-template-columns:1fr}
-    .letter{border-right:0;padding:72px 7vw 40px}
-    .tray{padding:36px 7vw 60px;border-top:1px solid var(--line)}
-    .tray .in{position:static}
+  .body{min-height:0;padding:2cqw 0 1.6cqw;font-size:1.3cqw;line-height:1.45}
+  .body p{margin:0}
+
+  /* cover */
+  .cv{display:flex;flex-direction:column;justify-content:center}
+  .cv h1{margin:0;font-size:5.4cqw;font-weight:500;letter-spacing:-.02em;line-height:1;color:var(--ink)}
+  .cv h1 span{font-size:.4em;font-weight:400;color:var(--muted);margin-left:.4em;letter-spacing:0}
+  .cv .sub{margin-top:1.2cqw;font-size:1.5cqw;color:var(--muted)}
+  .cv .lead{margin-top:2.6cqw;font-size:1.65cqw;max-width:60ch;color:var(--body)}
+  .toc{list-style:none;margin:3.4cqw 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:1.6cqw}
+  .toc a{display:block;text-decoration:none;color:var(--body)}
+  .toc img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;border:1px solid var(--line)}
+  .toc span{display:block;margin-top:.8cqw;font-size:1.25cqw;line-height:1.3}
+  .toc span b{color:var(--teal);font-weight:600;margin-right:.3em}
+  .toc small{display:block;font-size:1.05cqw;color:var(--muted)}
+  .toc a:hover img{border-color:var(--ink)}
+  .cv .hint{margin-top:3cqw;font-size:1.15cqw;color:var(--muted)}
+
+  /* product sheet */
+  .pr{display:grid;grid-template-columns:68fr 32fr;grid-template-rows:auto minmax(0,1fr);gap:1.6cqw 3cqw}
+  .pr figure{margin:0;grid-column:1;grid-row:1}
+  .pr figure button{all:unset;cursor:zoom-in;display:block}
+  .pr figure img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;border:1px solid var(--line)}
+  .pr figcaption{margin-top:.8cqw;font-size:1.1cqw;color:var(--muted)}
+  .side{grid-column:2;grid-row:1;display:flex;flex-direction:column;min-width:0}
+  .side h2{margin:0;font-size:2.5cqw;font-weight:600;letter-spacing:-.015em;line-height:1.1;color:var(--ink)}
+  .side h2 b{color:var(--teal);font-weight:600;margin-right:.25em}
+  .side .role{margin-top:.9cqw;font-size:1.2cqw;color:var(--muted)}
+  .side table{margin-top:1.8cqw;border-collapse:collapse;width:100%;font-size:1.25cqw}
+  .side th,.side td{padding:.85cqw 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .side th{font-weight:400;color:var(--muted);width:52%;padding-right:.6cqw}
+  .side td{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+  .side .pv{margin-top:auto;padding-top:1.2cqw;font-size:1.15cqw;color:var(--muted);font-style:italic}
+  .text{grid-column:1/-1;grid-row:2;columns:2;column-gap:3cqw;font-size:1.55cqw;line-height:1.45;min-height:0}
+  .text p{margin:0}
+  .lk{margin-top:1.1cqw;font-size:1.15cqw}
+  .lk a{margin-right:1.4cqw;white-space:nowrap}
+  .text .lk{break-inside:avoid}
+
+  /* last sheet */
+  .hw{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto 1fr;gap:1.8cqw 3cqw}
+  .hw h2{grid-column:1/-1;margin:1cqw 0 .6cqw;font-size:3cqw;font-weight:600;letter-spacing:-.015em;line-height:1.1;color:var(--ink);max-width:28ch}
+  .rules{margin:0;padding:0;list-style:none;counter-reset:r;display:grid;grid-template-columns:1fr 1fr;gap:2cqw 3.5cqw;grid-column:1/-1;font-size:1.4cqw;align-content:start}
+  .rules li{padding-left:2.4cqw;position:relative}
+  .rules li::before{content:counter(r);counter-increment:r;position:absolute;left:0;top:0;color:var(--teal);font-weight:600}
+  .rules li b{font-weight:600;color:var(--ink)}
+  .ed{grid-column:1/-1;align-self:end;padding-top:1.4cqw;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:1cqw 3cqw;font-size:1.25cqw;align-items:end}
+  .ed b{font-weight:600;color:var(--ink);margin-right:.4em}
+  .ed .lk{margin:0;grid-column:2;grid-row:1}
+  .ed .cp{grid-column:1/-1;font-size:.95cqw;color:var(--muted)}
+
+  dialog{border:0;padding:0;background:transparent;max-width:min(96vw,1500px)}
+  dialog::backdrop{background:rgba(20,20,18,.8)}
+  dialog img{display:block;max-width:96vw;max-height:88vh;background:#fff;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+  dialog p{margin:8px 0 0;font-size:13px;color:#f2f1ec;text-align:center}
+  dialog form{position:absolute;top:-2px;right:0}
+  dialog form button{all:unset;cursor:pointer;color:#fff;font-size:14px;padding:6px 10px}
+
+  @media (max-width:820px){
+    body{overflow:auto}
+    .track{--sw:92vw;display:block;height:auto;overflow:visible;padding:56px 4vw 40px}
+    .track>.sp{display:none}
+    .sheet{width:100%;aspect-ratio:auto;margin:0 0 24px!important;padding:5cqw 5cqw 4cqw}
+    .sheet:not(.cur) *{pointer-events:auto}
+    .head,.foot{font-size:2.4cqw}.body{font-size:3cqw;line-height:1.5}
+    .cv h1{font-size:9cqw}.cv .sub{font-size:3.2cqw}.cv .lead{font-size:3.4cqw}.toc{grid-template-columns:repeat(2,1fr)}.toc span{font-size:2.8cqw}.toc small{font-size:2.4cqw}.cv .hint{font-size:2.6cqw}
+    .pr,.hw{grid-template-columns:1fr;grid-template-rows:none}
+    .pr figure,.side,.text,.hw h2,.rules,.ed{grid-column:1;grid-row:auto}
+    .side h2{font-size:6cqw}.side .role,.side table,.pr figcaption,.side .pv,.text,.lk,.rules,.ed,.hw h2{font-size:3cqw}.hw h2{font-size:5.4cqw}
+    .text,.rules{columns:1}
+    .ed{grid-template-columns:1fr}.ed .lk{grid-column:1;grid-row:auto}.ed .cp{font-size:2.4cqw}
   }
+  @media (prefers-reduced-motion:reduce){.track{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
 
-<div class="wrap">
-<main class="letter">
-  <p class="date">Chicago, October 2026</p>
-  <p class="sal">Dear hiring manager,</p>
-
-  <p>I am writing about an AI product manager role. Rather than list qualifications, I would like to show you what I shipped. In the past year I took five AI products from requirements through development to launch, solo. Three of them still run automatically in production every day. All five are attached, and each has a usable online version.</p>
-
-  <p>The first is <button class="att" data-a="1">Lecture Companion<sup>att. 1</sup></button>, a real-time lecture assistant. The bottleneck for asking questions in class is input friction, not model capability, so I compressed a question into one click on a transcript sentence and used multimodal retrieval to fill in whiteboard and formulas. Of 63 marks made, 59 needed zero typing. Retrieval shipped in three stages with zero rollbacks, and a shadow run let me cut ASR cost to one quarter without losing quality.</p>
-
-  <p><button class="att" data-a="2">xhs-threads<sup>att. 2</sup></button> recovers the train of thought behind Xiaohongshu bookmarks. Bookmarking is frequent; organizing almost never happens. I turned organizing into zero-label, proactive archiving: the user only saves, the AI threads, annotates and checks. Positioning came from a survey of four competitor types, and an independent reviewer model gates output quality. Ninety percent of calls run on the light tier, at ¥0.05–0.10 per item.</p>
-
-  <p><button class="att" data-a="3">Nous<sup>att. 3</sup></button> is the one I would most like to talk about. Other bots learn how you talk; this one learns how you decide. A nine-dimension cognitive model drives a message agent that judges whether to reply, drafts in your way, and warns you when you are about to say yes to something you will not do. Behavior prediction went from 49% to 71% once the correction flywheel closed. It runs as a Feishu bot, a Mac floating assistant and a web client, all three in daily use.</p>
-
-  <p><button class="att" data-a="4">JobPilot<sup>att. 4</sup></button> is open source. The job search is blocked by people, not information, so instead of another listings tool it plugs a cognitive model and language samples into personal diagnosis and messaging that sounds like you. All six product trade-offs have a written why, and the engineering holds up: 31 CLI commands, 544 tests, CI and a read-only live demo.</p>
-
-  <p><button class="att" data-a="5">MusiClaw<sup>att. 5</sup></button> turns public ticketing data for Shanghai musical theatre into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution, four content pipelines feeding a real data account, with a fixed review 24 hours after every post. The AI's scope of responsibility is written down in full.</p>
-
-  <p>Across all five I work from data and evidence. The North Star gets its definition first, every model call is logged, and every number in this letter can name its dashboard, its metric and its read date. I confirm which layer a bottleneck lives in before building, ship one layer of change per stage so a problem points at its cause, and treat cost as a product parameter rather than an afterthought.</p>
-
-  <p>For background: I am completing an MA in Computational Social Science (economics track) at the University of Chicago, GPA 4.0, class of 2027, after a BSc in Economics at The Chinese University of Hong Kong. I split my time between Chicago and Shanghai. The products and their case studies are written in Chinese, because that is who they serve; the attachments carry English captions.</p>
-
-  <p>To go deeper on any project, or for the full résumé, email me. Thank you for reading.</p>
-
-  <div class="sig">
-    <p class="nm">Jessie Chen <span>陈亦奇</span></p>
-    <p class="cn"><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="https://github.com/jessieyiqichen">github.com/jessieyiqichen</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a></p>
+<div class="track" id="track">
+<span class="sp"></span>
+<section class="sheet cover" id="s1" data-title="Cover">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>Five AI products, one per sheet</span><span>Sheet 1 of 7</span></div>
+  <div class="body cv">
+    <h1>Jessie Chen <span>陈亦奇</span></h1>
+    <p class="sub">AI product · Chicago / Shanghai · open to opportunities</p>
+    <p class="lead">In the past year I took five AI products from requirements through development to launch, solo. Three of them still run automatically in production every day. Each gets one sheet: the screenshot, what it proves, the numbers, the links. The last sheet is how I work.</p>
+    <ol class="toc"><li><a href="#s2"><img src="../assets/img/lecture-companion.png" alt=""><span><b>1</b> Lecture Companion<small>sheet 2</small></span></a></li><li><a href="#s3"><img src="../assets/img/xhs-threads.png" alt=""><span><b>2</b> xhs-threads<small>sheet 3</small></span></a></li><li><a href="#s4"><img src="../assets/img/nous.png" alt=""><span><b>3</b> Nous<small>sheet 4</small></span></a></li><li><a href="#s5"><img src="../assets/img/job-pilot.png" alt=""><span><b>4</b> JobPilot<small>sheet 5</small></span></a></li><li><a href="#s6"><img src="../assets/img/musiclaw.png" alt=""><span><b>5</b> MusiClaw<small>sheet 6</small></span></a></li></ol>
+    <p class="hint">Slide sideways, or use the arrow keys. Products and case studies are in Chinese; captions are in English.</p>
   </div>
-
-  <div class="encl">
-    <b>Encl.</b>
-    <button data-a="1">1 · Lecture Companion</button> ·
-    <button data-a="2">2 · xhs-threads</button> ·
-    <button data-a="3">3 · Nous</button> ·
-    <button data-a="4">4 · JobPilot</button> ·
-    <button data-a="5">5 · MusiClaw</button>
-    <br>© 2026 Jessie Chen · Hand-written HTML/CSS, no frameworks, no tracking
-  </div>
-</main>
-
-<aside class="tray">
-  <div class="in">
-    <h2><b>Attachments</b> · 5</h2>
-    <p class="sub">Click a name in the letter, or a thumbnail below. Products and case studies are in Chinese.</p>
-    <div class="list" id="list">
-      <button data-a="1"><img src="../assets/img/lecture-companion.png" alt=""><span>1 · Lecture Companion<small>Real-time lecture AI assistant</small></span></button>
-      <button data-a="2"><img src="../assets/img/xhs-threads.png" alt=""><span>2 · xhs-threads<small>Bookmarks, threaded back into thinking</small></span></button>
-      <button data-a="3"><img src="../assets/img/nous.png" alt=""><span>3 · Nous<small>Cognitive-twin message agent</small></span></button>
-      <button data-a="4"><img src="../assets/img/job-pilot.png" alt=""><span>4 · JobPilot<small>AI job-search strategist, open source</small></span></button>
-      <button data-a="5"><img src="../assets/img/musiclaw.png" alt=""><span>5 · MusiClaw<small>Musical-theatre market data platform</small></span></button>
+  <div class="foot"><span>Contents</span><span class="pn">1</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s2" data-title="Lecture Companion">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>Lecture Companion</span><span>Sheet 2 of 7</span></div>
+  <div class="body pr">
+    <figure><button data-z="../assets/img/lecture-companion.png" data-t="Lecture Companion · Transcript with one-click marks; whiteboard and formulas pulled in by retrieval (Chinese)."><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot"></button><figcaption>Fig. 1 · Transcript with one-click marks; whiteboard and formulas pulled in by retrieval (Chinese). Click to enlarge.</figcaption></figure>
+    <div class="side">
+      <h2><b>1</b> Lecture Companion</h2>
+      <p class="role">Real-time lecture AI assistant · solo build</p>
+      <table><tbody><tr><th>Marks made</th><td>63</td></tr><tr><th>Of which zero typing</th><td>59</td></tr><tr><th>Rollout</th><td>3 stages, 0 rollbacks</td></tr><tr><th>ASR cost</th><td>cut to ¼</td></tr></tbody></table>
+      <p class="pv">Proves: interaction design, a metrics system, cost engineering.</p>
     </div>
-    <div class="one" id="one">
-      <div class="hd"><span>Attachment <span id="o-n"></span> · <b id="o-t"></b></span><button id="o-x">All attachments</button></div>
-      <img id="o-img" alt="">
-      <p class="cap" id="o-cap"></p>
-      <dl id="o-dl"></dl>
-      <p class="lk" id="o-lk"></p>
-      <div class="pn"><button id="o-p">← Previous</button><button id="o-nx">Next →</button></div>
+    <div class="text"><p>The bottleneck for asking questions in class is input friction, not model capability. I compressed a question into one click on a transcript sentence, and used multimodal retrieval to fill in whiteboard and formulas. The North Star is after-class review behavior; cost is managed line by line in a usage ledger.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study (Chinese)</a><a href="https://jessieyiqichen.github.io/lc-demo/">Live demo (Chinese)</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">Walkthrough (Chinese)</a></p></div>
+  </div>
+  <div class="foot"><span>Lecture Companion</span><span class="pn">2</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s3" data-title="xhs-threads">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>xhs-threads</span><span>Sheet 3 of 7</span></div>
+  <div class="body pr">
+    <figure><button data-z="../assets/img/xhs-threads.png" data-t="xhs-threads · Bookmarks threaded into topics, each node annotated and checked (Chinese)."><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot"></button><figcaption>Fig. 2 · Bookmarks threaded into topics, each node annotated and checked (Chinese). Click to enlarge.</figcaption></figure>
+    <div class="side">
+      <h2><b>2</b> xhs-threads</h2>
+      <p class="role">Recovering the train of thought behind Xiaohongshu bookmarks · solo build</p>
+      <table><tbody><tr><th>Threads · nodes</th><td>11 · 63</td></tr><tr><th>Read date</th><td>2026-09</td></tr><tr><th>Calls on the light tier</th><td>90%</td></tr><tr><th>Cost per item</th><td>¥0.05–0.10</td></tr></tbody></table>
+      <p class="pv">Proves: differentiated positioning, an AI evaluation system.</p>
+    </div>
+    <div class="text"><p>Bookmarking is frequent; organizing almost never happens. I turned organizing into zero-label, proactive archiving: the user only saves, the AI threads, annotates and checks. Differentiation came from a survey of four competitor types; output quality is gated by an independent reviewer model.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study (Chinese)</a><a href="https://47.94.34.146:8443/demo">Guided demo (Chinese)</a><a href="https://47.94.34.146:8443/try">Try it (Chinese)</a></p></div>
+  </div>
+  <div class="foot"><span>xhs-threads</span><span class="pn">3</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s4" data-title="Nous">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>Nous</span><span>Sheet 4 of 7</span></div>
+  <div class="body pr">
+    <figure><button data-z="../assets/img/nous.png" data-t="Nous · Nine-dimension cognitive profile and a drafted reply with its quality warning (Chinese)."><img src="../assets/img/nous.png" alt="Nous screenshot"></button><figcaption>Fig. 3 · Nine-dimension cognitive profile and a drafted reply with its quality warning (Chinese). Click to enlarge.</figcaption></figure>
+    <div class="side">
+      <h2><b>3</b> Nous</h2>
+      <p class="role">Cognitive-twin message agent · three clients</p>
+      <table><tbody><tr><th>Behavior prediction</th><td>49% → 71%</td></tr><tr><th>Clients live</th><td>3</td></tr><tr><th>Which</th><td>Feishu · Mac · Web</td></tr><tr><th>Correction flywheel</th><td>closed</td></tr></tbody></table>
+      <p class="pv">Proves: the full path from research to product.</p>
+    </div>
+    <div class="text"><p>Other bots learn how you talk; this one learns how you decide. A message agent driven by a nine-dimension cognitive model: it judges whether to reply, drafts in your way, and raises a quality warning when you are about to say yes to something you will not do. Feishu bot, Mac floating assistant and Web, all three in daily production use.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/nous.html">Case study (Chinese)</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Guided demo (Chinese)</a><a href="https://web-ten-omega-72.vercel.app/agent">Vision sandbox (Chinese)</a></p></div>
+  </div>
+  <div class="foot"><span>Nous</span><span class="pn">4</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s5" data-title="JobPilot">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>JobPilot</span><span>Sheet 5 of 7</span></div>
+  <div class="body pr">
+    <figure><button data-z="../assets/img/job-pilot.png" data-t="JobPilot · Scored job list and a personal diagnosis (Chinese)."><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot"></button><figcaption>Fig. 4 · Scored job list and a personal diagnosis (Chinese). Click to enlarge.</figcaption></figure>
+    <div class="side">
+      <h2><b>4</b> JobPilot</h2>
+      <p class="role">AI job-search strategist · solo build · open source</p>
+      <table><tbody><tr><th>Jobs collected</th><td>349</td></tr><tr><th>Of which high-score</th><td>37</td></tr><tr><th>CLI commands · tests</th><td>31 · 544</td></tr><tr><th>Engineering</th><td>CI + read-only demo</td></tr></tbody></table>
+      <p class="pv">Proves: product insight, feature trade-offs, engineering quality.</p>
+    </div>
+    <div class="text"><p>The job search is blocked by people, not information. Existing tools stop at the behavior layer; JobPilot plugs in a cognitive model and language samples to give personal diagnosis and messaging that sounds like you. All six product trade-offs have a written why.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/job-pilot.html">Case study (Chinese)</a><a href="https://jobpilot-demo-delta.vercel.app">Live demo (Chinese)</a><a href="https://github.com/jessieyiqichen/job-pilot">GitHub</a></p></div>
+  </div>
+  <div class="foot"><span>JobPilot</span><span class="pn">5</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s6" data-title="MusiClaw">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>MusiClaw</span><span>Sheet 6 of 7</span></div>
+  <div class="body pr">
+    <figure><button data-z="../assets/img/musiclaw.png" data-t="MusiClaw · Daily seat-map snapshots and cast attribution (Chinese)."><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot"></button><figcaption>Fig. 5 · Daily seat-map snapshots and cast attribution (Chinese). Click to enlarge.</figcaption></figure>
+    <div class="side">
+      <h2><b>5</b> MusiClaw</h2>
+      <p class="role">Shanghai musical-theatre market data platform · solo build</p>
+      <table><tbody><tr><th>Shows snapshotted</th><td>86, daily</td></tr><tr><th>Content pipelines</th><td>4</td></tr><tr><th>Post-publish review</th><td>fixed, 24 h</td></tr><tr><th>Scope of the AI</th><td>documented</td></tr></tbody></table>
+      <p class="pv">Proves: a data product, a content operations loop.</p>
+    </div>
+    <div class="text"><p>Public ticketing data turned into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution analysis, four content pipelines, feeding a real data account. The AI's scope of responsibility is fully documented.</p><p class="lk"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study (Chinese)</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard (Chinese)</a></p></div>
+  </div>
+  <div class="foot"><span>MusiClaw</span><span class="pn">6</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<section class="sheet" id="s7" data-title="How I work">
+  <div class="head"><span>Jessie Chen · 陈亦奇</span><span>How I work</span><span>Sheet 7 of 7</span></div>
+  <div class="body hw">
+    <h2>Product judgment is proven by products that ship.</h2>
+    <ol class="rules">
+      <li><b>Pain point before solution.</b> Before building, confirm which layer the bottleneck lives in: for classroom questions it is input friction, not model capability; for bookmark organizing it is the act of "having to start" itself. Get the layer wrong and no feature fixes it.</li>
+      <li><b>Staged rollout and attribution.</b> Ship in stages, one layer of change per stage, so a problem points at its layer immediately. Multimodal retrieval shipped in three stages, fully merged in two days, zero rollbacks.</li>
+      <li><b>Define the metric before the number.</b> Pick a North Star that reflects real value: marks reviewed after class, not marks made in class. Daily actives by UV, not PV. Any number that enters a report must name its dashboard, its metric and its read date.</li>
+      <li><b>Cost is a product parameter.</b> Every model call is logged line by line and routed to a model tier by task. Before cutting cost, a shadow run proves quality holds. Savings are the result of verification, not the goal.</li>
+    </ol>
+    <div class="ed">
+      <p><b>Now</b> MA in Computational Social Science (economics track), University of Chicago, GPA 4.0, class of 2027.<br><b>Before</b> BSc Economics, The Chinese University of Hong Kong.<br><b>Looking for</b> AI product manager roles, AI products first.</p>
+      <p class="lk"><a href="mailto:jessiechenyiqi@outlook.com">Email</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a><a href="https://github.com/jessieyiqichen">GitHub</a><a href="#s1">Back to the cover</a></p>
+      <p class="cp">© 2026 Jessie Chen · Hand-written HTML/CSS, no frameworks, no tracking</p>
     </div>
   </div>
-</aside>
+  <div class="foot"><span>End</span><span class="pn">7</span><span>jessiechenyiqi@outlook.com</span></div>
+</section>
+<span class="sp"></span>
 </div>
 
-<script type="application/json" id="data">[
- {"t":"Lecture Companion","img":"lecture-companion.png","cap":"Transcript with one-click marks; whiteboard and formulas pulled in by retrieval (Chinese).",
-  "n":[["Marks, zero typing","63 · 59"],["Rollout","3 stages, zero rollbacks"],["ASR cost","cut to one quarter"]],
-  "l":[["Case study (Chinese)","https://jessieyiqichen.github.io/projects/lecture-companion.html"],["Live demo (Chinese)","https://jessieyiqichen.github.io/lc-demo/"],["Walkthrough (Chinese)","https://jessieyiqichen.github.io/lecture-companion-walkthrough/"]]},
- {"t":"xhs-threads","img":"xhs-threads.png","cap":"Bookmarks threaded into topics, each node annotated and checked (Chinese).",
-  "n":[["Threads · nodes","11 · 63 (as of 2026-09)"],["Light-tier calls","90%"],["Cost per item","¥0.05–0.10"]],
-  "l":[["Case study (Chinese)","https://jessieyiqichen.github.io/projects/xhs-threads.html"],["Guided demo (Chinese)","https://47.94.34.146:8443/demo"],["Try it (Chinese)","https://47.94.34.146:8443/try"]]},
- {"t":"Nous","img":"nous.png","cap":"Nine-dimension cognitive profile and a drafted reply with its quality warning (Chinese).",
-  "n":[["Behavior prediction","49% → 71%"],["Clients live","3 · Feishu, Mac, Web"],["Correction flywheel","closed"]],
-  "l":[["Case study (Chinese)","https://jessieyiqichen.github.io/projects/nous.html"],["Guided demo (Chinese)","https://jessieyiqichen.github.io/demos/nous.html"],["Vision sandbox (Chinese)","https://web-ten-omega-72.vercel.app/agent"]]},
- {"t":"JobPilot","img":"job-pilot.png","cap":"Scored job list and a personal diagnosis (Chinese).",
-  "n":[["Jobs collected · high-score","349 · 37 (as of 2026-09)"],["CLI commands · tests","31 · 544"],["Engineering","CI + read-only live demo"]],
-  "l":[["Case study (Chinese)","https://jessieyiqichen.github.io/projects/job-pilot.html"],["Live demo (Chinese)","https://jobpilot-demo-delta.vercel.app"],["GitHub","https://github.com/jessieyiqichen/job-pilot"]]},
- {"t":"MusiClaw","img":"musiclaw.png","cap":"Daily seat-map snapshots and cast attribution (Chinese).",
-  "n":[["Shows snapshotted daily","86"],["Content pipelines","4"],["Post-publish review","fixed, 24h"]],
-  "l":[["Case study (Chinese)","https://jessieyiqichen.github.io/projects/musiclaw.html"],["Dashboard (Chinese)","https://jessieyiqichen.github.io/musiclaw-demo/"]]}
-]</script>
+<dialog id="zoom"><form method="dialog"><button>Close ✕</button></form><img alt=""><p></p></dialog>
+
 <script>
 (function(){
-  let D;try{D=JSON.parse(document.getElementById('data').textContent)}catch(e){console.error('attachment data unreadable',e);return}
-  const $=id=>document.getElementById(id),list=$('list'),one=$('one');
-  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let cur=0;
-  function show(i){
-    if(!D[i-1])return;cur=i;const d=D[i-1];
-    $('o-n').textContent=i;$('o-t').textContent=d.t;$('o-img').src='../assets/img/'+d.img;$('o-img').alt=d.t+' screenshot';$('o-cap').textContent=d.cap;
-    $('o-dl').innerHTML=d.n.map(([k,v])=>'<div><dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd></div>').join('');
-    $('o-lk').innerHTML=d.l.map(([k,u])=>'<a href="'+esc(u)+'">'+esc(k)+'</a>').join('');
-    $('o-p').disabled=i===1;$('o-nx').disabled=i===D.length;
-    list.classList.add('hide');one.classList.add('show');
-    document.querySelectorAll('.letter .att').forEach(b=>b.classList.toggle('on',b.dataset.a==i));
-    if(matchMedia('(max-width:960px)').matches)one.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  function all(){list.classList.remove('hide');one.classList.remove('show');document.querySelectorAll('.letter .att').forEach(b=>b.classList.remove('on'))}
-  document.querySelectorAll('[data-a]').forEach(b=>b.addEventListener('click',()=>show(+b.dataset.a)));
-  $('o-x').onclick=all;$('o-p').onclick=()=>show(cur-1);$('o-nx').onclick=()=>show(cur+1);
-  addEventListener('keydown',e=>{if(!one.classList.contains('show'))return;if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1);if(e.key==='Escape')all()});
+  const track=document.getElementById('track'),sheets=[...track.querySelectorAll('.sheet')],n=sheets.length,dlg=document.getElementById('zoom');
+  const horizontal=()=>matchMedia('(min-width:821px)').matches;
+  const center=s=>s.offsetLeft+s.offsetWidth/2-track.clientWidth/2;
+  const idx=()=>{const c=track.scrollLeft+track.clientWidth/2;let b=0,d=1e9;sheets.forEach((s,i)=>{const x=Math.abs(s.offsetLeft+s.offsetWidth/2-c);if(x<d){d=x;b=i}});return b};
+  const mark=()=>{const i=idx();sheets.forEach((s,k)=>s.classList.toggle('cur',k===i))};
+  const go=i=>{i=Math.max(0,Math.min(n-1,i));if(horizontal())track.scrollTo({left:center(sheets[i])});else sheets[i].scrollIntoView({behavior:'smooth',block:'start'})};
+  track.addEventListener('scroll',()=>requestAnimationFrame(mark),{passive:true});
+  addEventListener('resize',mark);mark();
+  sheets.forEach((s,i)=>s.addEventListener('click',()=>{if(horizontal()&&!s.classList.contains('cur'))go(i)}));
+  let acc=0,lock=false;
+  addEventListener('wheel',e=>{
+    if(!horizontal()||dlg.open)return;
+    if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;
+    e.preventDefault();if(lock)return;acc+=e.deltaY;
+    if(Math.abs(acc)>40){go(idx()+(acc>0?1:-1));acc=0;lock=true;setTimeout(()=>lock=false,650)}
+  },{passive:false});
+  addEventListener('keydown',e=>{
+    if(dlg.open)return;
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(idx()+1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(idx()-1)}
+    if(e.key==='Home')go(0);if(e.key==='End')go(n-1);
+  });
+  document.querySelectorAll('a[href^="#s"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)go(sheets.indexOf(t))}));
+  const img=dlg.querySelector('img'),cap=dlg.querySelector('p');
+  document.querySelectorAll('figure button').forEach(b=>b.addEventListener('click',()=>{img.src=b.dataset.z;cap.textContent=b.dataset.t;dlg.showModal()}));
+  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 })();
 </script>
 </body>
