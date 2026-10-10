@@ -30,6 +30,7 @@
   .note::-webkit-scrollbar{width:4px}.note::-webkit-scrollbar-thumb{background:var(--line);border-radius:2px}
   .todo{opacity:.45;pointer-events:none}
   .todo .thumb{background:repeating-linear-gradient(45deg,#eceae2,#eceae2 8px,#e4e2d9 8px,#e4e2d9 16px)}
+  .concl{max-width:760px;margin:22px 0 0;font-size:14.5px;line-height:1.55;color:#3c4250}.concl b{color:var(--ink)}
   .final{margin-top:56px;padding:22px 24px;border:1px solid var(--ink);background:#fbfaf6;max-width:720px}
   .final b{display:block;margin-bottom:6px}
   footer{margin-top:56px;font:11px var(--mono);color:var(--muted);letter-spacing:.08em}
@@ -39,7 +40,7 @@
 <div class="wrap">
 
 <header>
-  <div class="meta">Design, Build, Ship · Assignment 1 · Progress <span id="progress">24 / 25</span></div>
+  <div class="meta">Design, Build, Ship · Assignment 1 · Progress <span id="progress">25 / 25</span></div>
   <h1>One personal landing page, 25 versions</h1>
   <p>One idea, content frozen, only the form changes. The visitor is a hiring manager for an AI product role. After reading they should understand how I think about and ship products, then open one project or send an email. v01–v10 go wide, v11–v18 narrow to two or three lines and combine them, v19–v25 converge on one line, each version a visible step.</p>
   <div class="origin">
@@ -92,6 +93,8 @@
   </a>
 </div>
 
+<p class="concl"><b>What act 1 found.</b> The versions that held were the ones with real screenshots, a real person and warm, physical materials; dashboards, terminals and abstract effects read as one more AI-made page.</p>
+
 <h2>Act 2 · Narrow <small>v11–v18 · keep two or three lines, start combining</small></h2>
 <div class="grid" id="narrow">
   <a class="card" href="v11/">
@@ -128,6 +131,8 @@
   </a>
 </div>
 
+<p class="concl"><b>What act 2 found.</b> Combinations that looked like software (a window, a spec table, a master–detail list) were dropped; the ones built from paper objects stayed. v18, the person-first letter with the file drawer, became the one line to refine.</p>
+
 <h2>Act 3 · Converge <small>v19–v25 · one line left, each version a visible step</small></h2>
 <div class="grid" id="refine">
   <a class="card" href="v19/">
@@ -154,12 +159,17 @@
     <div class="thumb"><iframe src="v24/index.html" loading="lazy" tabindex="-1" title="v24"></iframe></div>
     <div class="cap"><div class="n">v24</div><div class="t">Hiring for what?</div><div class="note">Changes the visitor's first action. Until v23 the lenses waited on the second screen, so most visitors read the product angle by default. The old headline, five AI products from a blank page to launch, moves to the line beneath. Here the headline itself is the question: are you hiring for product, engineering, or data? Each of the three words is a button in its lens colour; one tap dims the other two, adds a line saying how the page is now filed, files the drawer by that lens, pulls out the product that leads it, and scrolls there; "or just see the five" stays for anyone who does not want to choose. A phone-only version was considered for this slot and dropped: graders see the gallery on a desktop, where it would look the same as v23.</div></div>
   </a>
-  <div class="card todo"><div class="thumb"></div><div class="cap"><div class="n">v25</div><div class="t">—</div></div></div>
+  <a class="card" href="v25/">
+    <div class="thumb"><iframe src="v25/index.html" loading="lazy" tabindex="-1" title="v25"></iframe></div>
+    <div class="cap"><div class="n">v25</div><div class="t">The letter, signed</div><div class="note">Closes the letter the page opens. The top bar repeated my name beside the name card; it is now a letterhead, the date on the left and the links on the right, so the name appears once. The bottom asked "Have questions?"; it is now a sign-off: Yours, my name, the email written large, Résumé and GitHub, and a P.S. that every product links to a demo. From "Dear hiring manager" to the signature the page now reads as one letter. Also fixed for phones: an opened card is one column and nothing scrolls sideways.</div></div>
+  </a>
 </div>
+
+<p class="concl"><b>What act 3 found.</b> Adding one object per version (a board, a binder, a calling card, a scrapbook) improved each part and crowded the page. v22 took them away and kept one material; v23 to v25 refined that page in steps a visitor can see.</p>
 
 <div class="final">
   <b>Final choice</b>
-  Not yet. At v25 this says which line won, which were dropped, and why.
+  v25. It reads as one letter to the person it is for: it opens with "Dear hiring manager", asks what they are hiring for and files the five products by that answer, pulls the one that leads out of the drawer with a guided walk through its screen, and signs off with my name, email and résumé. Its line runs from v12 (person first) and v17 (the file drawer), joined in v18. From the later tries it kept only what helped the reader: the name card (v21), the marker rings and the guided walk (v13, v15), the lenses (v02). Dropped on the way: the board, the binder and the scrapbook, each good alone, together too many materials for one page.
 </div>
 
 <footer>Hand-written HTML / CSS · no frameworks · no tracking · source and commit history on GitHub</footer>
