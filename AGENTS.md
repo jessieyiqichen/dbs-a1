@@ -40,6 +40,7 @@ This assignment questions whether that form is right. It is one candidate, not t
 - Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
 - Act 2 combinations (v11–v18): a combination must change the layout axis of its base version; carry over voice, type, mechanism and material. Swapping one component only (as the first v12 did) reads as the same page.
 - Act 2 combinations must also carry one visual device from act 1 (ink, halftone, physical objects, photos), not only structure and voice; without it the page reads plain.
+- Act 3 refinements (v19–v25) stay on one line and may look alike, but each must change one meaningful decision (hierarchy, what the first screen shows, how a case opens, how much personal content, mobile layout), named in its gallery note. A font or colour change alone is never a version.
 - A version that is dropped stays in the gallery with its verdict and the reason; dropped versions are part of the story.
 - After each version: update its gallery cell, then one commit whose message is that gallery line.
 
