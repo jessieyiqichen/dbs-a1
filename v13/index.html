@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v13 · Scrapbook spread — Jessie Chen</title>
+<title>v13 · Scrapbook spread, work first — Jessie Chen</title>
 <style>
   @font-face{font-family:Hanken;src:url("../assets/fonts/HankenGrotesk.woff2") format("woff2");font-weight:100 900;font-display:swap}
   @font-face{font-family:"Barlow Condensed";src:url("../assets/fonts/BarlowCondensed-SemiBold.woff2") format("woff2");font-weight:600;font-display:swap}
@@ -14,101 +14,108 @@
   body{margin:0;background:var(--table);color:var(--body);font:15px/1.5 var(--sans);overflow:hidden}
   a{color:var(--ink);text-underline-offset:3px}
   .back{position:fixed;top:10px;left:14px;z-index:40;font-size:12px;color:var(--muted);text-decoration:none}
-  .stage{height:100%;display:grid;place-items:center;padding:34px 2.5vw 22px}
-  .book{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(100%,calc((100vh - 70px) * 1.55));aspect-ratio:1.55/1;max-height:calc(100vh - 56px);filter:drop-shadow(0 22px 36px rgba(0,0,0,.25))}
+  .stage{height:100%;display:grid;place-items:center;padding:30px 2vw 18px}
+  .book{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(100%,calc((100vh - 56px) * 1.5));aspect-ratio:1.5/1;max-height:calc(100vh - 48px);filter:drop-shadow(0 22px 36px rgba(0,0,0,.25))}
   .pg{position:relative;background:var(--kraft);overflow:hidden}
   .pg::before{content:"";position:absolute;inset:0;opacity:.55;mix-blend-mode:multiply;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   .pg.l{border-radius:10px 2px 2px 10px;box-shadow:inset -30px 0 40px -24px rgba(0,0,0,.35)}
   .pg.r{border-radius:2px 10px 10px 2px;box-shadow:inset 30px 0 40px -24px rgba(0,0,0,.35)}
-  .pg.l .in{position:absolute;inset:6% 9% 6% 7%;display:flex;flex-direction:column}
-  .label{align-self:flex-start;background:var(--paper);padding:6px 12px;box-shadow:1px 2px 0 rgba(0,0,0,.14);transform:rotate(-1.2deg)}
-  .label b{font:600 clamp(20px,2.2vw,30px)/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
-  .label b span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:.55em;letter-spacing:.1em;color:var(--muted);margin-left:8px;text-transform:none}
-  .top{display:flex;align-items:flex-end;justify-content:space-between}
-  .mj{width:clamp(54px,6vw,84px);margin:-10px -4px -6px 0;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));transform:rotate(4deg)}
-  .lead{margin:12px 0 0;font-size:clamp(13px,1.15vw,15.5px);color:var(--ink);max-width:40ch}
-  .route{position:relative;flex:1;min-height:0;margin:3% 0}
-  .ph{position:absolute;margin:0;background:var(--paper);padding:5px 5px 20px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 6px 14px rgba(0,0,0,.16)}
-  .ph img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
-  .ph figcaption{position:absolute;left:6px;right:6px;bottom:3px;font:600 11px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ph .tape,.pr .tape{position:absolute;left:50%;top:-9px;width:56px;height:18px;margin-left:-28px;background:var(--tape);border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);transform:rotate(-3deg);z-index:2}
-  .route svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-  .route svg path{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:3 5;opacity:.55;vector-effect:non-scaling-stroke}
-  .foot{font-size:clamp(12px,1vw,13.5px);color:var(--ink)}
-  .foot p{margin:0 0 6px}
-  .foot nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:600}
-  .pg.r .in{position:absolute;inset:6% 6% 5% 9%}
-  .pg.r .hd{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--ink);display:flex;justify-content:space-between}
-  .pr{all:unset;position:absolute;cursor:zoom-in;background:var(--paper);padding:6px 6px 24px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 8px 18px rgba(0,0,0,.18);transform:rotate(var(--r));transition:transform .25s}
-  .pr:hover{transform:rotate(0) scale(1.03);z-index:5}
-  .pr img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
-  .pr .cap{position:absolute;left:8px;right:8px;bottom:5px;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pr .mark{position:absolute;inset:-7%;border:3px solid var(--marker);border-radius:12px;opacity:0;transform:rotate(-2deg) scale(1.05);transition:opacity .25s,transform .35s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
-  .pr.on .mark{opacity:1;transform:rotate(-2deg)}
-  .pr:focus-visible{outline:2px solid var(--marker);outline-offset:4px}
-  .hint{position:absolute;right:6%;bottom:3%;margin:0;font-size:12px;color:var(--ink);opacity:.7}
+  .in{position:absolute;inset:4.5% 7% 4% 6%;display:flex;flex-direction:column;min-height:0}
+  .pg.r .in{inset:4.5% 5% 4% 8%}
+  .tape{position:absolute;left:50%;top:-9px;width:64px;height:18px;margin-left:-32px;background:var(--tape);border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);transform:rotate(-3deg);z-index:2}
+  .hd{display:flex;justify-content:space-between;margin:0 0 10px;font:600 12.5px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--ink)}
 
+  /* left page: the featured product */
+  .big{position:relative;background:var(--paper);padding:8px 8px 10px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 10px 22px rgba(0,0,0,.2);transform:rotate(-.8deg);cursor:zoom-in}
+  .big .view{position:relative;overflow:hidden}
+  .big img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
+  .spot{position:absolute;border-radius:4px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1);pointer-events:none}
+  .view.on .spot{opacity:1}
+  .fx{transition:opacity .25s}.swap .fx{opacity:0}
+  .ti{display:flex;align-items:baseline;gap:12px;margin:14px 0 2px}
+  .ti h1{margin:0;font:600 clamp(26px,2.8vw,40px)/1 var(--cond);text-transform:uppercase;color:var(--ink)}
+  .ti span{font-size:12.5px;color:var(--muted)}
+  .q{margin:2px 0 8px;font:600 clamp(16px,1.5vw,21px)/1.12 var(--cond);text-transform:uppercase;color:var(--marker)}
+  .notes{list-style:none;margin:0 0 6px;padding:0}
+  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:20px 1fr;gap:8px;padding:3px 6px;border-radius:6px;font-size:clamp(12px,1vw,13.5px);line-height:1.4;color:var(--ink)}
+  .notes button:hover,.notes button.on{background:rgba(251,248,240,.75)}
+  .notes .k{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--marker);color:var(--marker);font-size:10.5px;line-height:15px;text-align:center}
+  .notes button.on .k{background:var(--marker);color:#fff}
+  .foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+  .nums{display:flex;gap:16px}
+  .nums div{border-top:2px solid var(--ink);padding-top:3px}
+  .nums b{display:block;font:600 clamp(18px,1.7vw,24px)/1 var(--cond);color:var(--ink)}
+  .nums span{display:block;font-size:11px;color:var(--muted);max-width:14ch;line-height:1.25}
+  .lk{display:flex;flex-direction:column;align-items:flex-end;gap:2px;font-size:12.5px;font-weight:600}
+
+  /* right page: the other four, then me */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:6% 5%;padding:2% 2% 0}
+  .pr{all:unset;position:relative;cursor:pointer;background:var(--paper);padding:5px 5px 22px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 8px 16px rgba(0,0,0,.16);transform:rotate(var(--r));transition:transform .25s}
+  .pr:hover,.pr:focus-visible{transform:rotate(0) scale(1.04);z-index:5}
+  .pr:focus-visible{outline:2px solid var(--marker);outline-offset:3px}
+  .pr img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
+  .pr .cap{position:absolute;left:7px;right:7px;bottom:4px;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pb{position:absolute;width:22%;right:-4%;bottom:-30%;background:var(--paper);padding:4px 4px 16px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 6px 12px rgba(0,0,0,.16);transform:rotate(6deg);z-index:6}
+  .pb img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+  .pb span{position:absolute;left:5px;right:5px;bottom:2px;font:600 9.5px var(--cond);text-transform:uppercase;color:var(--ink);white-space:nowrap}
+  .hint{margin:10px 0 0;font-size:11.5px;color:var(--ink);opacity:.7}
+  .me{margin-top:auto;border-top:1px dashed rgba(29,26,22,.35);padding-top:10px}
+  .me .row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .me .label{white-space:nowrap;background:var(--paper);padding:4px 10px;box-shadow:1px 2px 0 rgba(0,0,0,.14);transform:rotate(-1deg);font:600 18px/1 var(--cond);text-transform:uppercase;color:var(--ink)}
+  .me .label span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:12px;letter-spacing:.1em;color:var(--muted);margin-left:6px;text-transform:none}
+  .me .mj{width:44px}
+  .me .row p{margin:0;font-size:12.5px;color:var(--ink);line-height:1.35}
+  .strip{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:8px}
+  .strip figure{margin:0;background:var(--paper);padding:3px 3px 13px;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.18)}
+  .strip figure:nth-child(odd){transform:rotate(-2deg)}.strip figure:nth-child(even){transform:rotate(2deg)}
+  .strip img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+  .strip figcaption{position:absolute;left:3px;right:3px;bottom:1px;font:600 9px var(--cond);text-transform:uppercase;color:var(--ink);white-space:nowrap;overflow:hidden}
+  .me nav{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;font-weight:600}
+  .me .edu{margin:0 0 6px;font-size:11.5px;color:var(--ink)}
+
+  .flyer{position:fixed;z-index:30;background:var(--paper);padding:6px;box-shadow:0 20px 40px rgba(0,0,0,.35);pointer-events:none}
+  .flyer img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
   .loupe{position:fixed;z-index:20;width:200px;height:200px;border-radius:50%;pointer-events:none;border:6px solid #1c1c1b;box-shadow:0 12px 30px rgba(0,0,0,.35);background-repeat:no-repeat;background-color:#fff;opacity:0;transform:scale(.8);transition:opacity .15s,transform .15s}
   .loupe.on{opacity:1;transform:none}
 
-  .card{position:absolute;z-index:15;top:4%;bottom:4%;left:5%;right:5%;background:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,.18),0 18px 40px rgba(0,0,0,.25);padding:20px 22px;overflow:auto;transform:translateX(-12%) rotate(-1deg);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.3,.7,.2,1),opacity .3s}
-  body.open .card{transform:rotate(-.4deg);opacity:1;pointer-events:auto}
-  .card .x{all:unset;cursor:pointer;position:absolute;top:12px;right:14px;font-size:13px;color:var(--muted)}
-  .card .n{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--marker)}
-  .card h2{margin:2px 0 2px;font:600 30px/1 var(--cond);text-transform:uppercase;color:var(--ink)}
-  .card .role{margin:0 0 10px;font-size:13px;color:var(--muted)}
-  .card q{display:block;margin:0 0 12px;font:600 21px/1.1 var(--cond);text-transform:uppercase;color:var(--ink);quotes:"“" "”"}
-  .view{position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.15);margin:0 0 8px;cursor:pointer}
-  .view img{display:block;width:100%}
-  .spot{position:absolute;border-radius:4px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1);pointer-events:none}
-  .view.on .spot{opacity:1}
-  .notes{list-style:none;margin:0 0 10px;padding:0}
-  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr;gap:10px;padding:6px 8px;border-radius:8px;font-size:13.5px;line-height:1.45}
-  .notes button:hover,.notes button.on{background:#efe9dc;color:var(--ink)}
-  .notes .k{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--marker);color:var(--marker);font-size:11px;line-height:17px;text-align:center}
-  .notes button.on .k{background:var(--marker);color:#fff}
-  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 10px}
-  .nums div{border-top:2px solid var(--ink);padding-top:5px}
-  .nums b{display:block;font:600 22px/1 var(--cond);color:var(--ink)}
-  .nums span{display:block;font-size:11.5px;line-height:1.3;color:var(--muted);margin-top:3px}
-  .lk a{margin-right:12px;font-size:13.5px}
-
-  @media (prefers-reduced-motion:reduce){.pr,.pr .mark,.card,.spot,.loupe{transition:none}}
-  @media (max-width:900px){body{overflow:auto}.stage{display:block;padding:44px 12px}.book{grid-template-columns:1fr;aspect-ratio:auto;max-height:none;width:100%}
-    .pg{min-height:640px}.pg.l,.pg.r{border-radius:10px;box-shadow:none;margin-bottom:12px}.card{position:fixed;inset:auto 8px 8px 8px;top:auto;width:auto;max-height:80vh}.loupe{display:none}}
+  @media (prefers-reduced-motion:reduce){.pr,.spot,.loupe,.fx{transition:none}}
+  @media (max-width:900px){body{overflow:auto}.stage{display:block;padding:44px 12px}.book{grid-template-columns:1fr;aspect-ratio:auto;max-height:none;width:100%}.pg{min-height:auto}.in{position:static;padding:18px}.pg.l,.pg.r{border-radius:10px;box-shadow:none;margin-bottom:12px}.loupe{display:none}.pb{display:none}}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
 <div class="stage">
-  <div class="book" id="book">
-    <section class="pg l" aria-label="About me">
-      <div class="in">
-        <div class="top"><div class="label"><b>Jessie Chen<span>陈亦奇</span></b></div><img class="mj" src="../assets/img/jessie-wave.png" alt="Jessie’s memoji, waving"></div>
-        <p class="lead">I build AI products and ship them on my own: five in the past year, three still running every day. This side is how I got here; the other side is the work.</p>
-        <div class="route">
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 26 C 24 50, 34 56, 46 46 S 60 10, 68 18"/></svg>
-          <figure class="ph" style="left:0;top:4%;width:24%;transform:rotate(-3deg)"><span class="tape"></span><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night"><figcaption>Wuhan, born</figcaption></figure>
-          <figure class="ph" style="left:16%;top:44%;width:16%;transform:rotate(5deg);z-index:2"><span class="tape"></span><img src="../assets/photos/childhood-2005.jpg" alt="Christmas 2005 in Wuhan"><figcaption>2005, Wuhan</figcaption></figure>
-          <figure class="ph" style="left:34%;top:30%;width:24%;transform:rotate(2deg)"><span class="tape"></span><img src="../assets/photos/hong-kong.jpg" alt="Victoria Harbour at night"><figcaption>Hong Kong, 4 years</figcaption></figure>
-          <figure class="ph" style="left:56%;top:0;width:24%;transform:rotate(-1.5deg)"><span class="tape"></span><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall, University of Chicago"><figcaption>Chicago, now</figcaption></figure>
-          <figure class="ph" style="left:62%;top:50%;width:20%;transform:rotate(3deg)"><span class="tape"></span><img src="../assets/photos/cat-laptop.jpg" alt="A cat beside a laptop"><figcaption>Titi</figcaption></figure>
-          <figure class="ph" style="left:82%;top:40%;width:18%;transform:rotate(-4deg)"><span class="tape"></span><img src="../assets/photos/dog-flowers.jpg" alt="A small fluffy dog in front of flowers"><figcaption>Damai</figcaption></figure>
+  <div class="book">
+    <section class="pg l" aria-label="The open product">
+      <div class="in" id="feat">
+        <p class="hd"><span id="f-n"></span><span>screen in Chinese · hover to look closer</span></p>
+        <div class="big" id="big"><span class="tape"></span><div class="view" id="view"><img id="f-img" alt=""><span class="spot" id="spot"></span></div></div>
+        <div class="fx">
+          <div class="ti"><h1 id="f-t"></h1><span id="f-r"></span></div>
+          <p class="q" id="f-q"></p>
+          <ol class="notes" id="f-notes"></ol>
         </div>
-        <div class="foot">
-          <p>Economics at The Chinese University of Hong Kong; a summer product internship in Shanghai; MA in Computational Social Science at the University of Chicago, GPA 4.0, class of 2027. Looking for AI product manager roles.</p>
+        <div class="foot fx"><div class="nums" id="f-nums"></div><div class="lk" id="f-lk"></div></div>
+      </div>
+    </section>
+    <section class="pg r" aria-label="The other four, and me">
+      <div class="in">
+        <p class="hd"><span>The other four · click one to open it</span><span>five AI products, shipped solo</span></p>
+        <div class="grid" id="grid"></div>
+        <div class="me">
+          <div class="row"><span class="label">Jessie Chen<span>陈亦奇</span></span><img class="mj" src="../assets/img/jessie-wave.png" alt="Jessie’s memoji, waving"><p>Five in the past year, on my own; three still run every day.</p></div>
+          <div class="strip">
+            <figure><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night"><figcaption>Wuhan</figcaption></figure>
+            <figure><img src="../assets/photos/childhood-2005.jpg" alt="Christmas 2005 in Wuhan"><figcaption>2005</figcaption></figure>
+            <figure><img src="../assets/photos/hong-kong.jpg" alt="Victoria Harbour"><figcaption>Hong Kong</figcaption></figure>
+            <figure><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall, University of Chicago"><figcaption>Chicago</figcaption></figure>
+            <figure><img src="../assets/photos/cat-laptop.jpg" alt="Titi the cat beside a laptop"><figcaption>Titi</figcaption></figure>
+            <figure><img src="../assets/photos/dog-flowers.jpg" alt="Damai the dog"><figcaption>Damai</figcaption></figure>
+          </div>
+          <p class="edu">Economics at CUHK; a summer product internship in Shanghai; MA Computational Social Science, University of Chicago, GPA 4.0, class of 2027.</p>
           <nav><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a><a href="https://github.com/jessieyiqichen">GitHub</a></nav>
         </div>
       </div>
-      <aside class="card" id="card" aria-live="polite"></aside>
-    </section>
-    <section class="pg r" aria-label="The five products">
-      <div class="in">
-        <p class="hd"><span>The five, as they run today</span><span>screens in Chinese</span></p>
-        <button class="pr" data-i="0" style="--r:-2.2deg" aria-label="Lecture Companion"><span class="tape"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span class="cap">1 · Lecture Companion</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="1" style="--r:1.6deg" aria-label="xhs-threads"><span class="tape"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span class="cap">2 · xhs-threads</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="2" style="--r:-1.2deg" aria-label="Nous"><span class="tape"></span><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span class="cap">3 · Nous</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="3" style="--r:2.0deg" aria-label="JobPilot"><span class="tape"></span><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span class="cap">4 · JobPilot</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="4" style="--r:-1.6deg" aria-label="MusiClaw"><span class="tape"></span><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span class="cap">5 · MusiClaw</span><span class="mark" aria-hidden="true"></span></button>
-      </div>
-      <figure class="ph pb" style="position:absolute;left:3%;top:68%;width:23%;transform:rotate(-5deg)"><span class="tape"></span><img src="../assets/photos/playbills.jpg" alt="A stack of musical playbills"><figcaption>the habit behind no. 5</figcaption></figure>
-      <p class="hint">Hover a print to look closer; click to pick it.</p>
     </section>
   </div>
 </div>
@@ -118,36 +125,47 @@
 <script>
 (function(){
   let D;try{D=JSON.parse(document.getElementById('data').textContent)}catch(e){console.error('product data unreadable',e);return}
-  const body=document.body,card=document.getElementById('card'),loupe=document.getElementById('loupe'),prs=[...document.querySelectorAll('.pr')];
-  const POS=[[0,9,47],[50,7,47],[3,40,46],[52,38,46],[26,68,47]];
-  prs.forEach((p,i)=>{const [l,t,w]=POS[i];Object.assign(p.style,{left:l+'%',top:t+'%',width:w+'%'})});
+  const $=id=>document.getElementById(id),feat=$('feat'),grid=$('grid'),view=$('view'),spot=$('spot'),loupe=$('loupe');
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let cur=-1,k=-1;
-  prs.forEach(p=>{
-    p.addEventListener('mousemove',e=>{
-      const im=p.querySelector('img'),r=im.getBoundingClientRect(),Z=2.6,R=100,ar=(im.naturalWidth/im.naturalHeight)||1.6;
-      let dw,dh;if(r.height*ar>=r.width){dh=r.height;dw=r.height*ar}else{dw=r.width;dh=r.width/ar}
-      const mx=e.clientX-r.left,my=e.clientY-r.top;
-      loupe.style.backgroundImage='url("'+im.currentSrc+'")';loupe.style.backgroundSize=(dw*Z)+'px '+(dh*Z)+'px';
-      loupe.style.backgroundPosition=(R-mx*Z)+'px '+(R-my*Z)+'px';loupe.style.left=(e.clientX-R)+'px';loupe.style.top=(e.clientY-R)+'px';loupe.classList.add('on');
-    });
-    p.addEventListener('mouseleave',()=>loupe.classList.remove('on'));
-  });
-  function light(j){const v=card.querySelector('.view'),d=D[cur];if(!v||!d||!d.boxes[j])return;k=j;const b=d.boxes[j],s=v.querySelector('.spot');Object.assign(s.style,{left:b[0]+'%',top:b[1]+'%',width:b[2]+'%',height:b[3]+'%'});v.classList.add('on');card.querySelectorAll('.notes button').forEach((x,n)=>x.classList.toggle('on',n===j))}
-  function pick(i){
-    const d=D[i];if(!d)return;cur=i;prs.forEach((p,n)=>p.classList.toggle('on',n===i));
-    card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">print '+(i+1)+' of 5</p><h2>'+esc(d.t)+'</h2><p class="role">'+esc(d.role)+' · solo build</p><q>'+esc(d.q)+'</q>'+
-      '<div class="view"><img src="../assets/img/'+d.img+'.png" alt="'+esc(d.t)+' screenshot, in Chinese"><span class="spot"></span></div>'+
-      '<ol class="notes">'+d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="k">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('')+'</ol>'+
-      '<div class="nums">'+d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('')+'</div>'+
-      '<p class="lk">'+d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('')+'</p>';
-    body.classList.add('open');card.scrollTop=0;
+  const ROT=[-1.8,1.4,1.6,-1.2];let cur=0,k=-1;
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function light(j){const b=D[cur].boxes[j];if(!b)return;k=j;Object.assign(spot.style,{left:b[0]+'%',top:b[1]+'%',width:b[2]+'%',height:b[3]+'%'});view.classList.add('on');$('f-notes').querySelectorAll('button').forEach((x,n)=>x.classList.toggle('on',n===j))}
+  function dark(){k=-1;view.classList.remove('on');$('f-notes').querySelectorAll('button').forEach(x=>x.classList.remove('on'))}
+  function fill(){
+    const d=D[cur];
+    $('f-n').textContent='No. '+(cur+1)+' of 5';$('f-img').src='../assets/img/'+d.img+'.png';$('f-img').alt=d.t+' screenshot, in Chinese';
+    $('f-t').textContent=d.t;$('f-r').textContent=d.role;$('f-q').textContent='“'+d.q+'”';
+    $('f-notes').innerHTML=d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="k">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('');
+    $('f-nums').innerHTML=d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('');
+    $('f-lk').innerHTML=d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('');
+    dark();
+    grid.innerHTML=D.map((x,i)=>i===cur?'':'<button class="pr" data-i="'+i+'" style="--r:'+ROT[(i+4-cur)%4]+'deg"><span class="tape"></span><img src="../assets/img/'+x.img+'.png" alt="'+esc(x.t)+' screenshot"><span class="cap">'+(i+1)+' · '+esc(x.t)+'</span>'+(i===4?'<span class="pb"><img src="../assets/photos/playbills.jpg" alt="Musical playbills"><span>why no. 5</span></span>':'')+'</button>').join('');
   }
-  function close(){body.classList.remove('open');prs.forEach(p=>p.classList.remove('on'));cur=-1}
-  prs.forEach((p,i)=>p.addEventListener('click',()=>{if(cur===i)close();else pick(i)}));
-  card.addEventListener('click',e=>{if(e.target.closest('[data-x]'))return close();const b=e.target.closest('.notes button');if(b)return light(+b.dataset.j);if(e.target.closest('.view'))light((k+1)%3)});
-  card.addEventListener('mouseover',e=>{const b=e.target.closest('.notes button');if(b)light(+b.dataset.j)});
-  addEventListener('keydown',e=>{if(e.key==='Escape')close();if(cur<0)return;if(e.key==='ArrowRight')pick((cur+1)%5);if(e.key==='ArrowLeft')pick((cur+4)%5)});
+  function open(i,from){
+    if(i===cur||!D[i])return;
+    if(reduce||!from){cur=i;return fill()}
+    const a=from.querySelector('img').getBoundingClientRect(),b=view.getBoundingClientRect();
+    const f=document.createElement('div');f.className='flyer';f.innerHTML='<img src="../assets/img/'+D[i].img+'.png" alt="">';
+    Object.assign(f.style,{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px'});document.body.appendChild(f);
+    from.style.visibility='hidden';feat.classList.add('swap');
+    f.animate([{left:a.left+'px',top:a.top+'px',width:a.width+'px',height:a.height+'px',transform:'rotate(3deg)'},
+               {left:(a.left+b.left)/2+'px',top:Math.min(a.top,b.top)-40+'px',width:(a.width+b.width)/2+'px',height:(a.height+b.height)/2+'px',transform:'rotate(-6deg)',offset:.5},
+               {left:b.left+'px',top:b.top+'px',width:b.width+'px',height:b.height+'px',transform:'rotate(-.8deg)'}],{duration:650,easing:'cubic-bezier(.3,.7,.2,1)'})
+     .onfinish=()=>{cur=i;fill();feat.classList.remove('swap');f.remove()};
+  }
+  grid.addEventListener('click',e=>{const b=e.target.closest('.pr');if(b)open(+b.dataset.i,b)});
+  $('f-notes').addEventListener('mouseover',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
+  $('f-notes').addEventListener('click',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
+  $('f-notes').addEventListener('focusin',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
+  $('f-notes').addEventListener('mouseleave',dark);
+  function lens(e,im){const r=im.getBoundingClientRect(),Z=2.4,R=100,ar=(im.naturalWidth/im.naturalHeight)||1.6;let dw,dh;if(r.height*ar>=r.width){dh=r.height;dw=r.height*ar}else{dw=r.width;dh=r.width/ar}
+    loupe.style.backgroundImage='url("'+im.currentSrc+'")';loupe.style.backgroundSize=(dw*Z)+'px '+(dh*Z)+'px';loupe.style.backgroundPosition=(R-(e.clientX-r.left)*Z)+'px '+(R-(e.clientY-r.top)*Z)+'px';
+    loupe.style.left=(e.clientX-R)+'px';loupe.style.top=(e.clientY-R)+'px';loupe.classList.add('on')}
+  view.addEventListener('mousemove',e=>{if(!view.classList.contains('on'))lens(e,$('f-img'))});
+  view.addEventListener('mouseleave',()=>loupe.classList.remove('on'));
+  $('big').addEventListener('click',()=>{loupe.classList.remove('on');light((k+1)%3)});
+  addEventListener('keydown',e=>{if(e.key==='ArrowRight')open((cur+1)%5);if(e.key==='ArrowLeft')open((cur+4)%5)});
+  fill();
 })();
 </script>
 </body>
