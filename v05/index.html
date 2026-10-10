@@ -18,7 +18,7 @@
 
   .vp{position:fixed;inset:0;cursor:grab;background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);background-size:22px 22px}
   .vp.drag{cursor:grabbing}
-  .world{position:absolute;left:0;top:0;width:2400px;height:1500px;transform-origin:0 0;will-change:transform}
+  .world{position:absolute;left:0;top:0;width:2400px;height:1300px;transform-origin:0 0;will-change:transform}
   svg.wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
   svg.wires path{fill:none;stroke:var(--wire);stroke-width:1.5}
   svg.wires path.flow{stroke:var(--amber);stroke-width:2;stroke-dasharray:2 10;stroke-linecap:round;animation:flow 1.6s linear infinite}
@@ -123,7 +123,7 @@
   <section class="node rule on" data-rule="metric" style="left:520px;top:540px"><div class="hd"><b>Rule 3</b><span class="sw"></span></div><div class="bd"><b>Metric before number</b><p>Every number names its dashboard, metric and read date.</p></div><span class="port in"></span><span class="port out"></span></section>
   <section class="node rule on" data-rule="cost" style="left:520px;top:740px"><div class="hd"><b>Rule 4</b><span class="sw"></span></div><div class="bd"><b>Cost is a product parameter</b><p>Every call logged; a shadow run proves quality before cost is cut.</p></div><span class="port in"></span><span class="port out"></span></section>
 
-  <section class="node proj" id="p1" data-rules="pain stage metric cost" style="left:1000px;top:60px">
+  <section class="node proj" id="p1" data-rules="pain stage metric cost" style="left:1000px;top:30px">
     <div class="hd"><b>Project</b><span>prj_lecture_companion</span></div>
     <div class="bd">
       <h2>Lecture Companion</h2><div class="sub">real-time lecture AI assistant · solo build</div>
@@ -136,7 +136,7 @@
     <span class="port in"></span>
   </section>
 
-  <section class="node proj" id="p2" data-rules="pain metric cost" style="left:1000px;top:400px">
+  <section class="node proj" id="p2" data-rules="pain metric cost" style="left:1000px;top:430px">
     <div class="hd"><b>Project</b><span>prj_xhs_threads</span></div>
     <div class="bd">
       <h2>xhs-threads</h2><div class="sub">thought threads from Xiaohongshu bookmarks · solo build</div>
@@ -149,7 +149,7 @@
     <span class="port in"></span>
   </section>
 
-  <section class="node proj" id="p3" data-rules="pain metric" style="left:1000px;top:720px">
+  <section class="node proj" id="p3" data-rules="pain metric" style="left:1000px;top:830px">
     <div class="hd"><b>Project</b><span>prj_nous</span></div>
     <div class="bd">
       <h2>Nous</h2><div class="sub">cognitive-twin message agent · three clients</div>
@@ -162,7 +162,7 @@
     <span class="port in"></span>
   </section>
 
-  <section class="node proj" id="p4" data-rules="pain stage" style="left:1400px;top:240px">
+  <section class="node proj" id="p4" data-rules="pain stage" style="left:1400px;top:230px">
     <div class="hd"><b>Project</b><span>prj_jobpilot</span></div>
     <div class="bd">
       <h2>JobPilot</h2><div class="sub">AI job-search strategist · open source</div>
@@ -175,7 +175,7 @@
     <span class="port in"></span>
   </section>
 
-  <section class="node proj" id="p5" data-rules="metric cost stage" style="left:1400px;top:600px">
+  <section class="node proj" id="p5" data-rules="metric cost stage" style="left:1400px;top:640px">
     <div class="hd"><b>Project</b><span>prj_musiclaw</span></div>
     <div class="bd">
       <h2>MusiClaw</h2><div class="sub">Shanghai musical-theatre market data · solo build</div>
@@ -188,7 +188,7 @@
     <span class="port in"></span>
   </section>
 
-  <section class="node out" id="out" style="left:1860px;top:440px">
+  <section class="node out" id="out" style="left:1860px;top:470px">
     <div class="hd"><b>Output</b><span>out_contact</span></div>
     <div class="bd">
       <h2>Talk to me.</h2>
@@ -240,7 +240,7 @@
   /* pan + zoom */
   let x=0,y=0,scale=1,dragging=false,sx=0,sy=0,moved=false;
   function apply(){ world.style.transform=`translate(${x}px,${y}px) scale(${scale})`; }
-  function fit(){ if(mobile()) return; const W=innerWidth,H=innerHeight; scale=Math.min(1,Math.max(.55,H/1480)); x=Math.max(24,(W-2400*scale)/2); y=Math.max(16,(H-1500*scale)/2); apply(); draw(); }
+  function fit(){ if(mobile()) return; const W=innerWidth,H=innerHeight; scale=Math.min(1,Math.max(.55,H/1300)); x=Math.max(24,(W-2400*scale)/2); y=Math.max(16,(H-1300*scale)/2); apply(); draw(); }
   vp.addEventListener('pointerdown',e=>{ if(mobile()||e.target.closest('a,.tg,.node.rule'))return; dragging=true;moved=false;sx=e.clientX-x;sy=e.clientY-y;vp.classList.add('drag');vp.setPointerCapture(e.pointerId); });
   vp.addEventListener('pointermove',e=>{ if(!dragging)return; x=e.clientX-sx;y=e.clientY-sy;moved=true;apply(); });
   vp.addEventListener('pointerup',()=>{dragging=false;vp.classList.remove('drag');});
