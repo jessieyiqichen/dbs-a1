@@ -36,3 +36,4 @@
 - 我说"可以多说一点关于我自己"。Claude 从简历和学术 CV 里取事实（港中文、新亚、足球经理、女篮、Toastmasters、Droi 实习 300K UV、研究方向、奖学金、语言）加了一块"Hong Kong first, then Shanghai"板。社团那几条来自我电脑里证书截图的文件名，Claude 标注了要我确认。
 - 宠物名字：黄猫 Titi，睡着的猫 Pupu，黄狗 Damai，白狗 Dami。已写进 v07 的说明文字。Pupu 和 Dami 的照片仍未落盘，等用户拖进 assets/photos。
 - 我说 sticker 太多显得乱、别把文字大量放进 sticker。Claude 删掉全部便利贴和大部分章、标签，数字收回正文和图注，每块板只留照片、一两张说明纸和截图。
+- 三张图最终由我从"照片"导出到 assets/photos（Claude 读不了照片库，批量导出也被安全审查拦下）。Pupu、Dami 进了 Off hours，正面 Memoji 进了 Say hello。
