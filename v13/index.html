@@ -24,6 +24,8 @@
   .label{align-self:flex-start;background:var(--paper);padding:6px 12px;box-shadow:1px 2px 0 rgba(0,0,0,.14);transform:rotate(-1.2deg)}
   .label b{font:600 clamp(20px,2.2vw,30px)/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
   .label b span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:.55em;letter-spacing:.1em;color:var(--muted);margin-left:8px;text-transform:none}
+  .top{display:flex;align-items:flex-end;justify-content:space-between}
+  .mj{width:clamp(54px,6vw,84px);margin:-10px -4px -6px 0;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));transform:rotate(4deg)}
   .lead{margin:12px 0 0;font-size:clamp(13px,1.15vw,15.5px);color:var(--ink);max-width:40ch}
   .route{position:relative;flex:1;min-height:0;margin:3% 0}
   .ph{position:absolute;margin:0;background:var(--paper);padding:5px 5px 20px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 6px 14px rgba(0,0,0,.16)}
@@ -82,14 +84,16 @@
   <div class="book" id="book">
     <section class="pg l" aria-label="About me">
       <div class="in">
-        <div class="label"><b>Jessie Chen<span>陈亦奇</span></b></div>
+        <div class="top"><div class="label"><b>Jessie Chen<span>陈亦奇</span></b></div><img class="mj" src="../assets/img/jessie-wave.png" alt="Jessie’s memoji, waving"></div>
         <p class="lead">I build AI products and ship them on my own: five in the past year, three still running every day. This side is how I got here; the other side is the work.</p>
         <div class="route">
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M14 30 C 30 10, 40 60, 55 36 S 75 70, 84 52"/></svg>
-          <figure class="ph" style="left:0;top:6%;width:27%;transform:rotate(-3deg)"><span class="tape"></span><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night"><figcaption>Wuhan, born</figcaption></figure>
-          <figure class="ph" style="left:24%;top:42%;width:27%;transform:rotate(2deg)"><span class="tape"></span><img src="../assets/photos/hong-kong.jpg" alt="Victoria Harbour at night"><figcaption>Hong Kong, 4 years</figcaption></figure>
-          <figure class="ph" style="left:49%;top:4%;width:27%;transform:rotate(-1.5deg)"><span class="tape"></span><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall, University of Chicago"><figcaption>Chicago, now</figcaption></figure>
-          <figure class="ph" style="left:71%;top:44%;width:26%;transform:rotate(3deg)"><span class="tape"></span><img src="../assets/photos/cat-laptop.jpg" alt="A cat beside a laptop"><figcaption>Titi, supervising</figcaption></figure>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M12 26 C 24 50, 34 56, 46 46 S 60 10, 68 18"/></svg>
+          <figure class="ph" style="left:0;top:4%;width:24%;transform:rotate(-3deg)"><span class="tape"></span><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night"><figcaption>Wuhan, born</figcaption></figure>
+          <figure class="ph" style="left:16%;top:44%;width:16%;transform:rotate(5deg);z-index:2"><span class="tape"></span><img src="../assets/photos/childhood-2005.jpg" alt="Christmas 2005 in Wuhan"><figcaption>2005, Wuhan</figcaption></figure>
+          <figure class="ph" style="left:34%;top:30%;width:24%;transform:rotate(2deg)"><span class="tape"></span><img src="../assets/photos/hong-kong.jpg" alt="Victoria Harbour at night"><figcaption>Hong Kong, 4 years</figcaption></figure>
+          <figure class="ph" style="left:56%;top:0;width:24%;transform:rotate(-1.5deg)"><span class="tape"></span><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall, University of Chicago"><figcaption>Chicago, now</figcaption></figure>
+          <figure class="ph" style="left:62%;top:50%;width:20%;transform:rotate(3deg)"><span class="tape"></span><img src="../assets/photos/cat-laptop.jpg" alt="A cat beside a laptop"><figcaption>Titi</figcaption></figure>
+          <figure class="ph" style="left:82%;top:40%;width:18%;transform:rotate(-4deg)"><span class="tape"></span><img src="../assets/photos/dog-flowers.jpg" alt="A small fluffy dog in front of flowers"><figcaption>Damai</figcaption></figure>
         </div>
         <div class="foot">
           <p>Economics at The Chinese University of Hong Kong; a summer product internship in Shanghai; MA in Computational Social Science at the University of Chicago, GPA 4.0, class of 2027. Looking for AI product manager roles.</p>
@@ -103,6 +107,7 @@
         <p class="hd"><span>The five, as they run today</span><span>screens in Chinese</span></p>
         <button class="pr" data-i="0" style="--r:-2.2deg" aria-label="Lecture Companion"><span class="tape"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span class="cap">1 · Lecture Companion</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="1" style="--r:1.6deg" aria-label="xhs-threads"><span class="tape"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span class="cap">2 · xhs-threads</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="2" style="--r:-1.2deg" aria-label="Nous"><span class="tape"></span><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span class="cap">3 · Nous</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="3" style="--r:2.0deg" aria-label="JobPilot"><span class="tape"></span><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span class="cap">4 · JobPilot</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="4" style="--r:-1.6deg" aria-label="MusiClaw"><span class="tape"></span><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span class="cap">5 · MusiClaw</span><span class="mark" aria-hidden="true"></span></button>
       </div>
+      <figure class="ph pb" style="position:absolute;left:3%;top:68%;width:23%;transform:rotate(-5deg)"><span class="tape"></span><img src="../assets/photos/playbills.jpg" alt="A stack of musical playbills"><figcaption>the habit behind no. 5</figcaption></figure>
       <p class="hint">Hover a print to look closer; click to pick it.</p>
     </section>
   </div>
