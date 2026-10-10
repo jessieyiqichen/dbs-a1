@@ -115,11 +115,17 @@
   let plain=false;
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
+  let typing=0;
   async function typeInto(el,text){
     if(reduce||plain){ el.textContent+=text; return; }
+    typing++;
     const cur=document.createElement('span'); cur.className='cur'; el.after(cur);
-    for(const ch of text){ el.textContent+=ch; await sleep(ch===' '?18:(/[.,:;]/.test(ch)?140:28+Math.random()*34)); }
-    cur.remove();
+    for(let i=0;i<text.length;i++){
+      if(plain){ el.textContent+=text.slice(i); break; }          // "plain version" pressed mid-sentence: finish at once
+      const ch=text[i]; el.textContent+=ch;
+      await sleep(ch===' '?14:(/[.,:;]/.test(ch)?120:22+Math.random()*26));
+    }
+    cur.remove(); typing--;
   }
   function mkWord(c){
     if(c.href){ const a=document.createElement('a'); a.href=c.href; a.textContent=c.w; return a; }
@@ -164,7 +170,12 @@
   /* plain version: expand everything instantly, depth-first */
   async function expandAll(){
     plain=true;
-    for(let guard=0;guard<40;guard++){ const w=document.querySelector('.w:not(.done)'); if(!w) break; await expand(w); }
+    for(let guard=0;guard<200;guard++){
+      const w=document.querySelector('.w:not(.done)');
+      if(w){ await expand(w); continue; }
+      if(typing>0){ await sleep(40); continue; }                   // a sentence started before the press is still finishing
+      break;
+    }
   }
   document.querySelector('[data-plain]').addEventListener('click',e=>{ e.target.textContent='everything shown'; e.target.disabled=true; expandAll(); });
 })();
