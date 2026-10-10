@@ -139,9 +139,11 @@
     if(c.href){ const a=document.createElement('a'); a.href=c.href; a.textContent=c.w; return a; }
     const s=document.createElement('span'); s.className='w'; s.textContent=c.w; s.dataset.next=c.next; s.tabIndex=0; return s;
   }
-  function mkLine(c,cls){
-    const p=document.createElement('p'); p.className='line'+(cls?' '+cls:'');
-    p.append(document.createTextNode(c.pre||'')); p.append(mkWord(c)); return p;
+  async function addLine(wrap,c){
+    const p=document.createElement('p'); p.className='line'; wrap.append(p);
+    const pre=document.createElement('span'); p.append(pre);
+    await typeInto(pre,c.pre||'');                                   // the lead-in is typed too
+    p.append(mkWord(c));
   }
   async function reveal(node){
     if(plain){ node.querySelectorAll('img').forEach(i=>i.classList.add('in')); return; }
@@ -169,7 +171,7 @@
     }
     if(n.lines){
       const wrap=document.createElement('div'); wrap.className='sub'; anchor.after(wrap);
-      for(const c of n.lines){ const p=mkLine(c); wrap.append(p); if(!plain) await sleep(140); }
+      for(const c of n.lines){ await addLine(wrap,c); if(!plain) await sleep(120); }
     }
   }
   document.addEventListener('click',e=>{ const w=e.target.closest('.w'); if(w) expand(w); });
