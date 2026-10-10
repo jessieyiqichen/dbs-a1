@@ -3,138 +3,146 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v13 · Contact sheet — Jessie Chen</title>
+<title>v13 · Scrapbook spread — Jessie Chen</title>
 <style>
   @font-face{font-family:Hanken;src:url("../assets/fonts/HankenGrotesk.woff2") format("woff2");font-weight:100 900;font-display:swap}
   @font-face{font-family:"Barlow Condensed";src:url("../assets/fonts/BarlowCondensed-SemiBold.woff2") format("woff2");font-weight:600;font-display:swap}
-  :root{--table:#ecebe8;--ink:#151515;--body:#3c3c3a;--muted:#7c7b77;--line:#dcdad4;--film:#161514;--marker:#2344b8;
+  :root{--table:#dcd8d0;--kraft:#c9a97a;--paper:#fbf8f0;--ink:#1d1a16;--body:#3a352e;--muted:#6b6256;--marker:#2344b8;--tape:rgba(255,255,255,.5);
     --sans:Hanken,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--cond:"Barlow Condensed","Arial Narrow",sans-serif}
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:radial-gradient(ellipse at 50% 45%,#fbfbf9 0%,var(--table) 70%);color:var(--body);font:15px/1.5 var(--sans);overflow:hidden}
+  body{margin:0;background:var(--table);color:var(--body);font:15px/1.5 var(--sans);overflow:hidden}
   a{color:var(--ink);text-underline-offset:3px}
   .back{position:fixed;top:10px;left:14px;z-index:40;font-size:12px;color:var(--muted);text-decoration:none}
-  .screen{height:100%;display:grid;grid-template-rows:auto 1fr;padding:30px 3vw 22px;gap:14px}
-  .label{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
-  .label b{font:600 24px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
-  .label b span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:14px;letter-spacing:.1em;color:var(--muted);margin-left:8px;text-transform:none}
-  .label p{margin:0;font-size:14px;color:var(--body)}
-  .label nav{margin-left:auto;font-size:13px;display:flex;gap:16px}
+  .stage{height:100%;display:grid;place-items:center;padding:34px 2.5vw 22px}
+  .book{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(100%,calc((100vh - 70px) * 1.55));aspect-ratio:1.55/1;max-height:calc(100vh - 56px);filter:drop-shadow(0 22px 36px rgba(0,0,0,.25))}
+  .pg{position:relative;background:var(--kraft);overflow:hidden}
+  .pg::before{content:"";position:absolute;inset:0;opacity:.55;mix-blend-mode:multiply;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .1  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .pg.l{border-radius:10px 2px 2px 10px;box-shadow:inset -30px 0 40px -24px rgba(0,0,0,.35)}
+  .pg.r{border-radius:2px 10px 10px 2px;box-shadow:inset 30px 0 40px -24px rgba(0,0,0,.35)}
+  .pg.l .in{position:absolute;inset:6% 9% 6% 7%;display:flex;flex-direction:column}
+  .label{align-self:flex-start;background:var(--paper);padding:6px 12px;box-shadow:1px 2px 0 rgba(0,0,0,.14);transform:rotate(-1.2deg)}
+  .label b{font:600 clamp(20px,2.2vw,30px)/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+  .label b span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:.55em;letter-spacing:.1em;color:var(--muted);margin-left:8px;text-transform:none}
+  .lead{margin:12px 0 0;font-size:clamp(13px,1.15vw,15.5px);color:var(--ink);max-width:40ch}
+  .route{position:relative;flex:1;min-height:0;margin:3% 0}
+  .ph{position:absolute;margin:0;background:var(--paper);padding:5px 5px 20px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 6px 14px rgba(0,0,0,.16)}
+  .ph img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+  .ph figcaption{position:absolute;left:6px;right:6px;bottom:3px;font:600 11px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ph .tape,.pr .tape{position:absolute;left:50%;top:-9px;width:56px;height:18px;margin-left:-28px;background:var(--tape);border-left:1px dashed rgba(0,0,0,.08);border-right:1px dashed rgba(0,0,0,.08);transform:rotate(-3deg);z-index:2}
+  .route svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .route svg path{fill:none;stroke:var(--ink);stroke-width:1.4;stroke-dasharray:3 5;opacity:.55;vector-effect:non-scaling-stroke}
+  .foot{font-size:clamp(12px,1vw,13.5px);color:var(--ink)}
+  .foot p{margin:0 0 6px}
+  .foot nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-weight:600}
+  .pg.r .in{position:absolute;inset:6% 6% 5% 9%}
+  .pg.r .hd{font:600 13px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--ink);display:flex;justify-content:space-between}
+  .pr{all:unset;position:absolute;cursor:zoom-in;background:var(--paper);padding:6px 6px 24px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 8px 18px rgba(0,0,0,.18);transform:rotate(var(--r));transition:transform .25s}
+  .pr:hover{transform:rotate(0) scale(1.03);z-index:5}
+  .pr img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
+  .pr .cap{position:absolute;left:8px;right:8px;bottom:5px;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pr .mark{position:absolute;inset:-7%;border:3px solid var(--marker);border-radius:12px;opacity:0;transform:rotate(-2deg) scale(1.05);transition:opacity .25s,transform .35s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
+  .pr.on .mark{opacity:1;transform:rotate(-2deg)}
+  .pr:focus-visible{outline:2px solid var(--marker);outline-offset:4px}
+  .hint{position:absolute;right:6%;bottom:3%;margin:0;font-size:12px;color:var(--ink);opacity:.7}
 
-  .table{position:relative;min-height:0;display:grid;place-items:center}
-  .sheet{position:relative;background:#fff;padding:2.2% 2.6% 2%;width:min(100%,calc((100vh - 120px) * 1.42));box-shadow:0 1px 2px rgba(0,0,0,.12),0 18px 44px rgba(0,0,0,.14);transform:rotate(-.4deg);transition:transform .5s cubic-bezier(.3,.7,.2,1)}
-  body.open .sheet{transform:translateX(-19%) rotate(-.4deg) scale(.74)}
-  .sheet .stamp{display:flex;justify-content:space-between;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 1.2%}
-  .strip{position:relative;background:var(--film);padding:4.2% 1.6%;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6%;margin-bottom:2.4%}
-  .strip::before,.strip::after{content:"";position:absolute;left:1.2%;right:1.2%;height:2.2%;min-height:6px;background:repeating-linear-gradient(90deg,#e9e6dc 0 10px,transparent 10px 22px);border-radius:2px;opacity:.85}
-  .strip::before{top:1.2%}.strip::after{bottom:1.2%}
-  .fr{all:unset;position:relative;cursor:zoom-in;display:block;background:#000;aspect-ratio:16/10.5}
-  .fr img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
-  .fr.me img{object-position:50% 38%}
-  .fr .no{position:absolute;left:0;bottom:-15%;font:600 11px var(--cond);color:#e9e6dc;letter-spacing:.08em}
-  .fr .cap{position:absolute;right:0;bottom:-15%;font:600 11px var(--cond);color:#e9e6dc;text-transform:uppercase;letter-spacing:.08em}
-  .fr .mark{position:absolute;inset:-7%;border:3px solid var(--marker);border-radius:10px;opacity:0;transform:rotate(-1.2deg) scale(1.04);transition:opacity .25s,transform .35s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
-  .fr.on .mark{opacity:1;transform:rotate(-1.2deg)}
-  .fr:focus-visible{outline:2px solid var(--marker);outline-offset:4px}
-  .hint{font-size:12.5px;color:var(--muted);margin:0;text-align:right}
-
-  .loupe{position:fixed;z-index:20;width:200px;height:200px;border-radius:50%;pointer-events:none;border:6px solid #1c1c1b;box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.5);background-repeat:no-repeat;background-color:#fff;opacity:0;transform:scale(.8);transition:opacity .15s,transform .15s}
+  .loupe{position:fixed;z-index:20;width:200px;height:200px;border-radius:50%;pointer-events:none;border:6px solid #1c1c1b;box-shadow:0 12px 30px rgba(0,0,0,.35);background-repeat:no-repeat;background-color:#fff;opacity:0;transform:scale(.8);transition:opacity .15s,transform .15s}
   .loupe.on{opacity:1;transform:none}
 
-  .card{position:fixed;z-index:15;top:70px;right:3vw;bottom:24px;width:min(460px,42vw);background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.12),0 24px 60px rgba(0,0,0,.18);padding:22px 24px;overflow:auto;transform:translateX(110%);transition:transform .5s cubic-bezier(.3,.7,.2,1)}
-  body.open .card{transform:none}
-  .card .x{all:unset;cursor:pointer;position:absolute;top:14px;right:16px;font-size:13px;color:var(--muted)}
+  .card{position:absolute;z-index:15;top:4%;bottom:4%;left:5%;right:5%;background:var(--paper);box-shadow:0 1px 2px rgba(0,0,0,.18),0 18px 40px rgba(0,0,0,.25);padding:20px 22px;overflow:auto;transform:translateX(-12%) rotate(-1deg);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.3,.7,.2,1),opacity .3s}
+  body.open .card{transform:rotate(-.4deg);opacity:1;pointer-events:auto}
+  .card .x{all:unset;cursor:pointer;position:absolute;top:12px;right:14px;font-size:13px;color:var(--muted)}
   .card .n{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--marker)}
   .card h2{margin:2px 0 2px;font:600 30px/1 var(--cond);text-transform:uppercase;color:var(--ink)}
-  .card .role{margin:0 0 12px;font-size:13px;color:var(--muted)}
-  .card q{display:block;margin:0 0 14px;font:600 22px/1.1 var(--cond);text-transform:uppercase;color:var(--ink);quotes:"“" "”"}
-  .view{position:relative;border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.12);margin:0 0 10px;cursor:pointer}
+  .card .role{margin:0 0 10px;font-size:13px;color:var(--muted)}
+  .card q{display:block;margin:0 0 12px;font:600 21px/1.1 var(--cond);text-transform:uppercase;color:var(--ink);quotes:"“" "”"}
+  .view{position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.15);margin:0 0 8px;cursor:pointer}
   .view img{display:block;width:100%}
-  .spot{position:absolute;border-radius:6px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1);pointer-events:none}
+  .spot{position:absolute;border-radius:4px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1);pointer-events:none}
   .view.on .spot{opacity:1}
-  .notes{list-style:none;margin:0 0 12px;padding:0}
-  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr;gap:10px;padding:7px 8px;border-radius:8px;font-size:14px;line-height:1.45}
-  .notes button:hover,.notes button.on{background:#f1f0ec;color:var(--ink)}
+  .notes{list-style:none;margin:0 0 10px;padding:0}
+  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr;gap:10px;padding:6px 8px;border-radius:8px;font-size:13.5px;line-height:1.45}
+  .notes button:hover,.notes button.on{background:#efe9dc;color:var(--ink)}
   .notes .k{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--marker);color:var(--marker);font-size:11px;line-height:17px;text-align:center}
   .notes button.on .k{background:var(--marker);color:#fff}
-  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
-  .nums div{border-top:2px solid var(--ink);padding-top:6px}
-  .nums b{display:block;font:600 24px/1 var(--cond);color:var(--ink)}
+  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 10px}
+  .nums div{border-top:2px solid var(--ink);padding-top:5px}
+  .nums b{display:block;font:600 22px/1 var(--cond);color:var(--ink)}
   .nums span{display:block;font-size:11.5px;line-height:1.3;color:var(--muted);margin-top:3px}
-  .lk a{margin-right:12px;font-size:14px}
-  .card p{margin:0 0 10px;font-size:14px}
-  .card ol{margin:0 0 10px;padding-left:1.1em;font-size:14px}.card li{margin:0 0 4px}.card li b{color:var(--ink)}
-  .card img.ph{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 35%;margin:0 0 12px}
+  .lk a{margin-right:12px;font-size:13.5px}
 
-  @media (prefers-reduced-motion:reduce){.sheet,.card,.fr .mark,.spot,.loupe{transition:none}}
-  @media (max-width:900px){body{overflow:auto}.screen{height:auto}.sheet{transform:none!important;width:100%}.strip{grid-template-columns:1fr 1fr}.card{position:static;width:auto;transform:none;display:none;margin-top:16px}body.open .card{display:block}.loupe{display:none}.label nav{margin-left:0}}
+  @media (prefers-reduced-motion:reduce){.pr,.pr .mark,.card,.spot,.loupe{transition:none}}
+  @media (max-width:900px){body{overflow:auto}.stage{display:block;padding:44px 12px}.book{grid-template-columns:1fr;aspect-ratio:auto;max-height:none;width:100%}
+    .pg{min-height:640px}.pg.l,.pg.r{border-radius:10px;box-shadow:none;margin-bottom:12px}.card{position:fixed;inset:auto 8px 8px 8px;top:auto;width:auto;max-height:80vh}.loupe{display:none}}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
-<div class="screen">
-  <header class="label">
-    <b>Jessie Chen<span>陈亦奇</span></b>
-    <p>Five AI products, shipped solo in the past year · AI product, University of Chicago class of 2027</p>
-    <nav><a href="mailto:jessiechenyiqi@outlook.com">Email</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a></nav>
-  </header>
-  <div class="table">
-    <div class="sheet" id="sheet">
-      <p class="stamp"><span>contact sheet · five products, one photographer</span><span>screens in Chinese</span></p>
-      <div class="strip"><button class="fr" data-i="0" style="--img:url(../assets/img/lecture-companion.png)" aria-label="Lecture Companion"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span class="no">1</span><span class="cap">Lecture Companion</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="1" style="--img:url(../assets/img/xhs-threads.png)" aria-label="xhs-threads"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span class="no">2</span><span class="cap">xhs-threads</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="2" style="--img:url(../assets/img/nous.png)" aria-label="Nous"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span class="no">3</span><span class="cap">Nous</span><span class="mark" aria-hidden="true"></span></button></div>
-      <div class="strip"><button class="fr" data-i="3" style="--img:url(../assets/img/job-pilot.png)" aria-label="JobPilot"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span class="no">4</span><span class="cap">JobPilot</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="4" style="--img:url(../assets/img/musiclaw.png)" aria-label="MusiClaw"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span class="no">5</span><span class="cap">MusiClaw</span><span class="mark" aria-hidden="true"></span></button><button class="fr me" data-i="me" style="--img:url(../assets/photos/ice-cave.jpg)" aria-label="About me"><img src="../assets/photos/ice-cave.jpg" alt="Jessie in an ice cave"><span class="no">6</span><span class="cap">Who shot these</span><span class="mark" aria-hidden="true"></span></button></div>
-      <p class="hint">Hover a frame to look closer. Click to pick it.</p>
-    </div>
+<div class="stage">
+  <div class="book" id="book">
+    <section class="pg l" aria-label="About me">
+      <div class="in">
+        <div class="label"><b>Jessie Chen<span>陈亦奇</span></b></div>
+        <p class="lead">I build AI products and ship them on my own: five in the past year, three still running every day. This side is how I got here; the other side is the work.</p>
+        <div class="route">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M14 30 C 30 10, 40 60, 55 36 S 75 70, 84 52"/></svg>
+          <figure class="ph" style="left:0;top:6%;width:27%;transform:rotate(-3deg)"><span class="tape"></span><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night"><figcaption>Wuhan, born</figcaption></figure>
+          <figure class="ph" style="left:24%;top:42%;width:27%;transform:rotate(2deg)"><span class="tape"></span><img src="../assets/photos/hong-kong.jpg" alt="Victoria Harbour at night"><figcaption>Hong Kong, 4 years</figcaption></figure>
+          <figure class="ph" style="left:49%;top:4%;width:27%;transform:rotate(-1.5deg)"><span class="tape"></span><img src="../assets/photos/uchicago-saieh-hall.jpg" alt="Saieh Hall, University of Chicago"><figcaption>Chicago, now</figcaption></figure>
+          <figure class="ph" style="left:71%;top:44%;width:26%;transform:rotate(3deg)"><span class="tape"></span><img src="../assets/photos/cat-laptop.jpg" alt="A cat beside a laptop"><figcaption>Titi, supervising</figcaption></figure>
+        </div>
+        <div class="foot">
+          <p>Economics at The Chinese University of Hong Kong; a summer product internship in Shanghai; MA in Computational Social Science at the University of Chicago, GPA 4.0, class of 2027. Looking for AI product manager roles.</p>
+          <nav><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a><a href="https://github.com/jessieyiqichen">GitHub</a></nav>
+        </div>
+      </div>
+      <aside class="card" id="card" aria-live="polite"></aside>
+    </section>
+    <section class="pg r" aria-label="The five products">
+      <div class="in">
+        <p class="hd"><span>The five, as they run today</span><span>screens in Chinese</span></p>
+        <button class="pr" data-i="0" style="--r:-2.2deg" aria-label="Lecture Companion"><span class="tape"></span><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span class="cap">1 · Lecture Companion</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="1" style="--r:1.6deg" aria-label="xhs-threads"><span class="tape"></span><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span class="cap">2 · xhs-threads</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="2" style="--r:-1.2deg" aria-label="Nous"><span class="tape"></span><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span class="cap">3 · Nous</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="3" style="--r:2.0deg" aria-label="JobPilot"><span class="tape"></span><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span class="cap">4 · JobPilot</span><span class="mark" aria-hidden="true"></span></button><button class="pr" data-i="4" style="--r:-1.6deg" aria-label="MusiClaw"><span class="tape"></span><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span class="cap">5 · MusiClaw</span><span class="mark" aria-hidden="true"></span></button>
+      </div>
+      <p class="hint">Hover a print to look closer; click to pick it.</p>
+    </section>
   </div>
 </div>
 <div class="loupe" id="loupe" aria-hidden="true"></div>
-<aside class="card" id="card" aria-live="polite"></aside>
 
 <script type="application/json" id="data">[{"t": "Lecture Companion", "img": "lecture-companion", "role": "Real-time lecture AI assistant", "q": "59 of 63 questions asked with zero typing", "p": "The bottleneck for asking questions in class is input friction, not model capability. I compressed a question into one click on a transcript sentence, and used multimodal retrieval to fill in whiteboard and formulas. The North Star is after-class review behavior; cost is managed line by line in a usage ledger.", "proves": "interaction design, a metrics system, cost engineering", "nums": [["63", "marks, 59 with zero typing"], ["3", "rollout stages, zero rollbacks"], ["¼", "ASR cost after a shadow run"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/lecture-companion.html"], ["Live demo", "https://jessieyiqichen.github.io/lc-demo/"], ["Walkthrough", "https://jessieyiqichen.github.io/lecture-companion-walkthrough/"]], "boxes": [[29.44, 35.33, 18.06, 24.89, "Each blue dot is a mark: one click on a transcript sentence the student did not follow. No typing."], [73.75, 23.56, 25.0, 46.0, "The AI explains that sentence, with the board captured at the moment of the click."], [29.03, 6.0, 70.42, 8.44, "A real public lecture, recorded and processed: MIT 14.12, Game Theory."]], "emo": "🎓", "tint": "#e3eaf8"}, {"t": "xhs-threads", "img": "xhs-threads", "role": "Thought threads from Xiaohongshu bookmarks", "q": "90% of model calls on the light tier, ¥0.05–0.10 per item", "p": "Bookmarking is frequent; organizing almost never happens. I turned organizing into zero-label, proactive archiving: the user only saves, the AI threads, annotates and checks. Differentiation came from a survey of four competitor types; output quality is gated by an independent reviewer model.", "proves": "differentiated positioning, an AI evaluation system", "nums": [["11 · 63", "threads · nodes, read 2026-09"], ["90%", "of calls on the light tier"], ["¥0.05–0.10", "per item"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/xhs-threads.html"], ["Guided demo", "https://47.94.34.146:8443/demo"], ["Try it", "https://47.94.34.146:8443/try"]], "boxes": [[13.75, 29.78, 28.06, 19.33, "The promise: turn your bookmarks back into your thinking."], [60.56, 16.0, 24.58, 16.89, "A thread: saved posts on a coffee-stall idea, grouped into one train of thought, 3 nodes."], [14.03, 63.11, 32.64, 8.44, "You only save. The AI does the threading, unattended, around the clock."]], "emo": "🔖", "tint": "#f8e3e0"}, {"t": "Nous", "img": "nous", "role": "Cognitive-twin message agent, three clients", "q": "Behavior prediction up from 49% to 71%", "p": "Other bots learn how you talk; this one learns how you decide. A message agent driven by a nine-dimension cognitive model: it judges whether to reply, drafts in your way, and raises a quality warning when you are about to say yes to something you will not do. Feishu bot, Mac floating assistant and Web, all three in daily production use.", "proves": "the full path from research to product", "nums": [["49→71%", "behavior prediction"], ["3", "clients live"], ["closed", "correction flywheel"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/nous.html"], ["Guided demo", "https://jessieyiqichen.github.io/demos/nous.html"], ["Vision sandbox", "https://web-ten-omega-72.vercel.app/agent"]], "boxes": [[2.64, 29.11, 40.69, 12.89, "A colleague asks: free this weekend to sort the quarterly data? Needed Monday."], [63.47, 34.22, 25.69, 12.44, "Nous drafts the reply in my voice: busy, but I’ll do it this weekend; Monday OK?"], [63.47, 44.22, 25.56, 11.78, "The quality warning: I will probably say yes, and by habit start on Sunday night, so the draft buys a day."]], "emo": "💬", "tint": "#ebe4f7"}, {"t": "JobPilot", "img": "job-pilot", "role": "AI job-search strategist, open source", "q": "544 tests behind 31 commands, all six trade-offs written down", "p": "The job search is blocked by people, not information. Existing tools stop at the behavior layer; JobPilot plugs in a cognitive model and language samples to give personal diagnosis and messaging that sounds like you. All six product trade-offs have a written why.", "proves": "product insight, feature trade-offs, engineering quality", "nums": [["349 · 37", "jobs collected · high-score"], ["31 · 544", "CLI commands · tests, 2026-09"], ["CI", "plus a read-only live demo"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/job-pilot.html"], ["Live demo", "https://jobpilot-demo-delta.vercel.app"], ["GitHub", "https://github.com/jessieyiqichen/job-pilot"]], "boxes": [[10.69, 17.56, 78.61, 14.44, "One-line diagnosis: nothing applied yet, but 37 high-score roles are waiting. Apply first, strategy later."], [10.69, 35.33, 20.56, 12.89, "37 high-score roles out of 349 collected."], [12.08, 57.33, 75.56, 26.44, "This week’s plan: each role scored, each with the next step."]], "emo": "🧭", "tint": "#e0f1e8"}, {"t": "MusiClaw", "img": "musiclaw", "role": "Shanghai musical-theatre market data", "q": "86 shows snapshotted every day, no one pressing a button", "p": "Public ticketing data turned into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution analysis, four content pipelines, feeding a real data account. The AI's scope of responsibility is fully documented.", "proves": "a data product, a content operations loop", "nums": [["86", "shows snapshotted daily"], ["4", "content pipelines"], ["24 h", "fixed post-publish review"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/musiclaw.html"], ["Dashboard", "https://jessieyiqichen.github.io/musiclaw-demo/"]], "boxes": [[59.58, 9.33, 32.92, 68.22, "Today’s pick: a sold-out run, flagged on the poster."], [2.64, 63.56, 42.78, 10.44, "100% sold, 1,928 of 1,928 seats, 45.1K want to see it."], [49.86, 81.33, 40.56, 10.67, "It updates itself every day; the next run is at 06:00."]], "emo": "🎭", "tint": "#f7ecd9"}]</script>
 <script>
 (function(){
   let D;try{D=JSON.parse(document.getElementById('data').textContent)}catch(e){console.error('product data unreadable',e);return}
-  const body=document.body,card=document.getElementById('card'),loupe=document.getElementById('loupe'),frs=[...document.querySelectorAll('.fr')];
+  const body=document.body,card=document.getElementById('card'),loupe=document.getElementById('loupe'),prs=[...document.querySelectorAll('.pr')];
+  const POS=[[0,9,47],[50,7,47],[3,40,46],[52,38,46],[26,68,47]];
+  prs.forEach((p,i)=>{const [l,t,w]=POS[i];Object.assign(p.style,{left:l+'%',top:t+'%',width:w+'%'})});
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let cur=null,k=-1;
-  /* loupe: 2.6x of the frame under the cursor */
-  frs.forEach(f=>{
-    f.addEventListener('mousemove',e=>{
-      const im=f.querySelector('img'),r=f.getBoundingClientRect(),Z=2.6,R=100;
-      const ar=(im.naturalWidth/im.naturalHeight)||1.6;
+  let cur=-1,k=-1;
+  prs.forEach(p=>{
+    p.addEventListener('mousemove',e=>{
+      const im=p.querySelector('img'),r=im.getBoundingClientRect(),Z=2.6,R=100,ar=(im.naturalWidth/im.naturalHeight)||1.6;
       let dw,dh;if(r.height*ar>=r.width){dh=r.height;dw=r.height*ar}else{dw=r.width;dh=r.width/ar}
-      const me=f.classList.contains('me'),ox=me?(r.width-dw)*.5:0,oy=me?(r.height-dh)*.38:0;
-      const mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
-      loupe.style.backgroundImage='url("'+im.currentSrc+'")';
-      loupe.style.backgroundSize=(dw*Z)+'px '+(dh*Z)+'px';
-      loupe.style.backgroundPosition=(R-mx*Z)+'px '+(R-my*Z)+'px';
-      loupe.style.left=(e.clientX-R)+'px';loupe.style.top=(e.clientY-R)+'px';loupe.classList.add('on');
+      const mx=e.clientX-r.left,my=e.clientY-r.top;
+      loupe.style.backgroundImage='url("'+im.currentSrc+'")';loupe.style.backgroundSize=(dw*Z)+'px '+(dh*Z)+'px';
+      loupe.style.backgroundPosition=(R-mx*Z)+'px '+(R-my*Z)+'px';loupe.style.left=(e.clientX-R)+'px';loupe.style.top=(e.clientY-R)+'px';loupe.classList.add('on');
     });
-    f.addEventListener('mouseleave',()=>loupe.classList.remove('on'));
+    p.addEventListener('mouseleave',()=>loupe.classList.remove('on'));
   });
   function light(j){const v=card.querySelector('.view'),d=D[cur];if(!v||!d||!d.boxes[j])return;k=j;const b=d.boxes[j],s=v.querySelector('.spot');Object.assign(s.style,{left:b[0]+'%',top:b[1]+'%',width:b[2]+'%',height:b[3]+'%'});v.classList.add('on');card.querySelectorAll('.notes button').forEach((x,n)=>x.classList.toggle('on',n===j))}
   function pick(i){
-    frs.forEach(f=>f.classList.toggle('on',f.dataset.i===String(i)));
-    if(i==='me'){cur='me';
-      card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">frame 6</p><h2>Who shot these</h2><p class="role">Jessie Chen · 陈亦奇</p><img class="ph" src="../assets/photos/ice-cave.jpg" alt="Jessie inside an ice cave"><p>MA in Computational Social Science (economics track), University of Chicago, GPA 4.0, class of 2027. BSc Economics, The Chinese University of Hong Kong. Born in Wuhan; Chicago and Shanghai now. Off hours: music, travel, skiing and musicals; two cats, Titi and Pupu, and two dogs, Damai and Dami.</p><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in.</li><li><b>Staged rollout.</b> One layer of change per stage.</li><li><b>Metric before number.</b> Every number names its dashboard and read date.</li><li><b>Cost is a product parameter.</b> A shadow run proves quality first.</li></ol><p class="lk"><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a><a href="https://github.com/jessieyiqichen">GitHub</a></p>';
-    }else{const d=D[i];if(!d)return;cur=i;
-      card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">frame '+(i+1)+'</p><h2>'+esc(d.t)+'</h2><p class="role">'+esc(d.role)+' · solo build</p><q>'+esc(d.q)+'</q>'+
-        '<div class="view"><img src="../assets/img/'+d.img+'.png" alt="'+esc(d.t)+' screenshot, in Chinese"><span class="spot"></span></div>'+
-        '<ol class="notes">'+d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="k">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('')+'</ol>'+
-        '<div class="nums">'+d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('')+'</div>'+
-        '<p class="lk">'+d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('')+'</p>';
-    }
+    const d=D[i];if(!d)return;cur=i;prs.forEach((p,n)=>p.classList.toggle('on',n===i));
+    card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">print '+(i+1)+' of 5</p><h2>'+esc(d.t)+'</h2><p class="role">'+esc(d.role)+' · solo build</p><q>'+esc(d.q)+'</q>'+
+      '<div class="view"><img src="../assets/img/'+d.img+'.png" alt="'+esc(d.t)+' screenshot, in Chinese"><span class="spot"></span></div>'+
+      '<ol class="notes">'+d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="k">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('')+'</ol>'+
+      '<div class="nums">'+d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('')+'</div>'+
+      '<p class="lk">'+d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('')+'</p>';
     body.classList.add('open');card.scrollTop=0;
   }
-  function close(){body.classList.remove('open');frs.forEach(f=>f.classList.remove('on'));cur=null}
-  frs.forEach(f=>f.addEventListener('click',()=>{const i=f.dataset.i==='me'?'me':+f.dataset.i;if(cur===i)close();else pick(i)}));
+  function close(){body.classList.remove('open');prs.forEach(p=>p.classList.remove('on'));cur=-1}
+  prs.forEach((p,i)=>p.addEventListener('click',()=>{if(cur===i)close();else pick(i)}));
   card.addEventListener('click',e=>{if(e.target.closest('[data-x]'))return close();const b=e.target.closest('.notes button');if(b)return light(+b.dataset.j);if(e.target.closest('.view'))light((k+1)%3)});
   card.addEventListener('mouseover',e=>{const b=e.target.closest('.notes button');if(b)light(+b.dataset.j)});
-  addEventListener('keydown',e=>{
-    if(e.key==='Escape')close();
-    const order=[0,1,2,3,4,'me'];if(cur===null)return;const n=order.indexOf(cur);
-    if(e.key==='ArrowRight')pick(order[(n+1)%6]);if(e.key==='ArrowLeft')pick(order[(n+5)%6]);
-  });
+  addEventListener('keydown',e=>{if(e.key==='Escape')close();if(cur<0)return;if(e.key==='ArrowRight')pick((cur+1)%5);if(e.key==='ArrowLeft')pick((cur+4)%5)});
 })();
 </script>
 </body>
