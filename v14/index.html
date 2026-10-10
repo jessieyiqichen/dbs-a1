@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v14 · Typed, with the evidence pinned — Jessie Chen</title>
+<style>
+  @font-face{font-family:"Cutive Mono";src:url("../assets/fonts/CutiveMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+  :root{--paper:#fdfcf8;--board:#e6e4de;--ink:#1c1c1a;--muted:#8a877f;--red:#c8281e;--line:#d8d5cc;
+    --mono:"Cutive Mono","Courier New",monospace;--sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font:19px/1.65 var(--mono)}
+  a{color:var(--red);text-underline-offset:3px}
+  .back{position:fixed;top:12px;left:16px;z-index:30;font:12px var(--sans);color:var(--muted);text-decoration:none}
+  .page{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:100%}
+
+  .sheet{padding:80px 5vw 120px 6vw;border-right:1px solid var(--line);background:var(--paper)}
+  .tools{display:flex;justify-content:space-between;gap:14px;margin:0 0 44px;font:12px var(--sans);color:var(--muted)}
+  .tools button{all:unset;cursor:pointer;color:var(--ink);border-bottom:1px solid var(--red)}
+  .tools button:disabled{color:var(--muted);border-color:transparent;cursor:default}
+  .sheet p{margin:0 0 .9em;max-width:38em}
+  .w{color:var(--red);cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
+  .w:hover,.w:focus-visible{text-decoration-style:solid;outline:none}
+  .w.done{color:var(--ink);text-decoration:none;cursor:default}
+  .sub{margin:.2em 0 1em}.sub .line{margin:0 0 .3em}
+  .rules{margin:.3em 0 1em;padding-left:1.4em}
+  .rules p{margin:0 0 .5em}.rules b{font-weight:400;color:var(--red)}
+  .cur{display:inline-block;width:.55em;height:1.05em;margin-left:1px;background:var(--ink);vertical-align:-.15em;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .sig{margin-top:2em;color:var(--muted);font-size:15px}
+
+  .board{position:sticky;top:0;height:100vh;background:var(--board);overflow:hidden}
+  .board::before{content:"";position:absolute;inset:0;opacity:.45;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .25 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+  .board .empty{position:absolute;left:0;right:0;top:46%;text-align:center;font:14px var(--mono);color:var(--muted);transition:opacity .4s}
+  .board.has .empty{opacity:0}
+  .bh{position:absolute;left:24px;top:22px;font:12px var(--sans);color:var(--muted)}
+  .pin{position:absolute;opacity:0;transform:translateY(-40px) rotate(calc(var(--r) * 3)) scale(1.08);transition:opacity .25s,transform .6s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
+  .pin.on{opacity:1;transform:rotate(var(--r));pointer-events:auto}
+  .print{all:unset;cursor:zoom-in;display:block;background:#fff;padding:7px 7px 26px;box-shadow:0 1px 2px rgba(0,0,0,.25),0 10px 22px rgba(0,0,0,.2);position:relative}
+  .print img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
+  .print .c{position:absolute;left:9px;right:9px;bottom:5px;font:13px var(--mono);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .print .c b{color:var(--red);font-weight:400;margin-right:6px}
+  .tack{position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--red);box-shadow:0 2px 3px rgba(0,0,0,.35),inset -2px -2px 0 rgba(0,0,0,.18);z-index:2}
+  .note{background:#fffef6;padding:14px 16px;box-shadow:0 1px 2px rgba(0,0,0,.25),0 10px 22px rgba(0,0,0,.18);font:13.5px/1.45 var(--mono)}
+  .note b{display:block;color:var(--red);font-weight:400;margin-bottom:4px}
+  .note ol{margin:0;padding-left:1.2em}
+  .me{display:flex;gap:10px;align-items:flex-end}
+  .me .print{padding:6px 6px 22px}
+  .me .print img{aspect-ratio:3/4;object-position:50% 40%}
+  .me .mj{width:60px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.2))}
+  svg.arrow{position:absolute;overflow:visible;pointer-events:none;color:var(--ink);opacity:0;transition:opacity .4s .5s}
+  .pin.on svg.arrow{opacity:.75}
+  svg.arrow path{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+
+  dialog{border:0;padding:0;width:min(1040px,94vw);max-height:92vh;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+  dialog::backdrop{background:rgba(28,28,26,.6)}
+  .zoom{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:26px;padding:24px;max-height:92vh;overflow:auto}
+  .zoom img{display:block;width:100%;border:1px solid var(--line)}
+  .zoom h3{margin:0 0 4px;font:400 26px var(--mono);color:var(--ink)}
+  .zoom .s{margin:0 0 16px;font:13px var(--sans);color:var(--muted)}
+  .zoom dl{margin:0 0 16px;display:grid;grid-template-columns:auto 1fr;gap:0 14px}
+  .zoom dt{color:var(--red);font-size:20px;padding:6px 0;border-top:1px solid var(--line);white-space:nowrap}
+  .zoom dd{margin:0;padding:10px 0 6px;border-top:1px solid var(--line);font:13.5px var(--sans);color:var(--muted)}
+  .zoom .lk a{display:inline-block;margin:0 14px 6px 0;font:14px var(--sans)}
+  .zoom .x{all:unset;cursor:pointer;font:13px var(--sans);color:var(--ink);border-bottom:1px solid var(--red);margin-top:10px;display:inline-block}
+
+  @media (prefers-reduced-motion:reduce){.cur{animation:none}.pin{transition:opacity .2s}}
+  @media (max-width:860px){.page{grid-template-columns:1fr}.sheet{border-right:0;padding:64px 22px 40px}.board{position:relative;height:120vh}.zoom{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+<div class="page">
+  <main class="sheet" id="sheet">
+    <div class="tools"><span>Click the red words. The page types the rest, and pins the evidence on the right.</span><button data-plain>Show everything</button></div>
+    <p>Dear hiring manager,</p>
+    <p class="line">I am Jessie Chen, 陈亦奇. In the past year, on my own, I shipped <span class="w" tabindex="0" data-next="five">five AI products</span></p>
+    <p class="line">I <span class="w" tabindex="0" data-next="evidence">work from evidence</span></p>
+    <p class="line">And I am looking for an <span class="w" tabindex="0" data-next="role">AI product manager role</span></p>
+    <p class="sig">Typed in Chicago, October 2026.</p>
+  </main>
+
+  <aside class="board" id="board" aria-label="Evidence board">
+    <p class="bh">The evidence, pinned as you read</p>
+    <p class="empty">nothing pinned yet</p>
+
+    <div class="pin" id="pin-p1" style="left:6%;top:9%;width:44%;--r:-2.2deg"><span class="tack"></span><button class="print" data-c="p1"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot"><span class="c"><b>1</b>Lecture Companion</span></button></div>
+    <div class="pin" id="pin-p2" style="left:52%;top:6%;width:42%;--r:1.8deg"><span class="tack"></span><button class="print" data-c="p2"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot"><span class="c"><b>2</b>xhs-threads</span></button></div>
+    <div class="pin" id="pin-p3" style="left:10%;top:38%;width:44%;--r:1.4deg"><span class="tack"></span><button class="print" data-c="p3"><img src="../assets/img/nous.png" alt="Nous screenshot"><span class="c"><b>3</b>Nous</span></button></div>
+    <div class="pin" id="pin-p4" style="left:54%;top:35%;width:41%;--r:-1.6deg"><span class="tack"></span><button class="print" data-c="p4"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot"><span class="c"><b>4</b>JobPilot</span></button></div>
+    <div class="pin" id="pin-p5" style="left:35%;top:63%;width:38%;--r:-1deg"><span class="tack"></span><button class="print" data-c="p5"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot"><span class="c"><b>5</b>MusiClaw</span></button></div>
+    <div class="pin" id="pin-rules" style="left:3%;top:68%;width:29%;--r:-2.6deg"><span class="tack"></span><div class="note"><b>four rules, all five</b><ol><li>Pain point first</li><li>Stage the rollout</li><li>Metric before number</li><li>Cost is a parameter</li></ol></div></div>
+    <div class="pin" id="pin-me" style="left:75%;top:66%;width:23%;--r:2.2deg"><span class="tack"></span><div class="me"><button class="print" data-c="me" style="cursor:default"><img src="../assets/photos/ice-cave.jpg" alt="Jessie in an ice cave"><span class="c">me, off hours</span></button><img class="mj" src="../assets/img/jessie-wave.png" alt="Jessie’s memoji, waving"></div></div>
+  </aside>
+</div>
+
+<dialog id="zoom"><div class="zoom" id="zb"></div></dialog>
+
+<script type="application/json" id="tree">{"five": {"text": ": each from a blank page to launch, and three of them still run in production every day.", "lines": [{"pre": "— ", "w": "Lecture Companion", "next": "lc"}, {"pre": "— ", "w": "xhs-threads", "next": "xhs"}, {"pre": "— ", "w": "Nous", "next": "nous"}, {"pre": "— ", "w": "JobPilot", "next": "jp"}, {"pre": "— ", "w": "MusiClaw", "next": "mc"}]}, "lc": {"text": ", a real-time lecture assistant. A question in class became one click on a transcript sentence; the bottleneck was input friction, not model capability. 63 marks, 59 of them with zero typing.", "pin": "p1"}, "xhs": {"text": ", which turns Xiaohongshu bookmarks into threads of thought. You only save; the AI threads, annotates, and an independent reviewer model checks the output. 90% of calls run on the light tier.", "pin": "p2"}, "nous": {"text": ", a message agent that learns how you decide, not how you talk. It drafts in your way and warns before you agree to something you will not do. Behavior prediction went from 49% to 71%.", "pin": "p3"}, "jp": {"text": ", an open-source job-search strategist. The search is blocked by people, not information. 544 tests behind 31 commands, and six trade-offs, each with a written why.", "pin": "p4"}, "mc": {"text": ", a data product for the Shanghai musical-theatre market. Public ticketing data, snapshotted every day for 86 shows, feeding a real content account.", "pin": "p5"}, "evidence": {"text": ". The metric gets its definition first, every model call is logged, and every number here can name its dashboard and its read date. Four rules hold across all five:", "rulesList": [["Pain point before solution.", "Find the layer the bottleneck lives in before building."], ["Staged rollout and attribution.", "One layer of change per stage, so a problem points at its layer."], ["Define the metric before the number.", "Marks reviewed after class, not marks made in class."], ["Cost is a product parameter.", "A shadow run proves quality holds before cost is cut."]], "pin": "rules"}, "role": {"text": ", AI products first. I am finishing an MA in Computational Social Science at the University of Chicago, GPA 4.0, class of 2027, after economics at The Chinese University of Hong Kong. Born in Wuhan; Chicago and Shanghai now.", "pin": "me", "lines": [{"pre": "Write to me: ", "w": "jessiechenyiqi@outlook.com", "href": "mailto:jessiechenyiqi@outlook.com"}, {"pre": "Or read the ", "w": "résumé", "href": "../assets/Jessie_Chen_Resume.pdf"}, {"pre": "Or look at the ", "w": "code", "href": "https://github.com/jessieyiqichen"}]}}</script>
+<script type="application/json" id="cases">{"p1": {"t": "Lecture Companion", "img": "lecture-companion", "n": [["63 · 59", "marks · zero typing"], ["3 · 0", "stages · rollbacks"], ["¼", "ASR cost after a shadow run"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/lecture-companion.html"], ["Live demo", "https://jessieyiqichen.github.io/lc-demo/"], ["Walkthrough", "https://jessieyiqichen.github.io/lecture-companion-walkthrough/"]]}, "p2": {"t": "xhs-threads", "img": "xhs-threads", "n": [["11 · 63", "threads · nodes, 2026-09"], ["90%", "calls on the light tier"], ["¥0.05–0.10", "per item"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/xhs-threads.html"], ["Guided demo", "https://47.94.34.146:8443/demo"], ["Try it", "https://47.94.34.146:8443/try"]]}, "p3": {"t": "Nous", "img": "nous", "n": [["49–71%", "behavior prediction"], ["3", "clients live"], ["closed", "correction flywheel"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/nous.html"], ["Guided demo", "https://jessieyiqichen.github.io/demos/nous.html"], ["Vision sandbox", "https://web-ten-omega-72.vercel.app/agent"]]}, "p4": {"t": "JobPilot", "img": "job-pilot", "n": [["349 · 37", "jobs · high-score, 2026-09"], ["31 · 544", "commands · tests"], ["CI", "plus a read-only demo"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/job-pilot.html"], ["Live demo", "https://jobpilot-demo-delta.vercel.app"], ["GitHub", "https://github.com/jessieyiqichen/job-pilot"]]}, "p5": {"t": "MusiClaw", "img": "musiclaw", "n": [["86", "shows snapshotted daily"], ["4", "content pipelines"], ["24 h", "post-publish review"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/musiclaw.html"], ["Dashboard", "https://jessieyiqichen.github.io/musiclaw-demo/"]]}}</script>
+<script>
+(function(){
+  let T,C;try{T=JSON.parse(document.getElementById('tree').textContent);C=JSON.parse(document.getElementById('cases').textContent)}catch(e){console.error('page data unreadable',e);return}
+  const board=document.getElementById('board');
+  let plain=false,typing=0;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const delayFor=ch=>ch===' '?14:(/[.,:;]/.test(ch)?110:20+Math.random()*24);
+  function typeInto(el,text){
+    if(plain){el.textContent+=text;return Promise.resolve()}
+    return new Promise(res=>{
+      typing++;const cur=document.createElement('span');cur.className='cur';el.after(cur);
+      let i=0,due=performance.now()+delayFor(text[0]||'a');
+      function step(now){
+        if(plain){el.textContent+=text.slice(i);return fin()}
+        let n=0;while(i<text.length&&now>=due&&n<3){const ch=text[i++];el.textContent+=ch;due+=delayFor(ch);n++}
+        if(i<text.length)requestAnimationFrame(step);else fin();
+      }
+      function fin(){cur.remove();typing--;res()}
+      requestAnimationFrame(step);
+    });
+  }
+  function pin(id){const p=document.getElementById('pin-'+id);if(p&&!p.classList.contains('on')){p.classList.add('on');board.classList.add('has');if(innerWidth<=860&&!plain)p.scrollIntoView({behavior:'smooth',block:'center'})}}
+  function mkWord(c){
+    if(c.href){const a=document.createElement('a');a.href=c.href;a.textContent=c.w;return a}
+    const s=document.createElement('span');s.className='w';s.textContent=c.w;s.dataset.next=c.next;s.tabIndex=0;return s;
+  }
+  async function addLine(wrap,c){const p=document.createElement('p');p.className='line';wrap.append(p);const pre=document.createElement('span');p.append(pre);await typeInto(pre,c.pre||'');p.append(mkWord(c))}
+  async function expand(w){
+    if(w.classList.contains('done'))return;
+    w.classList.add('done');w.removeAttribute('tabindex');
+    const n=T[w.dataset.next];if(!n)return;
+    const line=w.closest('.line');const typed=document.createElement('span');w.after(typed);
+    await typeInto(typed,n.text);
+    if(n.pin)pin(n.pin);
+    let anchor=line;
+    if(n.rulesList){const d=document.createElement('div');d.className='rules';anchor.after(d);anchor=d;
+      for(const [b,t] of n.rulesList){const p=document.createElement('p');d.append(p);const bb=document.createElement('b');p.append(bb);await typeInto(bb,b);const tt=document.createElement('span');p.append(tt);await typeInto(tt,' '+t)}}
+    if(n.lines){const wrap=document.createElement('div');wrap.className='sub';anchor.after(wrap);for(const c of n.lines){await addLine(wrap,c);if(!plain)await sleep(100)}}
+  }
+  document.addEventListener('click',e=>{const w=e.target.closest('.w');if(w)expand(w)});
+  document.addEventListener('keydown',e=>{const w=e.target.closest&&e.target.closest('.w');if(w&&(e.key==='Enter'||e.key===' ')){e.preventDefault();expand(w)}});
+  async function expandAll(){plain=true;for(let g=0;g<200;g++){const w=document.querySelector('.w:not(.done)');if(w){await expand(w);continue}if(typing>0){await sleep(40);continue}break}}
+  document.querySelector('[data-plain]').addEventListener('click',e=>{e.target.textContent='Everything shown';e.target.disabled=true;expandAll()});
+
+  /* zoom a pinned print */
+  const dlg=document.getElementById('zoom'),zb=document.getElementById('zb');
+  const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  board.addEventListener('click',e=>{
+    const b=e.target.closest('.print');if(!b)return;const d=C[b.dataset.c];if(!d)return;
+    zb.innerHTML='<div><img src="../assets/img/'+d.img+'.png" alt="'+esc(d.t)+' screenshot"></div><div><h3>'+esc(d.t)+'</h3><p class="s">Screen in Chinese. Pages linked below are in Chinese.</p><dl>'+d.n.map(([a,b])=>'<dt>'+esc(a)+'</dt><dd>'+esc(b)+'</dd>').join('')+'</dl><p class="lk">'+d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('')+'</p><button class="x" data-x>Put it back</button></div>';
+    dlg.showModal();
+  });
+  zb.addEventListener('click',e=>{if(e.target.closest('[data-x]'))dlg.close()});
+  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+})();
+</script>
+</body>
+</html>
