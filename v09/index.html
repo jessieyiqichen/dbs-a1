@@ -42,28 +42,46 @@
   .dock .util .f{fill:var(--ink)}
   .dock .b1{background:var(--c1)}.dock .b2{background:var(--c2)}.dock .b3{background:var(--c3)}.dock .b4{background:var(--c4)}.dock .b5{background:var(--c5)}
 
-  /* overlays */
-  .ov{position:fixed;inset:0;background:rgba(246,245,241,.86);backdrop-filter:none;display:none;place-items:center;padding:24px;z-index:20}
+  /* overlays: one panel spec for products and about */
+  .ov{position:fixed;inset:0;background:rgba(246,245,241,.88);display:none;place-items:center;padding:24px;z-index:20}
   .ov.on{display:grid}
-  .box{width:min(880px,100%);max-height:calc(100vh - 48px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 30px 80px rgba(20,20,20,.18);padding:26px 28px 24px;position:relative}
-  .box .x{position:absolute;top:14px;right:16px;cursor:pointer;color:var(--muted);font-size:13px}
-  .box .nav{position:absolute;top:14px;left:18px;font-size:13px;color:var(--muted)}
-  .box .nav span{cursor:pointer;margin-right:10px;color:var(--ink)}
-  .box h2{margin:18px 0 2px;font:600 24px/1.2 var(--sans);letter-spacing:-.015em;color:var(--ink)}
-  .box .sub{color:var(--muted);margin:0 0 14px;font-size:14px}
-  .box .g{display:grid;grid-template-columns:1.25fr 1fr;gap:24px;align-items:start}
-  .box img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:10px}
-  .box p{margin:0 0 10px;font-size:15px}
-  .box .n{list-style:none;padding:0;margin:12px 0;display:grid;gap:6px}
-  .box .n li{font-size:13px;color:var(--muted);padding:6px 0;border-top:1px solid var(--line)}
-  .box .n li b{color:var(--ink);font-weight:600;font-size:15px;margin-right:6px}
-  .box .lk a{margin-right:12px;font-size:14px}
-  .box .lk small{display:block;color:var(--muted);font-size:12px;margin-top:4px}
-  .box.about{width:min(620px,100%)}
-  .box.about h2{margin-top:6px}
-  .box.about ol{padding-left:1.2em;margin:8px 0 0}
-  .box.about li{margin:0 0 6px;font-size:14.5px}
-  .box.about li b{color:var(--ink);font-weight:600}
+  .box{width:min(960px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-rows:auto 1fr auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 80px rgba(20,20,20,.16);overflow:hidden;animation:up .22s ease-out}
+  @keyframes up{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+  @media (prefers-reduced-motion:reduce){.box{animation:none}}
+  .hd{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .hd .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex-shrink:0}
+  .hd .ic svg{width:24px;height:24px}
+  .hd .ic img{width:40px;height:40px;border-radius:50%;object-fit:cover;object-position:50% 40%;background:#fff;border:1px solid var(--line)}
+  .hd .ic .k{stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.hd .ic .f{fill:#fff}
+  .hd h2{margin:0;font:600 18px/1.2 var(--sans);color:var(--ink);letter-spacing:-.01em}
+  .hd .sub{margin:2px 0 0;font-size:13px;color:var(--muted)}
+  .hd .x{margin-left:auto;cursor:pointer;color:var(--muted);font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
+  .hd .x:hover{color:var(--ink)}
+  .bd{overflow:auto;padding:20px 22px 22px;display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
+  .bd .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bd .shot img{display:block;width:100%;height:auto}
+  .bd .shot .cap{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
+  .bd h3{margin:0 0 6px;font:600 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .bd p{margin:0 0 18px;font-size:15px;color:var(--body)}
+  .bd dl{margin:0 0 18px;display:grid;grid-template-columns:auto 1fr;gap:0 14px}
+  .bd dt{font-weight:600;color:var(--ink);font-size:15px;padding:7px 0;border-top:1px solid var(--line);white-space:nowrap}
+  .bd dd{margin:0;font-size:13.5px;color:var(--muted);padding:8px 0;border-top:1px solid var(--line)}
+  .bd .btns{display:flex;flex-wrap:wrap;gap:8px}
+  .bd .btns a{text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--bg)}
+  .bd .btns a:hover{border-color:var(--ink)}
+  .bd .note{display:block;font-size:12px;color:var(--muted);margin-top:10px}
+  .ft{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .ft button{all:unset;cursor:pointer;color:var(--ink);font-size:13px;padding:6px 10px;border-radius:8px}
+  .ft button:hover{background:var(--bg)}
+  .ft .dots{display:flex;gap:7px}
+  .ft .dots i{width:7px;height:7px;border-radius:50%;background:var(--line);display:block}
+  .ft .dots i.on{background:var(--ink)}
+  .box.about{width:min(720px,100%)}
+  .box.about .bd{grid-template-columns:1fr 1fr}
+  .box.about .bd ol{margin:0;padding-left:1.1em}
+  .box.about .bd li{margin:0 0 7px;font-size:14px;color:var(--body)}
+  .box.about .bd li b{color:var(--ink);font-weight:600}
+  @media (max-width:640px){.bd,.box.about .bd{grid-template-columns:1fr}}
   .dot{display:inline-block;width:10px;height:10px;border-radius:3px;vertical-align:-1px;margin-right:8px}
   @media (max-width:640px){.dock{flex-wrap:wrap;justify-content:center;max-width:360px}.dock .sep{display:none}.box .g{grid-template-columns:1fr}.screen{padding-top:70px}}
 </style>
@@ -123,22 +141,36 @@
   ];
   const ov=document.getElementById('ov'), box=document.getElementById('box'); let cur=-1;
   function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+  const ICON={p1:'<svg viewBox="0 0 36 36"><line class="k" x1="6" y1="11" x2="30" y2="11"/><line class="k" x1="6" y1="18" x2="24" y2="18"/><line class="k" x1="6" y1="25" x2="28" y2="25"/><circle class="f" cx="28" cy="18" r="3"/></svg>',
+    p2:'<svg viewBox="0 0 36 36"><polyline class="k" points="6,26 13,11 19,21 25,8 30,17"/><circle class="f" cx="6" cy="26" r="2.4"/><circle class="f" cx="13" cy="11" r="2.4"/><circle class="f" cx="19" cy="21" r="2.4"/><circle class="f" cx="25" cy="8" r="2.4"/><circle class="f" cx="30" cy="17" r="2.4"/></svg>',
+    p3:'<svg viewBox="0 0 36 36"><polygon class="k" points="18,4 27,7.5 32,16 30,25 23,31 13,31 6,25 4,16 9,7.5"/><polygon class="k" points="18,11 23,13 26,18 24,23 20,26 15,25 12,21 12,16 14,13" opacity=".7"/></svg>',
+    p4:'<svg viewBox="0 0 36 36"><text x="5" y="14" fill="#fff" font-family="ui-monospace,Menlo,monospace" font-size="9">$</text><line class="k" x1="12" y1="11" x2="30" y2="11"/><polyline class="k" points="6,21 9,24 14,18"/><line class="k" x1="18" y1="21" x2="30" y2="21"/><polyline class="k" points="6,29 9,32 14,26"/><line class="k" x1="18" y1="29" x2="26" y2="29"/></svg>',
+    p5:'<svg viewBox="0 0 36 36"><path class="k" d="M5 9 Q18 4 31 9" opacity=".7"/><g class="f"><rect x="6" y="14" width="5" height="5" rx="1"/><rect x="13" y="14" width="5" height="5" rx="1"/><rect x="20" y="14" width="5" height="5" rx="1"/><rect x="27" y="14" width="5" height="5" rx="1" opacity=".4"/><rect x="6" y="22" width="5" height="5" rx="1"/><rect x="13" y="22" width="5" height="5" rx="1" opacity=".4"/><rect x="20" y="22" width="5" height="5" rx="1" opacity=".4"/><rect x="27" y="22" width="5" height="5" rx="1" opacity=".4"/></g></svg>'};
+  const PROB={p1:'Asking a question in an online lecture is blocked by input friction, not by model capability. Students do not type while listening.',
+    p2:'Bookmarking is frequent and organizing almost never happens, because organizing needs the user to start.',
+    p3:'Message bots learn how you talk. None learn how you decide, which is where the real cost of replying sits.',
+    p4:'The job search is blocked by people, not information. Existing tools stop at the behavior layer.',
+    p5:'Public ticketing data for Shanghai musicals exists and nobody reads it as a product.'};
+  const CAP={p1:'Transcript left, one-click marks, multimodal answers right.',p2:'A thought-thread archive built from saved posts.',p3:'The floating assistant proposing a reply and a warning.',p4:'The strategist page with a personal diagnosis.',p5:'The dashboard: seat-map snapshots and cast attribution.'};
   function openP(i){
     cur=i; const p=P[i];
     box.className='box';
-    box.innerHTML='<div class="nav"><span data-prev>‹ prev</span><span data-next>next ›</span><span style="color:var(--muted)">'+(i+1)+' / 5</span></div><span class="x" data-x>close ×</span>'+
-      '<h2><span class="dot" style="background:'+p.c+'"></span>'+esc(p.t)+'</h2><p class="sub">'+esc(p.s)+'</p>'+
-      '<div class="g"><img src="../assets/img/'+p.img+'.png" alt="'+esc(p.t)+'"><div><p>'+esc(p.p)+'</p><ul class="n">'+p.n.map(x=>'<li><b>'+esc(x[0])+'</b>'+esc(x[1])+'</li>').join('')+'</ul>'+
-      '<p class="lk">'+p.lk.map(l=>'<a href="'+l[1]+'">'+esc(l[0])+'</a>').join('')+'<small>'+esc(p.note)+'</small></p></div></div>';
-    ov.classList.add('on'); box.scrollTop=0;
+    box.innerHTML='<div class="hd"><span class="ic" style="background:'+p.c+'">'+ICON[p.id]+'</span><div><h2>'+esc(p.t)+'</h2><p class="sub">'+esc(p.s)+'</p></div><span class="x" data-x>close</span></div>'+
+      '<div class="bd"><div class="shot"><img src="../assets/img/'+p.img+'.png" alt="'+esc(p.t)+'"><div class="cap">'+esc(CAP[p.id])+'</div></div>'+
+      '<div><h3>The problem</h3><p>'+esc(PROB[p.id])+'</p><h3>What I built</h3><p>'+esc(p.p)+'</p><h3>Results</h3><dl>'+p.n.map(x=>'<dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd>').join('')+'</dl>'+
+      '<div class="btns">'+p.lk.map(l=>'<a href="'+l[1]+'">'+esc(l[0])+'</a>').join('')+'</div><span class="note">'+esc(p.note)+' · numbers read 2026-09</span></div></div>'+
+      '<div class="ft"><button data-prev>‹ previous</button><span class="dots">'+P.map((_,k)=>'<i class="'+(k===i?'on':'')+'"></i>').join('')+'</span><button data-next>next ›</button></div>';
+    ov.classList.add('on'); box.querySelector('.bd').scrollTop=0;
   }
   function openAbout(){
     cur=-1; box.className='box about';
-    box.innerHTML='<span class="x" data-x>close ×</span><h2>About</h2><p class="sub">Jessie Chen 陈亦奇 · Chicago / Shanghai</p>'+
-      '<p>Born in Wuhan. Economics at the Chinese University of Hong Kong, First-Class Honours. A product internship in Shanghai that shipped a content module to 300K daily UV. Now an MA in Computational Social Science at the University of Chicago, economics track, GPA 4.0, where I study how AI systems make choices and how they shape the people who use them.</p>'+
-      '<p>Music, travel, skiing, musicals. Two cats, Titi and Pupu; two dogs, Damai and Dami.</p>'+
-      '<p><b style="color:var(--ink)">Four rules, every product.</b></p><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in before building.</li><li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its own layer.</li><li><b>Define the metric before the number.</b> Every number names its dashboard, metric and read date.</li><li><b>Cost is a product parameter.</b> Every call logged and routed by tier; a shadow run proves quality first.</li></ol>'+
-      '<p class="sub" style="margin-top:14px">Products and case pages are in Chinese; this page is in English. Numbers read 2026-09. <a href="https://jessieyiqichen.github.io/">Current site</a>.</p>';
+    box.innerHTML='<div class="hd"><span class="ic"><img src="../assets/img/jessie-face.png" alt=""></span><div><h2>Jessie Chen 陈亦奇</h2><p class="sub">AI product manager candidate · Chicago / Shanghai</p></div><span class="x" data-x>close</span></div>'+
+      '<div class="bd"><div><h3>Where</h3><p>Born in Wuhan. Economics at the Chinese University of Hong Kong, First-Class Honours. A product internship in Shanghai that shipped a content module to 300K daily UV. Now in Chicago.</p>'+
+      '<h3>Studies</h3><p>MA in Computational Social Science at the University of Chicago, economics track, GPA 4.0, class of 2027. I study how AI systems make choices and how they shape the people who use them.</p>'+
+      '<h3>Off hours</h3><p>Music, travel, skiing, musicals. Two cats, Titi and Pupu; two dogs, Damai and Dami.</p></div>'+
+      '<div><h3>Four rules, every product</h3><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in before building.</li><li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its own layer.</li><li><b>Define the metric before the number.</b> Every number names its dashboard, metric and read date.</li><li><b>Cost is a product parameter.</b> Every call logged and routed by tier; a shadow run proves quality first.</li></ol>'+
+      '<div class="btns" style="margin-top:18px"><a href="mailto:jessiechenyiqi@outlook.com">email</a><a href="../assets/Jessie_Chen_Resume.pdf">résumé</a><a href="https://github.com/jessieyiqichen">github</a><a href="https://jessieyiqichen.github.io/">current site</a></div><span class="note">Products and case pages are in Chinese; this page is in English.</span></div></div>'+
+      '<div class="ft"><span>Five products shipped solo · three in production</span><button data-open="p1">see the work ›</button></div>';
     ov.classList.add('on');
   }
   function close(){ov.classList.remove('on');}
