@@ -3,81 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v12 · One screen, written as a letter — Jessie Chen</title>
+<title>v12 · A note in ink — Jessie Chen</title>
 <style>
   @font-face{font-family:Alegreya;src:url("../assets/fonts/Alegreya.woff2") format("woff2");font-weight:400 800;font-display:swap}
   @font-face{font-family:Alegreya;src:url("../assets/fonts/Alegreya-Italic.woff2") format("woff2");font-weight:400 800;font-style:italic;font-display:swap}
-  :root{--bg:#eceef0;--ink:#171c22;--body:#363c44;--muted:#7b818a;--line:#d3d7dc;--card:#fff;
-    --c1:#d9e4f2;--c2:#d7eae7;--c3:#e1dff0;--c4:#dde6ea;--c5:#e9e2ea;--cp:#e4e8dd;
+  :root{--bg:#0f141b;--ink:#e9e3d6;--body:#c9c3b6;--muted:#7f8794;--line:#27303b;--zhu:#d0644a;
+    --card:#f6f3ec;--cink:#1b1f26;--cbody:#3a3f47;--cmuted:#7a7f87;--cline:#dedad0;
     --serif:Alegreya,"Iowan Old Style",Georgia,serif;--sans:-apple-system,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif}
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--body);font:15px/1.55 var(--sans);overflow:hidden}
+  body{margin:0;background:var(--bg);color:var(--body);font:15px/1.55 var(--sans);overflow:hidden;
+    background-image:radial-gradient(ellipse at 50% 38%,#18202b 0%,var(--bg) 62%)}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
   a{color:var(--ink)}
   .back{position:fixed;top:14px;left:16px;font-size:12px;color:var(--muted);text-decoration:none;z-index:9}
-  .top{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--card);z-index:9}
+  .back:hover{color:var(--ink)}
+  .top{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:2px;border:1px solid var(--line);border-radius:999px;padding:3px;background:rgba(15,20,27,.7);z-index:9}
   .top button{all:unset;cursor:pointer;font:12px var(--sans);padding:5px 12px;border-radius:999px;color:var(--body)}
-  .top button:hover{background:var(--bg);color:var(--ink)}
+  .top button:hover{background:#1c2430;color:var(--ink)}
 
-  .screen{height:100%;display:grid;grid-template-rows:1fr auto;place-items:center;padding:60px 24px 28px}
-  .me{max-width:640px;font-family:var(--serif)}
-  .me .date{font:13px var(--sans);color:var(--muted);margin:0 0 18px}
-  .me .sal{margin:0 0 14px;font-size:21px;color:var(--ink)}
-  .me p.l{margin:0 0 14px;font-size:clamp(19px,2vw,24px);line-height:1.4;color:var(--ink)}
-  .me p.l i{color:var(--muted)}
-  .me .sig{display:flex;align-items:center;gap:14px;margin-top:24px}
-  .me .sig img{width:56px;height:56px;object-fit:cover;object-position:50% 40%;border-radius:50%;background:#fff;border:1px solid var(--line);padding:2px}
-  .me .sig .nm{font-size:22px;font-style:italic;color:var(--ink);line-height:1.1}
-  .me .sig .nm span{font-style:normal;font-size:14px;color:var(--muted);margin-left:6px;font-family:"Songti SC","Noto Serif CJK SC",serif;letter-spacing:.08em}
-  .me .sig small{display:block;font:12.5px var(--sans);color:var(--muted);margin-top:4px}
+  .screen{position:relative;z-index:1;height:100%;display:grid;grid-template-rows:1fr auto;place-items:center;padding:60px 24px 30px}
+  .note{max-width:640px;font-family:var(--serif)}
+  .note .date{font:13px var(--sans);color:var(--muted);margin:0 0 18px}
+  .note .sal{margin:0 0 14px;font-size:21px;color:var(--ink)}
+  .note p.l{margin:0 0 14px;font-size:clamp(19px,2vw,24px);line-height:1.42;color:var(--ink)}
+  .note p.l i{color:var(--muted)}
+  .sig{display:flex;align-items:flex-end;gap:14px;margin-top:18px}
+  .sig canvas{display:block;width:280px;height:64px}
+  .sig .cn{font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:15px;letter-spacing:.14em;color:var(--muted);padding-bottom:12px}
+  .sig .seal{display:inline-grid;place-items:center;width:30px;height:30px;border:1.5px solid var(--zhu);color:var(--zhu);font:13px/1 "Songti SC","Noto Serif CJK SC",serif;border-radius:3px;margin-bottom:12px;transform:rotate(-4deg);opacity:.9}
+  .sig small{display:block;font:12.5px var(--sans);color:var(--muted);margin-top:2px}
 
-  .dock{display:flex;gap:10px;padding:10px;border:1px solid var(--line);border-radius:22px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(20,20,20,.06)}
-  .dock button,.dock a{all:unset;cursor:pointer;width:64px;height:64px;border-radius:16px;display:grid;place-items:center;position:relative;transition:transform .15s}
-  .dock button:hover,.dock a:hover,.dock button:focus-visible,.dock a:focus-visible{transform:translateY(-4px)}
-  .dock .sep{width:1px;background:var(--line);margin:8px 2px}
-  .dock .lbl{position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:2px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none}
-  .dock button:hover .lbl,.dock a:hover .lbl,.dock button:focus-visible .lbl,.dock a:focus-visible .lbl{opacity:1}
-  .dock .em{font-size:30px;line-height:1}
-  .dock .util{background:#e8eaec}
-  .dock .util .em{font-size:26px}
-  .dock .util .gh{width:28px;height:28px}
-  .dock .b1{background:var(--c1)}.dock .b2{background:var(--c2)}.dock .b3{background:var(--c3)}.dock .b4{background:var(--c4)}.dock .b5{background:var(--c5)}.dock .bp{background:var(--cp)}
+  .dock{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(21,27,36,.75);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+  .tile{all:unset;cursor:pointer;position:relative;width:120px;height:75px;border-radius:10px;overflow:visible;transition:transform .2s}
+  .tile img,.tile canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:10px}
+  .tile{background:#121821;box-shadow:inset 0 0 0 1px var(--line)}
+  .tile img{object-fit:cover;object-position:top left;opacity:0;clip-path:circle(0% at 50% 50%)}
+  .tile:hover,.tile:focus-visible{transform:translateY(-4px)}
+  .tile:focus-visible{outline:1.5px solid var(--zhu);outline-offset:3px}
+  .lbl{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:11.5px;color:var(--ink);background:#1c2430;border:1px solid var(--line);padding:2px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:2}
+  .tile:hover .lbl,.tile:focus-visible .lbl,.util:hover .lbl,.util:focus-visible .lbl{opacity:1}
+  .dock .sep{width:1px;align-self:stretch;background:var(--line);margin:6px 2px}
+  .util{all:unset;cursor:pointer;position:relative;width:48px;height:48px;border-radius:12px;display:grid;place-items:center;background:#1c2430;transition:transform .15s}
+  .util:hover,.util:focus-visible{transform:translateY(-3px)}
+  .util .em{font-size:22px;line-height:1}
+  .util .gh{width:22px;height:22px}
+  .hint{margin-top:10px;font-size:12px;color:var(--muted);text-align:center}
 
-  .ov{position:fixed;inset:0;background:rgba(236,238,240,.88);display:none;place-items:center;padding:24px;z-index:20}
+  .ov{position:fixed;inset:0;background:rgba(8,11,16,.72);display:none;place-items:center;padding:24px;z-index:20}
   .ov.on{display:grid}
-  .box{width:min(960px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-rows:auto 1fr auto;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.14);overflow:hidden;animation:up .18s ease-out}
+  .box{width:min(960px,100%);max-height:calc(100vh - 48px);display:grid;grid-template-rows:auto 1fr auto;background:var(--card);color:var(--cbody);border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;animation:up .18s ease-out}
   @keyframes up{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
-  @media (prefers-reduced-motion:reduce){.box{animation:none}}
-  .hd{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .hd{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--cline)}
   .hd .ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;font-size:22px}
-  .hd h2{margin:0;font:600 19px/1.2 var(--serif);color:var(--ink)}
-  .hd .sub{margin:2px 0 0;font-size:13px;color:var(--muted)}
-  .hd .x{margin-left:auto;cursor:pointer;color:var(--muted);font-size:13px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--bg)}
-  .hd .x:hover{color:var(--ink)}
+  .hd h2{margin:0;font:600 19px/1.2 var(--serif);color:var(--cink)}
+  .hd .sub{margin:2px 0 0;font-size:13px;color:var(--cmuted)}
+  .hd .x{margin-left:auto;cursor:pointer;color:var(--cmuted);font-size:13px;padding:6px 10px;border:1px solid var(--cline);border-radius:999px}
+  .hd .x:hover{color:var(--cink)}
   .bd{overflow:auto;padding:20px 22px 22px;display:grid;grid-template-columns:1.2fr 1fr;gap:26px;align-items:start}
-  .bd .shot{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .bd .shot{border:1px solid var(--cline);border-radius:12px;overflow:hidden;background:#fff}
   .bd .shot img{display:block;width:100%;height:auto}
-  .bd .shot .cap{font-size:12px;color:var(--muted);padding:8px 12px;border-top:1px solid var(--line)}
-  .bd h3{margin:0 0 6px;font:600 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
-  .bd p{margin:0 0 18px;font:16.5px/1.5 var(--serif);color:var(--body)}
+  .bd .shot .cap{font-size:12px;color:var(--cmuted);padding:8px 12px;border-top:1px solid var(--cline)}
+  .bd h3{margin:0 0 6px;font:600 12px/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--cmuted)}
+  .bd p{margin:0 0 18px;font:16.5px/1.5 var(--serif);color:var(--cbody)}
   .bd dl{margin:0 0 18px;display:grid;grid-template-columns:auto 1fr;gap:0 14px}
-  .bd dt{font:600 16px var(--serif);color:var(--ink);padding:7px 0;border-top:1px solid var(--line);white-space:nowrap}
-  .bd dd{margin:0;font-size:13.5px;color:var(--muted);padding:8px 0;border-top:1px solid var(--line)}
+  .bd dt{font:600 16px var(--serif);color:var(--zhu);padding:7px 0;border-top:1px solid var(--cline);white-space:nowrap}
+  .bd dd{margin:0;font-size:13.5px;color:var(--cmuted);padding:8px 0;border-top:1px solid var(--cline)}
   .bd .btns{display:flex;flex-wrap:wrap;gap:8px}
-  .bd .btns a{text-decoration:none;font-size:13.5px;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:7px 14px;background:var(--bg)}
-  .bd .btns a:hover{border-color:var(--ink)}
-  .bd .note{display:block;font-size:12px;color:var(--muted);margin-top:10px}
+  .bd .btns a{text-decoration:none;font-size:13.5px;font-weight:500;color:var(--cink);border:1px solid var(--cline);border-radius:999px;padding:7px 14px;background:#fff}
+  .bd .btns a:hover{border-color:var(--cink)}
+  .bd .note{display:block;font-size:12px;color:var(--cmuted);margin-top:10px}
   .bd .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 16px}
   .bd .photos figure{margin:0}
-  .bd .photos img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
-  .bd .photos figcaption{font-size:12px;color:var(--muted);margin-top:5px}
-  .ft{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
-  .ft button{all:unset;cursor:pointer;color:var(--ink);font-size:13px;padding:6px 10px;border-radius:8px}
-  .ft button:hover{background:var(--bg)}
+  .bd .photos img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+  .bd .photos figcaption{font-size:12px;color:var(--cmuted);margin-top:5px}
+  .ft{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--cline);font-size:13px;color:var(--cmuted)}
+  .ft button{all:unset;cursor:pointer;color:var(--cink);font-size:13px;padding:6px 10px;border-radius:8px}
+  .ft button:hover{background:#ebe7de}
   .ft .dots{display:flex;gap:7px}
-  .ft .dots i{width:7px;height:7px;border-radius:50%;background:var(--line);display:block}
-  .ft .dots i.on{background:var(--ink)}
-  @media (max-width:640px){.bd{grid-template-columns:1fr}.dock{flex-wrap:wrap;justify-content:center;max-width:360px}.dock .sep{display:none}.screen{padding-top:70px}.me p.l{font-size:18px}}
+  .ft .dots i{width:7px;height:7px;border-radius:50%;background:var(--cline);display:block}
+  .ft .dots i.on{background:var(--zhu)}
+  @media (prefers-reduced-motion:reduce){.box{animation:none}.tile,.util{transition:none}}
+  @media (max-width:760px){
+    body{overflow:auto}.screen{height:auto;min-height:100%;gap:28px;padding-top:70px}
+    .bd{grid-template-columns:1fr}
+    .dock{flex-wrap:wrap;justify-content:center;max-width:420px}.dock .sep{display:none}
+    .tile{width:110px;height:69px}.note p.l{font-size:18px}.sig canvas{width:220px;height:50px}
+  }
 </style>
 </head>
 <body>
@@ -85,59 +98,116 @@
 <div class="top"><button data-about>📍 who is writing</button><button data-open="0">🚀 start with the work</button></div>
 
 <main class="screen">
-  <section class="me">
+  <section class="note">
     <p class="date">Chicago, October 2026</p>
     <p class="sal">Dear hiring manager,</p>
     <p class="l">I am writing about an AI product manager role. Rather than list qualifications, I would like to show you what I shipped: in the past year I took five AI products from requirements through development to launch, solo. Three of them still run automatically in production every day.</p>
-    <p class="l"><i>The five are in the dock below. Each opens to the screenshot, the numbers and the links.</i></p>
-    <div class="sig"><img src="../assets/img/jessie-face.png" alt="Jessie Chen, memoji portrait"><div><div class="nm">Jessie Chen<span>陈亦奇</span></div><small>MA Computational Social Science, University of Chicago, class of 2027 · Chicago / Shanghai</small></div></div>
+    <p class="l"><i>The five are below. Hover to see each one; click to open it.</i></p>
+    <div class="sig"><canvas id="sig" aria-label="Jessie Chen" role="img"></canvas><span class="cn">陈亦奇</span><span class="seal" aria-hidden="true">奇</span></div>
+    <div class="sig" style="margin-top:0"><small>MA Computational Social Science, University of Chicago, class of 2027 · Chicago / Shanghai</small></div>
   </section>
 
-  <nav class="dock" aria-label="Attachments and links">
-    <button class="b1" data-open="0" aria-label="Lecture Companion"><span class="lbl">1 · Lecture Companion</span><span class="em">🎓</span></button>
-    <button class="b2" data-open="1" aria-label="xhs-threads"><span class="lbl">2 · xhs-threads</span><span class="em">🔖</span></button>
-    <button class="b3" data-open="2" aria-label="Nous"><span class="lbl">3 · Nous</span><span class="em">💬</span></button>
-    <button class="b4" data-open="3" aria-label="JobPilot"><span class="lbl">4 · JobPilot</span><span class="em">🧭</span></button>
-    <button class="b5" data-open="4" aria-label="MusiClaw"><span class="lbl">5 · MusiClaw</span><span class="em">🎭</span></button>
+  <div>
+  <nav class="dock" aria-label="Five products and links">
+    <button class="tile" data-open="0" aria-label="Lecture Companion"><span class="lbl">1 · Lecture Companion</span><img src="../assets/img/lecture-companion.png" alt=""><canvas></canvas></button>
+    <button class="tile" data-open="1" aria-label="xhs-threads"><span class="lbl">2 · xhs-threads</span><img src="../assets/img/xhs-threads.png" alt=""><canvas></canvas></button>
+    <button class="tile" data-open="2" aria-label="Nous"><span class="lbl">3 · Nous</span><img src="../assets/img/nous.png" alt=""><canvas></canvas></button>
+    <button class="tile" data-open="3" aria-label="JobPilot"><span class="lbl">4 · JobPilot</span><img src="../assets/img/job-pilot.png" alt=""><canvas></canvas></button>
+    <button class="tile" data-open="4" aria-label="MusiClaw"><span class="lbl">5 · MusiClaw</span><img src="../assets/img/musiclaw.png" alt=""><canvas></canvas></button>
     <span class="sep"></span>
-    <button class="bp" data-about aria-label="Where I come from"><span class="lbl">where I come from</span><span class="em">📍</span></button>
-    <span class="sep"></span>
+    <button class="util" data-about aria-label="Where I come from"><span class="lbl">where I come from</span><span class="em">📍</span></button>
     <a class="util" href="mailto:jessiechenyiqi@outlook.com" aria-label="Email"><span class="lbl">jessiechenyiqi@outlook.com</span><span class="em">✉️</span></a>
     <a class="util" href="../assets/Jessie_Chen_Resume.pdf" aria-label="Résumé"><span class="lbl">résumé (pdf)</span><span class="em">📄</span></a>
-    <a class="util" href="https://github.com/jessieyiqichen" aria-label="GitHub"><span class="lbl">github.com/jessieyiqichen</span><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path fill="#24292f" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
+    <a class="util" href="https://github.com/jessieyiqichen" aria-label="GitHub"><span class="lbl">github.com/jessieyiqichen</span><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path fill="#e9e3d6" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
   </nav>
+  <p class="hint">Screenshots are of products built for Chinese users; every panel has English captions.</p>
+  </div>
 </main>
 
 <div class="ov" id="ov"><div class="box" id="box" role="dialog" aria-modal="true"></div></div>
 
 <script>
 (function(){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const PAPER=[233,227,214], ZHU=[208,100,74];
+  const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+
+  /* signature: ink drops scattered across the line settle into the name */
+  (function(){
+    const cv=document.getElementById('sig'),ctx=cv.getContext('2d'),dpr=Math.min(devicePixelRatio||1,2);let pts=[],W=0,H=0;
+    function build(){
+      W=cv.clientWidth;H=cv.clientHeight;if(!W||!H)return;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      const o=document.createElement('canvas');o.width=W;o.height=H;const c=o.getContext('2d');
+      const fs=H*0.78;c.fillStyle='#fff';c.font='italic 500 '+fs+'px Alegreya, Georgia, serif';c.textBaseline='alphabetic';c.fillText('Jessie Chen',2,H*0.8);
+      const d=c.getImageData(0,0,W,H).data;pts=[];
+      for(let y=0;y<H;y+=2)for(let x=0;x<W;x+=2)if(d[(y*W+x)*4+3]>110){const a=Math.random()*6.283,r=10+Math.random()*60;pts.push({x,y,dx:Math.cos(a)*r,dy:Math.sin(a)*r*0.5,r0:.9+Math.random()*.5,r1:1.5+Math.random()*2.2,ph:Math.random()*.45})}
+      if(reduce)draw(0);else run();
+    }
+    function draw(t){ // t=1 scattered, t=0 settled
+      ctx.clearRect(0,0,W,H);
+      for(const p of pts){const k=ease(Math.min(1,Math.max(0,(t-p.ph*(1-t))/1)));const x=p.x+p.dx*k,y=p.y+p.dy*k,r=p.r0+(p.r1-p.r0)*k;
+        ctx.globalAlpha=1-.75*k;const c=k>.05?ZHU:PAPER;ctx.fillStyle='rgb('+c+')';ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill()}
+      ctx.globalAlpha=1;
+    }
+    function run(){const t0=performance.now(),D=1700;(function f(now){const u=Math.min(1,(now-t0)/D);draw(1-u);if(u<1)requestAnimationFrame(f)})(t0)}
+    (document.fonts&&document.fonts.load?document.fonts.load('italic 500 40px Alegreya'):Promise.resolve()).then(build,build);
+  })();
+
+  /* tiles: the screenshot as pale ink dots; hover and the dots bloom away while the image surfaces */
+  document.querySelectorAll('.tile').forEach(tile=>{
+    const cv=tile.querySelector('canvas'),img=tile.querySelector('img'),ctx=cv.getContext('2d'),dpr=Math.min(devicePixelRatio||1,2);
+    let pts=[],W=0,H=0,t=0,target=0,raf=0,last=0;
+    function build(){
+      W=tile.clientWidth;H=tile.clientHeight;if(!W||!H||!img.naturalWidth)return;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+      const o=document.createElement('canvas');o.width=W;o.height=H;const c=o.getContext('2d');
+      const s=Math.max(W/img.naturalWidth,H/img.naturalHeight);c.drawImage(img,0,0,img.naturalWidth*s,img.naturalHeight*s);
+      let d;try{d=c.getImageData(0,0,W,H).data}catch(e){console.error('tile image unreadable',e);img.style.opacity=1;img.style.clipPath='none';return}
+      const step=3.2;pts=[];
+      for(let y=step/2;y<H;y+=step)for(let x=step/2;x<W;x+=step){const i=((y|0)*W+(x|0))*4;const L=(.299*d[i]+.587*d[i+1]+.114*d[i+2])/255;
+        const r=step*.46*Math.pow(L,1.8);if(r<.3)continue;const a=Math.random()*6.283,m=8+Math.random()*26;pts.push({x,y,r,dx:Math.cos(a)*m,dy:Math.sin(a)*m,ph:Math.random()*.3})}
+      draw();
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of pts){const k=ease(Math.min(1,Math.max(0,(t-p.ph)/(1-p.ph))));ctx.globalAlpha=(1-k)*.72;
+        ctx.fillStyle=k>.04?'rgb('+ZHU+')':'rgb('+PAPER+')';ctx.beginPath();ctx.arc(p.x+p.dx*k,p.y+p.dy*k,p.r*(1+k*.8),0,6.2832);ctx.fill()}
+      ctx.globalAlpha=1;
+      const e=ease(t);img.style.opacity=e;img.style.clipPath='circle('+(e*75)+'% at 50% 50%)';
+    }
+    function tick(now){const dt=Math.min(.05,(now-last)/1000||.016);last=now;t+=(target?1:-1)*dt/(target?.6:.8);t=Math.max(0,Math.min(1,t));draw();raf=t!==target?requestAnimationFrame(tick):0}
+    function go(v){target=v;if(reduce){t=v;draw();return}if(!raf){last=performance.now();raf=requestAnimationFrame(tick)}}
+    tile.addEventListener('mouseenter',()=>go(1));tile.addEventListener('mouseleave',()=>go(0));
+    tile.addEventListener('focus',()=>{if(tile.matches(':focus-visible'))go(1)});tile.addEventListener('blur',()=>{if(!tile.matches(':hover'))go(0)});
+    if(img.complete)build();else img.addEventListener('load',build);
+  });
+
+  /* panels, v09 spec */
   const P=[
-    {t:'Lecture Companion',s:'real-time lecture AI assistant · solo build',img:'lecture-companion',emo:'🎓',c:'var(--c1)',
+    {t:'Lecture Companion',s:'real-time lecture AI assistant · solo build',img:'lecture-companion',emo:'🎓',c:'#ece6da',
      prob:'The bottleneck for asking a question in class is input friction, not model capability. Students do not type while listening.',
      p:'I compressed a question into one click on a transcript sentence, and used multimodal retrieval to fill in the whiteboard and formulas. My North Star is after-class review, not in-class activity.',
      cap:'Transcript left, one-click marks, multimodal answers right (Chinese).',
      n:[['63','marks, 59 with zero typing · product dashboard'],['3','rollout stages, zero rollbacks · release log'],['¼','ASR cost after a shadow run · usage ledger']],
      lk:[['📖 case study','https://jessieyiqichen.github.io/projects/lecture-companion.html'],['▶️ demo','https://jessieyiqichen.github.io/lc-demo/'],['🧭 walkthrough','https://jessieyiqichen.github.io/lecture-companion-walkthrough/']],note:'pages in Chinese'},
-    {t:'xhs-threads',s:'thought threads from Xiaohongshu bookmarks · solo build',img:'xhs-threads',emo:'🔖',c:'var(--c2)',
+    {t:'xhs-threads',s:'thought threads from Xiaohongshu bookmarks · solo build',img:'xhs-threads',emo:'🔖',c:'#ece6da',
      prob:'Bookmarking is frequent and organizing almost never happens, because organizing needs the user to start.',
      p:'I turned organizing into zero-label, proactive archiving. The user only saves; the AI threads, annotates and checks. I surveyed four competitor types for the positioning, and an independent reviewer model gates the output.',
      cap:'A thought-thread archive built from saved posts (Chinese).',
      n:[['11','threads, 63 nodes · production DB, 2026-09'],['90%','of calls on the light tier · call ledger'],['¥0.05–0.10','per item · ledger range']],
      lk:[['📖 case study','https://jessieyiqichen.github.io/projects/xhs-threads.html'],['▶️ demo','https://47.94.34.146:8443/demo'],['🧪 try it','https://47.94.34.146:8443/try']],note:'pages in Chinese'},
-    {t:'Nous',s:'cognitive-twin message agent · three clients',img:'nous',emo:'💬',c:'var(--c3)',
+    {t:'Nous',s:'cognitive-twin message agent · three clients',img:'nous',emo:'💬',c:'#ece6da',
      prob:'Message bots learn how you talk. None learn how you decide, which is where the real cost of replying sits.',
      p:'This is the one I would most like to talk about. I built a nine-dimension cognitive model that judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Feishu bot, Mac floating assistant and Web, all three in daily use.',
      cap:'The floating assistant proposing a reply and a warning (Chinese).',
      n:[['49→71%','behavior prediction accuracy'],['3','clients in daily production use'],['closed','correction flywheel']],
      lk:[['📖 case study','https://jessieyiqichen.github.io/projects/nous.html'],['▶️ demo','https://jessieyiqichen.github.io/demos/nous.html'],['🧪 sandbox','https://web-ten-omega-72.vercel.app/agent']],note:'pages in Chinese'},
-    {t:'JobPilot',s:'AI job-search strategist · open source',img:'job-pilot',emo:'🧭',c:'var(--c4)',
+    {t:'JobPilot',s:'AI job-search strategist · open source',img:'job-pilot',emo:'🧭',c:'#ece6da',
      prob:'The job search is blocked by people, not information. Existing tools stop at the behavior layer.',
      p:'I plugged a cognitive model and language samples into personal diagnosis and messaging that sounds like you. It is open source; all six product trade-offs have a written why.',
      cap:'The strategist page with a personal diagnosis (Chinese).',
      n:[['349','jobs collected, 37 high-score · 2026-09'],['544','tests, 31 CLI commands, CI green'],['6','trade-offs with a written why']],
      lk:[['📖 case study','https://jessieyiqichen.github.io/projects/job-pilot.html'],['▶️ demo','https://jobpilot-demo-delta.vercel.app'],['💻 code','https://github.com/jessieyiqichen/job-pilot']],note:'case study in Chinese; code and demo in English'},
-    {t:'MusiClaw',s:'Shanghai musical-theatre market data · solo build',img:'musiclaw',emo:'🎭',c:'var(--c5)',
+    {t:'MusiClaw',s:'Shanghai musical-theatre market data · solo build',img:'musiclaw',emo:'🎭',c:'#ece6da',
      prob:'Public ticketing data for Shanghai musicals exists and nobody reads it as a product.',
      p:'I turned it into a data product that updates itself every day: seat-map snapshots, cast attribution, four content pipelines feeding a real data account. I wrote down what the AI may and may not decide.',
      cap:'The dashboard: daily seat-map snapshots and cast attribution (Chinese).',
@@ -157,7 +227,7 @@
   }
   function openAbout(){
     cur=-1;
-    box.innerHTML='<div class="hd"><span class="ic" style="background:var(--cp)">📍</span><div><h2>Where I come from</h2><p class="sub">in case it helps to know who is writing</p></div><span class="x" data-x>close</span></div>'+
+    box.innerHTML='<div class="hd"><span class="ic" style="background:#ece6da">📍</span><div><h2>Where I come from</h2><p class="sub">in case it helps to know who is writing</p></div><span class="x" data-x>close</span></div>'+
       '<div class="bd"><div><div class="photos"><figure><img src="../assets/photos/wuhan-night.jpg" alt="Wuhan at night across the Yangtze"><figcaption>Wuhan, where I was born.</figcaption></figure><figure><img src="../assets/photos/chicago-lake-sunset.jpg" alt="Chicago skyline at sunset from the lake"><figcaption>Chicago, where I am now.</figcaption></figure></div>'+
       '<h3>📍 The route</h3><p>I was born in Wuhan, spent four years in Hong Kong for economics at The Chinese University of Hong Kong, a summer in Shanghai for a product internship, and I am now in Chicago for an MA in Computational Social Science, economics track, GPA 4.0, class of 2027.</p></div>'+
       '<div><h3>🎿 Off hours</h3><p>Music, travel, skiing and musicals. Two cats, Titi and Pupu, and two dogs, Damai and Dami, supervise the work. The musicals habit became a product; it is number five in the dock.</p>'+
