@@ -88,14 +88,14 @@
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
-<div class="top"><button data-about>about</button><button data-open="p1">start with the work</button></div>
+<div class="top"><button data-about>👋 about</button><button data-open="p1">🚀 start with the work</button></div>
 
 <main class="screen">
   <section class="me">
     <img src="../assets/img/jessie-face.png" alt="Jessie Chen, memoji portrait">
     <p class="name"><b>Jessie Chen</b><span class="cn">陈亦奇</span> · AI product manager candidate · University of Chicago, class of 2027</p>
     <h1>Product judgment is proven by products that ship.</h1>
-    <p>Five AI products built solo in the past year, three running in production every day. <i>Everything else is behind the icons.</i></p>
+    <p>Five AI products built solo in the past year, three running in production every day. <i>Everything else is behind the icons 👇</i></p>
   </section>
 
   <nav class="dock" aria-label="Products and links">
@@ -119,23 +119,23 @@
 (function(){
   const P=[
     {id:'p1',c:'var(--c1)',t:'Lecture Companion',s:'real-time lecture AI assistant · solo build',img:'lecture-companion',
-     p:'The bottleneck for asking questions in class is input friction, not model capability. A question became one click on a transcript sentence; multimodal retrieval fills in the whiteboard and formulas. North Star: after-class review, not in-class activity.',
+     p:'A question became one click on a transcript sentence; multimodal retrieval fills in the whiteboard and formulas. North Star: after-class review, not in-class activity.',
      n:[['63','marks, 59 with zero typing · product dashboard'],['3','rollout stages, zero rollbacks · release log'],['¼','ASR cost after optimization · usage ledger']],
      lk:[['case study','https://jessieyiqichen.github.io/projects/lecture-companion.html'],['demo','https://jessieyiqichen.github.io/lc-demo/'],['walkthrough','https://jessieyiqichen.github.io/lecture-companion-walkthrough/']],note:'pages in Chinese'},
     {id:'p2',c:'var(--c2)',t:'xhs-threads',s:'thought threads from Xiaohongshu bookmarks · solo build',img:'xhs-threads',
-     p:'Bookmarking is frequent, organizing never happens. The user only saves; the AI threads, annotates, and an independent reviewer model checks the output before anything is published.',
+     p:'The user only saves. The AI threads bookmarks into trains of thought, writes the notes, and an independent reviewer model checks the output before anything is published.',
      n:[['11','threads, 63 nodes · production DB'],['90%','of calls on the light tier · call ledger'],['¥0.05–0.10','per item · ledger range']],
      lk:[['case study','https://jessieyiqichen.github.io/projects/xhs-threads.html'],['demo','https://47.94.34.146:8443/demo'],['try it','https://47.94.34.146:8443/try']],note:'pages in Chinese'},
     {id:'p3',c:'var(--c3)',t:'Nous',s:'cognitive-twin message agent · three clients',img:'nous',
-     p:'Other bots learn how you talk; Nous learns how you decide. A nine-dimension cognitive model judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Feishu bot, Mac floating assistant, Web.',
+     p:'Nous learns how you decide, not how you talk. A nine-dimension cognitive model judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Feishu bot, Mac floating assistant, Web.',
      n:[['49→71%','behavior prediction accuracy'],['3','clients in daily production use'],['closed','correction flywheel']],
      lk:[['case study','https://jessieyiqichen.github.io/projects/nous.html'],['demo','https://jessieyiqichen.github.io/demos/nous.html'],['sandbox','https://web-ten-omega-72.vercel.app/agent']],note:'pages in Chinese'},
     {id:'p4',c:'var(--c4)',t:'JobPilot',s:'AI job-search strategist · open source',img:'job-pilot',
-     p:'The job search is blocked by people, not information. A cognitive model plus language samples give a personal diagnosis and messaging that sounds like you. Six trade-offs, each with a written why.',
+     p:'JobPilot plugs in a cognitive model and language samples to give a personal diagnosis and messaging that sounds like you. Open source; six trade-offs, each with a written why.',
      n:[['349','jobs collected, 37 high-score'],['544','tests, 31 CLI commands, CI green'],['6','trade-offs with a written why']],
      lk:[['case study','https://jessieyiqichen.github.io/projects/job-pilot.html'],['demo','https://jobpilot-demo-delta.vercel.app'],['code','https://github.com/jessieyiqichen/job-pilot']],note:'case study in Chinese; code and demo in English'},
     {id:'p5',c:'var(--c5)',t:'MusiClaw',s:'Shanghai musical-theatre market data · solo build',img:'musiclaw',
-     p:'Public ticketing data turned into a product that updates itself daily: seat-map snapshots, cast attribution, four content pipelines feeding a real data account. What the AI may and may not decide is written down.',
+     p:'A product that updates itself every day: seat-map snapshots, cast attribution, four content pipelines feeding a real data account. What the AI may and may not decide is written down.',
      n:[['86','shows snapshotted every day'],['4','content pipelines'],['24h','fixed review after every post']],
      lk:[['case study','https://jessieyiqichen.github.io/projects/musiclaw.html'],['dashboard','https://jessieyiqichen.github.io/musiclaw-demo/']],note:'pages in Chinese'}
   ];
@@ -157,19 +157,19 @@
     box.className='box';
     box.innerHTML='<div class="hd"><span class="ic" style="background:'+p.c+'">'+ICON[p.id]+'</span><div><h2>'+esc(p.t)+'</h2><p class="sub">'+esc(p.s)+'</p></div><span class="x" data-x>close</span></div>'+
       '<div class="bd"><div class="shot"><img src="../assets/img/'+p.img+'.png" alt="'+esc(p.t)+'"><div class="cap">'+esc(CAP[p.id])+'</div></div>'+
-      '<div><h3>The problem</h3><p>'+esc(PROB[p.id])+'</p><h3>What I built</h3><p>'+esc(p.p)+'</p><h3>Results</h3><dl>'+p.n.map(x=>'<dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd>').join('')+'</dl>'+
-      '<div class="btns">'+p.lk.map(l=>'<a href="'+l[1]+'">'+esc(l[0])+'</a>').join('')+'</div><span class="note">'+esc(p.note)+' · numbers read 2026-09</span></div></div>'+
+      '<div><h3>🧩 The problem</h3><p>'+esc(PROB[p.id])+'</p><h3>🛠️ What I built</h3><p>'+esc(p.p)+'</p><h3>📊 Results</h3><dl>'+p.n.map(x=>'<dt>'+esc(x[0])+'</dt><dd>'+esc(x[1])+'</dd>').join('')+'</dl>'+
+      '<div class="btns">'+p.lk.map(l=>'<a href="'+l[1]+'">'+({'case study':'📖 ','demo':'▶️ ','walkthrough':'🧭 ','try it':'🧪 ','sandbox':'🧪 ','code':'💻 ','dashboard':'📈 '}[l[0]]||'')+esc(l[0])+'</a>').join('')+'</div><span class="note">'+esc(p.note)+' · numbers read 2026-09</span></div></div>'+
       '<div class="ft"><button data-prev>‹ previous</button><span class="dots">'+P.map((_,k)=>'<i class="'+(k===i?'on':'')+'"></i>').join('')+'</span><button data-next>next ›</button></div>';
     ov.classList.add('on'); box.querySelector('.bd').scrollTop=0;
   }
   function openAbout(){
     cur=-1; box.className='box about';
     box.innerHTML='<div class="hd"><span class="ic"><img src="../assets/img/jessie-face.png" alt=""></span><div><h2>Jessie Chen 陈亦奇</h2><p class="sub">AI product manager candidate · Chicago / Shanghai</p></div><span class="x" data-x>close</span></div>'+
-      '<div class="bd"><div><h3>Where</h3><p>Born in Wuhan. Economics at the Chinese University of Hong Kong, First-Class Honours. A product internship in Shanghai that shipped a content module to 300K daily UV. Now in Chicago.</p>'+
-      '<h3>Studies</h3><p>MA in Computational Social Science at the University of Chicago, economics track, GPA 4.0, class of 2027. I study how AI systems make choices and how they shape the people who use them.</p>'+
-      '<h3>Off hours</h3><p>Music, travel, skiing, musicals. Two cats, Titi and Pupu; two dogs, Damai and Dami.</p></div>'+
-      '<div><h3>Four rules, every product</h3><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in before building.</li><li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its own layer.</li><li><b>Define the metric before the number.</b> Every number names its dashboard, metric and read date.</li><li><b>Cost is a product parameter.</b> Every call logged and routed by tier; a shadow run proves quality first.</li></ol>'+
-      '<div class="btns" style="margin-top:18px"><a href="mailto:jessiechenyiqi@outlook.com">email</a><a href="../assets/Jessie_Chen_Resume.pdf">résumé</a><a href="https://github.com/jessieyiqichen">github</a><a href="https://jessieyiqichen.github.io/">current site</a></div><span class="note">Products and case pages are in Chinese; this page is in English.</span></div></div>'+
+      '<div class="bd"><div><h3>📍 Where</h3><p>Born in Wuhan. Economics at the Chinese University of Hong Kong, First-Class Honours. A product internship in Shanghai that shipped a content module to 300K daily UV. Now in Chicago.</p>'+
+      '<h3>🎓 Studies</h3><p>MA in Computational Social Science at the University of Chicago, economics track, GPA 4.0, class of 2027. I study how AI systems make choices and how they shape the people who use them.</p>'+
+      '<h3>🎿 Off hours</h3><p>🎵 Music, ✈️ travel, ⛷️ skiing, 🎭 musicals. 🐱 Two cats, Titi and Pupu; 🐶 two dogs, Damai and Dami.</p></div>'+
+      '<div><h3>📏 Four rules, every product</h3><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in before building.</li><li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its own layer.</li><li><b>Define the metric before the number.</b> Every number names its dashboard, metric and read date.</li><li><b>Cost is a product parameter.</b> Every call logged and routed by tier; a shadow run proves quality first.</li></ol>'+
+      '<div class="btns" style="margin-top:18px"><a href="mailto:jessiechenyiqi@outlook.com">✉️ email</a><a href="../assets/Jessie_Chen_Resume.pdf">📄 résumé</a><a href="https://github.com/jessieyiqichen">💻 github</a><a href="https://jessieyiqichen.github.io/">🌐 current site</a></div><span class="note">Products and case pages are in Chinese; this page is in English.</span></div></div>'+
       '<div class="ft"><span>Five products shipped solo · three in production</span><button data-open="p1">see the work ›</button></div>';
     ov.classList.add('on');
   }
