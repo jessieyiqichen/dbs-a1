@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v06 · Typed — Jessie Chen</title>
+<style>
+  @font-face{font-family:"Courier Prime";src:url("../assets/fonts/CourierPrime-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"Courier Prime";src:url("../assets/fonts/CourierPrime-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+  @font-face{font-family:"Courier Prime";src:url("../assets/fonts/CourierPrime-Italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+  :root{--paper:#f7f1d8;--ink:#1c1a14;--muted:#6f6a58;--green:#1f5e3a;--green2:#cfe3d4;--mono:"Courier Prime","Courier New",Courier,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.75 var(--mono);
+    background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(28,26,20,.035) 31px 32px)}
+  a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
+  .back{position:fixed;top:14px;left:16px;font:12px var(--mono);color:var(--muted);text-decoration:none;z-index:9}
+  .top{position:fixed;top:14px;right:16px;font:12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);z-index:9;display:flex;gap:16px}
+  .top button{all:unset;cursor:pointer;color:var(--green);text-decoration:underline;text-underline-offset:3px}
+  .sheet{width:min(100% - 40px,720px);margin:0 auto;padding:120px 0 120px}
+  .mail{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin:0 0 26px}
+  .line{margin:0 0 4px;min-height:32px}
+  .w{color:var(--green);text-decoration:underline;text-underline-offset:4px;cursor:pointer;border-radius:2px}
+  .w:hover,.w:focus-visible{background:var(--green2);outline:none}
+  .w.done{cursor:default;text-decoration:none;background:none;color:var(--ink)}
+  .cur{display:inline-block;width:.6em;height:1.1em;background:var(--green);vertical-align:-0.18em;margin-left:1px;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .sub{margin:4px 0 10px 2.2em}
+  .sub .line{min-height:0}
+  .prod{margin:6px 0 10px 2.2em;display:grid;grid-template-columns:1fr 160px;gap:0 20px;align-items:start}
+  .prod .t{margin:0}
+  .prod .n{font-size:14px;color:var(--muted);margin:2px 0 0}
+  .prod .lk{font-size:14px;margin-top:2px}
+  .prod .lk a{margin-right:10px}
+  .prod .lk small{color:var(--muted);font-size:12px}
+  .prod img{width:100%;height:auto;border:1px solid #cfc8a8;opacity:0;transform:translateY(4px);transition:opacity .6s,transform .6s;grid-row:1/4}
+  .prod img.in{opacity:1;transform:none}
+  .rules{margin:4px 0 10px 2.2em}
+  .rules p{margin:0 0 2px}
+  .rules b{font-weight:700}
+  .me{margin:4px 0 10px 2.2em;display:grid;grid-template-columns:1fr 110px;gap:0 20px;align-items:start}
+  .me img{width:100%;height:auto;opacity:0;transition:opacity .6s}
+  .me img.in{opacity:1}
+  .cn{font-family:"Songti SC","Noto Serif CJK SC",serif;letter-spacing:.12em}
+  .hidden{display:none}
+  footer{margin-top:60px;font-size:12px;color:var(--muted)}
+  @media (max-width:600px){.prod,.me{grid-template-columns:1fr}.prod img,.me img{grid-row:auto;max-width:260px;margin-top:6px}.top{position:static;justify-content:flex-end;padding:14px 16px 0}}
+  @media (prefers-reduced-motion:reduce){.cur{animation:none}.prod img,.me img{transition:none}}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+<div class="top"><button data-plain>plain version</button></div>
+
+<main class="sheet" id="sheet">
+  <p class="mail"><a href="mailto:jessiechenyiqi@outlook.com" style="text-decoration:none">jessiechenyiqi@outlook.com</a></p>
+
+  <!-- Each .line holds static text; <span class="w" data-next="id"> is a word the visitor can pull. Content to type lives in <template id="..."> -->
+  <p class="line">I <span class="w" data-next="build" tabindex="0">build</span></p>
+  <p class="line">I <span class="w" data-next="measure" tabindex="0">measure</span></p>
+  <p class="line">I <span class="w" data-next="am" tabindex="0">am</span></p>
+
+  <footer>Set in Courier Prime. Hand-written HTML, CSS and a little JS. Products and case pages are in Chinese; this page is in English.</footer>
+</main>
+
+<!-- ===== CONTENT TREE — edit freely =====
+     type="text": typed after the word, inline. children: new lines that appear afterwards.
+     Each child line: text before the word, the word, optional id for the next step. -->
+<script type="application/json" id="tree">
+{
+  "build": {"text": " AI products that ship.", "lines": [
+      {"pre": "Five of them in the past year, on my own; three still ", "w": "run", "next": "run"}
+  ]},
+  "run": {"text": " in production every day:", "lines": [
+      {"pre": "— ", "w": "Lecture Companion", "next": "lc"},
+      {"pre": "— ", "w": "xhs-threads", "next": "xhs"},
+      {"pre": "— ", "w": "Nous", "next": "nous"},
+      {"pre": "— ", "w": "JobPilot", "next": "jp"},
+      {"pre": "— ", "w": "MusiClaw", "next": "mc"}
+  ]},
+  "lc":   {"text": ", a real-time lecture assistant. A question in class is one click on a transcript sentence; the bottleneck was input friction, not model capability.",
+           "product": {"img": "lecture-companion", "n": "63 marks, 59 with zero typing · 3-stage rollout, 0 rollbacks · ASR cost × 0.25", "lk": [["case study","https://jessieyiqichen.github.io/projects/lecture-companion.html"],["demo","https://jessieyiqichen.github.io/lc-demo/"],["walkthrough","https://jessieyiqichen.github.io/lecture-companion-walkthrough/"]], "note": "pages in Chinese"}},
+  "xhs":  {"text": ", which turns Xiaohongshu bookmarks into threads of thought. The user only saves; the AI threads, annotates, and an independent reviewer model checks the output.",
+           "product": {"img": "xhs-threads", "n": "11 threads, 63 nodes · 90% of calls on the light tier · ¥0.05–0.10 per item", "lk": [["case study","https://jessieyiqichen.github.io/projects/xhs-threads.html"],["demo","https://47.94.34.146:8443/demo"],["try it","https://47.94.34.146:8443/try"]], "note": "pages in Chinese"}},
+  "nous": {"text": ", a message agent that learns how you decide, not how you talk. It judges whether to reply, drafts in your way, and warns before you agree to something you will not do.",
+           "product": {"img": "nous", "n": "behavior prediction 49 → 71% · 3 clients in daily use · correction flywheel closed", "lk": [["case study","https://jessieyiqichen.github.io/projects/nous.html"],["demo","https://jessieyiqichen.github.io/demos/nous.html"],["sandbox","https://web-ten-omega-72.vercel.app/agent"]], "note": "pages in Chinese"}},
+  "jp":   {"text": ", an open-source job-search strategist. The job search is blocked by people, not information; a cognitive model plus language samples give a diagnosis that sounds like you.",
+           "product": {"img": "job-pilot", "n": "349 jobs, 37 high-score · 31 CLI commands, 544 tests, CI · six trade-offs, each with a written why", "lk": [["case study","https://jessieyiqichen.github.io/projects/job-pilot.html"],["demo","https://jobpilot-demo-delta.vercel.app"],["code","https://github.com/jessieyiqichen/job-pilot"]], "note": "case study in Chinese; code and demo in English"}},
+  "mc":   {"text": ", a data product for the Shanghai musical-theatre market. Public ticketing data, snapshotted every day, feeding a real content account.",
+           "product": {"img": "musiclaw", "n": "86 shows daily · 4 content pipelines · fixed 24h post-publish review", "lk": [["case study","https://jessieyiqichen.github.io/projects/musiclaw.html"],["dashboard","https://jessieyiqichen.github.io/musiclaw-demo/"]], "note": "pages in Chinese"}},
+
+  "measure": {"text": " before I build: the metric gets its definition first, and every model call is logged.", "lines": [
+      {"pre": "Four ", "w": "rules", "next": "rules"}
+  ]},
+  "rules": {"text": " hold across all five:", "rulesList": [
+      ["Pain point before solution.", "Find the layer the bottleneck lives in before building."],
+      ["Staged rollout and attribution.", "One layer of change per stage, so a problem points at its layer."],
+      ["Define the metric before the number.", "Every number names its dashboard, metric and read date."],
+      ["Cost is a product parameter.", "Every call logged; a shadow run proves quality holds before cost is cut."]
+  ]},
+
+  "am": {"text": " Jessie Chen, 陈亦奇.", "lines": [
+      {"pre": "An AI product manager candidate, finishing an MA in Computational Social Science at the University of Chicago, class of 2027. Before that, economics at CUHK. Chicago and Shanghai. ", "w": "Say hello", "next": "hello"}
+  ]},
+  "hello": {"text": ": jessiechenyiqi@outlook.com.", "me": true, "lines": [
+      {"pre": "Or read the ", "w": "résumé", "href": "../assets/Jessie_Chen_Resume.pdf"},
+      {"pre": "Or look at the ", "w": "code", "href": "https://github.com/jessieyiqichen"}
+  ]}
+}
+</script>
+
+<script>
+(function(){
+  const T=JSON.parse(document.getElementById('tree').textContent);
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let plain=false;
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+  async function typeInto(el,text){
+    if(reduce||plain){ el.textContent+=text; return; }
+    const cur=document.createElement('span'); cur.className='cur'; el.after(cur);
+    for(const ch of text){ el.textContent+=ch; await sleep(ch===' '?18:(/[.,:;]/.test(ch)?140:28+Math.random()*34)); }
+    cur.remove();
+  }
+  function mkWord(c){
+    if(c.href){ const a=document.createElement('a'); a.href=c.href; a.textContent=c.w; return a; }
+    const s=document.createElement('span'); s.className='w'; s.textContent=c.w; s.dataset.next=c.next; s.tabIndex=0; return s;
+  }
+  function mkLine(c,cls){
+    const p=document.createElement('p'); p.className='line'+(cls?' '+cls:'');
+    p.append(document.createTextNode(c.pre||'')); p.append(mkWord(c)); return p;
+  }
+  async function reveal(node){
+    if(reduce||plain){ node.querySelectorAll('img').forEach(i=>i.classList.add('in')); return; }
+    await sleep(60); node.querySelectorAll('img').forEach(i=>i.classList.add('in'));
+  }
+  async function expand(w){
+    if(w.classList.contains('done')) return;
+    w.classList.add('done'); w.removeAttribute('tabindex');
+    const key=w.dataset.next, n=T[key]; if(!n) return;
+    const line=w.closest('.line');
+    const typed=document.createElement('span'); w.after(typed);
+    await typeInto(typed,n.text);
+    let anchor=line;
+    if(n.product){
+      const d=document.createElement('div'); d.className='prod';
+      d.innerHTML='<p class="n">'+n.product.n+'</p><p class="lk">'+n.product.lk.map(l=>'<a href="'+l[1]+'">'+l[0]+'</a>').join('')+'<small>'+n.product.note+'</small></p><img src="../assets/img/'+n.product.img+'.png" alt="'+w.textContent+' screenshot" loading="eager">';
+      anchor.after(d); anchor=d; reveal(d);
+    }
+    if(n.rulesList){
+      const d=document.createElement('div'); d.className='rules'; anchor.after(d); anchor=d;
+      for(const [b,t] of n.rulesList){ const p=document.createElement('p'); d.append(p); const bb=document.createElement('b'); p.append(bb); await typeInto(bb,b); const tt=document.createElement('span'); p.append(tt); await typeInto(tt,' '+t); }
+    }
+    if(n.me){
+      const d=document.createElement('div'); d.className='me'; d.innerHTML='<div></div><img src="../assets/img/jessie-wave.png" alt="Jessie, waving">'; anchor.after(d); anchor=d; reveal(d);
+    }
+    if(n.lines){
+      const wrap=document.createElement('div'); wrap.className='sub'; anchor.after(wrap);
+      for(const c of n.lines){ const p=mkLine(c); wrap.append(p); if(!(reduce||plain)) await sleep(140); }
+    }
+  }
+  document.addEventListener('click',e=>{ const w=e.target.closest('.w'); if(w) expand(w); });
+  document.addEventListener('keydown',e=>{ const w=e.target.closest&&e.target.closest('.w'); if(w&&(e.key==='Enter'||e.key===' ')){e.preventDefault();expand(w);} });
+
+  /* plain version: expand everything instantly, depth-first */
+  async function expandAll(){
+    plain=true;
+    for(let guard=0;guard<40;guard++){ const w=document.querySelector('.w:not(.done)'); if(!w) break; await expand(w); }
+  }
+  document.querySelector('[data-plain]').addEventListener('click',e=>{ e.target.textContent='everything shown'; e.target.disabled=true; expandAll(); });
+})();
+</script>
+</body>
+</html>
