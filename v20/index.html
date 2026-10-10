@@ -56,7 +56,11 @@
   .slip{margin-top:22px;background:#fffdf6;padding:14px 14px 12px;font-size:14px;line-height:1.45;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.14);transform:rotate(2deg)}
   .slip b{display:block;margin-top:10px;font:400 25px/1 var(--serif);white-space:nowrap}
   .slip small{display:block;margin-top:2px;font-size:12px;color:#6f6b62}
-  .slip .go{display:block;margin-top:12px;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+  .slip .go{all:unset;cursor:pointer;display:block;margin-top:12px;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+  .slip .go:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .sl-n{display:block;margin-bottom:6px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#6f6b62}
+  .slip>*{transition:opacity .2s}.slip.swap>*{opacity:0}
+  .b-row .bp{cursor:zoom-in}
   .b-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:26px}
   .b-row{align-items:start}.b-row .bp span{font-size:12.5px;padding:5px 1px 7px;white-space:normal}
   .b-row .bp:hover,.b-row .bp:focus-visible{transform:rotate(0) scale(1.45) translateY(-10px)}
@@ -298,14 +302,14 @@
     <div class="board">
       <span class="board-l">The five, as they look today · pick one</span>
       <div class="b-top">
-        <button class="bp big" data-k="nous" style="--r:-1.6deg" aria-label="Open Nous in the drawer below"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span>Nous</span></button>
-        <div class="slip">Other bots learn how you talk; this one learns how you decide.<b>49 → 71%</b><small>behavior prediction</small><span class="go">Click a print to open it ↓</span></div>
+        <button class="bp big" data-k="nous" style="--r:-1.6deg" aria-label="Read the full Nous case below"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span>Nous</span></button>
+        <div class="slip" aria-live="polite"><span class="sl-n">Nous</span><span class="sl-t">Other bots learn how you talk; this one learns how you decide.</span><b>49 → 71%</b><small>behavior prediction</small><button class="go" type="button">Read the full case ↓</button></div>
       </div>
       <div class="b-row">
-        <button class="bp" data-k="lc" style="--r:-2.5deg;--t:4deg" aria-label="Open Lecture Companion in the drawer below"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span>Lecture Companion</span></button>
-        <button class="bp" data-k="xhs" style="--r:2deg;--t:-2deg" aria-label="Open xhs-threads in the drawer below"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span>xhs-threads</span></button>
-        <button class="bp" data-k="jp" style="--r:-1.5deg;--t:3deg" aria-label="Open JobPilot in the drawer below"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span>JobPilot</span></button>
-        <button class="bp" data-k="mc" style="--r:2.5deg;--t:-4deg" aria-label="Open MusiClaw in the drawer below"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span>MusiClaw</span></button>
+        <button class="bp" data-k="lc" style="--r:-2.5deg;--t:4deg" aria-label="Put Lecture Companion up front on the board"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span>Lecture Companion</span></button>
+        <button class="bp" data-k="xhs" style="--r:2deg;--t:-2deg" aria-label="Put xhs-threads up front on the board"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span>xhs-threads</span></button>
+        <button class="bp" data-k="jp" style="--r:-1.5deg;--t:3deg" aria-label="Put JobPilot up front on the board"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span>JobPilot</span></button>
+        <button class="bp" data-k="mc" style="--r:2.5deg;--t:-4deg" aria-label="Put MusiClaw up front on the board"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span>MusiClaw</span></button>
       </div>
     </div>
   </div>
@@ -416,7 +420,19 @@
     if(on&&!reduce)setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),120);
   });
   function pull(k){const c=stack.querySelector('[data-k="'+k+'"]');if(!c)return;closeAll(c);c.classList.add('open');c.querySelector('.head').setAttribute('aria-expanded','true');c.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
-  document.querySelectorAll('.bp').forEach(b=>b.addEventListener('click',()=>pull(b.dataset.k)));
+  const SLIP={"nous":["Nous","Other bots learn how you talk; this one learns how you decide.","49 → 71%","behavior prediction"],"lc":["Lecture Companion","The bottleneck was input friction, not model capability.","59 of 63","marks made with zero typing"],"xhs":["xhs-threads","Organizing never happens, so the user should never have to start.","90%","of calls on the light tier"],"jp":["JobPilot","The job search is blocked by people, not information.","544","tests behind 31 commands"],"mc":["MusiClaw","A data product with a real content operations loop.","86","shows snapshotted every day"]};
+  const big=document.querySelector('.bp.big'),slip=document.querySelector('.slip');
+  function fill(b,k){const d=SLIP[k];b.dataset.k=k;b.querySelector('img').src=b.querySelector('img').src.replace(/[^/]+\.png$/,{nous:'nous',lc:'lecture-companion',xhs:'xhs-threads',jp:'job-pilot',mc:'musiclaw'}[k]+'.png');b.querySelector('img').alt=d[0]+' screenshot, in Chinese';b.querySelector('span').textContent=d[0];b.setAttribute('aria-label',b===big?'Read the full '+d[0]+' case below':'Put '+d[0]+' up front on the board')}
+  function fly(el,from){const to=el.getBoundingClientRect();el.animate([{translate:(from.left+from.width/2-to.left-to.width/2)+'px '+(from.top+from.height/2-to.top-to.height/2)+'px',scale:String(from.width/to.width),zIndex:20},{translate:'0 0',scale:'1',zIndex:20}],{duration:520,easing:'cubic-bezier(.3,.7,.2,1)'})}
+  function front(small){
+    const k=small.dataset.k,old=big.dataset.k,a=small.getBoundingClientRect(),b=big.getBoundingClientRect(),d=SLIP[k];
+    fill(big,k);fill(small,old);
+    if(!reduce){fly(big,a);fly(small,b);slip.classList.add('swap');setTimeout(()=>slip.classList.remove('swap'),220)}
+    setTimeout(()=>{slip.querySelector('.sl-n').textContent=d[0];slip.querySelector('.sl-t').textContent=d[1];slip.querySelector('b').textContent=d[2];slip.querySelector('small').textContent=d[3]},reduce?0:200);
+  }
+  big.addEventListener('click',()=>pull(big.dataset.k));
+  slip.querySelector('.go').addEventListener('click',()=>pull(big.dataset.k));
+  document.querySelectorAll('.b-row .bp').forEach(b=>b.addEventListener('click',()=>front(b)));
   function setLens(l,push){
     if(!ORDER[l])l='pm';
     const cards=[...stack.children],first=new Map(cards.map(c=>[c,c.getBoundingClientRect().top]));
