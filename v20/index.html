@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v20 · The five, laid out on the desk — Jessie Chen</title>
+<title>v20 · The five, pinned on a board — Jessie Chen</title>
 <style>
   @font-face{font-family:"Young Serif";src:url("../assets/fonts/YoungSerif-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
   @font-face{font-family:Franklin;src:url("../assets/fonts/LibreFranklin.woff2") format("woff2");font-weight:100 900;font-display:swap}
@@ -41,17 +41,25 @@
   .intro h2{margin:0;font:400 clamp(26px,3.1vw,42px)/1.18 var(--serif);color:var(--ink)}
   .intro p{margin:20px auto 0;max-width:58ch}
   .d-sky{width:min(300px,80%);height:auto;aspect-ratio:240/96;margin:40px auto 0}
-  .lead-wrap{display:grid;place-items:center;padding:4vh 0 4vh 3vw}
-  .lead-card{all:unset;box-sizing:border-box;cursor:pointer;display:block;width:min(100%,560px);background:#d6cff5;border-radius:16px;padding:18px 20px 20px;transform:rotate(1.4deg);box-shadow:0 2px 4px rgba(0,0,0,.12),0 26px 50px rgba(0,0,0,.16);transition:transform .3s cubic-bezier(.3,.7,.2,1)}
-  .lead-card:hover,.lead-card:focus-visible{transform:rotate(0) translateY(-6px)}
-  .lead-card:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-  .lc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;font-size:12.5px;color:#5f5a70}
-  .lc-d{width:64px;height:54px}
-  .lead-card img{display:block;width:100%;margin:8px 0 14px;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.15)}
-  .lc-t{display:block;font:400 42px/1 var(--serif);color:var(--ink)}
-  .lc-s{display:block;margin:8px 0 10px;font-size:15.5px;color:var(--ink)}
-  .lc-k{display:block;font-size:13px;color:#5f5a70}.lc-k b{font:400 28px/1 var(--serif);color:var(--ink);margin-right:6px}
-  .lc-go{display:block;margin-top:12px;font-size:13px;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  .lead-wrap{display:grid;place-items:center;padding:4vh 0 4vh 2vw}
+  .hero{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+  .board{position:relative;width:min(100%,680px);background:#e6d7b9 radial-gradient(rgba(120,90,40,.10) 1px,transparent 1.4px) 0 0/9px 9px;border-radius:6px;padding:26px 22px 24px;box-shadow:0 1px 2px rgba(0,0,0,.14),0 22px 44px rgba(60,40,10,.16);transform:rotate(.6deg)}
+  .board-l{position:absolute;top:-13px;left:22px;background:var(--paper);padding:4px 12px;font:italic 13px var(--sans);color:var(--body);box-shadow:0 1px 2px rgba(0,0,0,.12);transform:rotate(-1.5deg)}
+  .bp{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:block;background:#fff;padding:6px 6px 0;border-radius:2px;box-shadow:0 1px 2px rgba(0,0,0,.2),0 8px 18px rgba(0,0,0,.14);transform:rotate(var(--r,0deg));transition:transform .3s var(--ease),box-shadow .3s}
+  .bp::before{content:"";position:absolute;z-index:2;top:-8px;left:50%;width:58px;height:17px;margin-left:-29px;background:rgba(250,244,225,.8);box-shadow:0 1px 1px rgba(0,0,0,.07);transform:rotate(var(--t,-3deg))}
+  .bp img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;background:#eee}
+  .bp span{display:block;padding:6px 2px 8px;font:400 15px/1.1 var(--serif);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bp:hover,.bp:focus-visible{z-index:10;transform:rotate(0) scale(1.04);box-shadow:0 2px 4px rgba(0,0,0,.16),0 24px 40px rgba(0,0,0,.22)}
+  .bp:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .b-top{display:grid;grid-template-columns:minmax(0,64%) minmax(0,1fr);gap:18px;align-items:start}
+  .bp.big span{font-size:22px;padding:8px 4px 10px}
+  .slip{margin-top:22px;background:#fffdf6;padding:14px 14px 12px;font-size:14px;line-height:1.45;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.14);transform:rotate(2deg)}
+  .slip b{display:block;margin-top:10px;font:400 25px/1 var(--serif);white-space:nowrap}
+  .slip small{display:block;margin-top:2px;font-size:12px;color:#6f6b62}
+  .slip .go{display:block;margin-top:12px;font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+  .b-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:26px}
+  .b-row{align-items:start}.b-row .bp span{font-size:12.5px;padding:5px 1px 7px;white-space:normal}
+  .b-row .bp:hover,.b-row .bp:focus-visible{transform:rotate(0) scale(1.45) translateY(-10px)}
   .intro{display:grid;grid-template-columns:240px 1fr;gap:40px;align-items:center;text-align:left;max-width:980px!important}
   .intro .pol{margin:0;background:#fff;padding:8px 8px 32px;transform:rotate(-2.5deg);box-shadow:0 1px 2px rgba(0,0,0,.2),0 12px 26px rgba(0,0,0,.16);position:relative}
   .intro .pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 35%}
@@ -103,16 +111,6 @@
   .lk a{margin-right:12px;font-size:14px}
   .close{all:unset;cursor:pointer;margin-top:8px;font-size:13px;color:var(--ink);border-bottom:1px solid var(--ink)}
 
-
-  .spread{position:relative;left:50%;transform:translateX(-50%);width:min(1180px,calc(100vw - 48px));display:flex;justify-content:center;align-items:flex-start;margin:0 0 64px;padding:18px 0 10px}
-  .print{all:unset;box-sizing:border-box;cursor:pointer;position:relative;flex:0 0 24%;margin-left:-5%;background:#fff;padding:7px 7px 0;border-radius:3px;box-shadow:0 1px 2px rgba(0,0,0,.18),0 10px 22px rgba(0,0,0,.13);transform:translateY(var(--y)) rotate(var(--r));transition:transform .35s var(--ease),box-shadow .35s}
-  .print:first-child{margin-left:0}
-  .print img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;background:#eee}
-  .print span{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:8px 3px 10px;font-size:12.5px;color:#6f6b62}
-  .print span b{font:400 17px/1.1 var(--serif);color:var(--ink)}
-  .print:hover,.print:focus-visible{z-index:10;transform:translateY(calc(var(--y) - 16px)) rotate(0) scale(1.06);box-shadow:0 2px 4px rgba(0,0,0,.16),0 26px 44px rgba(0,0,0,.2)}
-  .print:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-  .spread-n{margin:0 0 6px;font-size:13px;color:var(--muted)}
   .five{max-width:980px;margin:0 auto;padding:10px 24px 20px}
   .fh{display:flex;align-items:flex-end;gap:18px;margin:0 0 30px}
   .fh h2{margin:0 0 6px;font:400 clamp(28px,3vw,40px)/1.1 var(--serif);color:var(--ink)}
@@ -155,14 +153,13 @@
   .case .nav{grid-column:1/-1;display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:14px;font-size:14px}
   .case .nav button{all:unset;cursor:pointer;color:var(--ink)}.case .nav button:disabled{opacity:.3;cursor:default}
 
-  @media (prefers-reduced-motion:reduce){.print,.bg,.info,.ul path,.name,.work .bgs::after,.btn{transition:none}}
+  @media (prefers-reduced-motion:reduce){.bp,.bg,.info,.ul path,.name,.work .bgs::after,.btn{transition:none}}
   @media (max-width:860px){
     nav.bar{grid-template-columns:1fr;text-align:center;gap:8px}nav.bar .r{text-align:center}
-    .hero{grid-template-columns:1fr}.hero .tx{padding:40px 0}.lead-wrap{padding:0 0 30px}.intro{grid-template-columns:1fr}.intro .pol{max-width:240px}
+    .hero{grid-template-columns:1fr}.hero .tx{padding:40px 0}.lead-wrap{padding:0 0 30px}.b-top{grid-template-columns:1fr}.slip{margin-top:8px;transform:none}.b-row{grid-template-columns:repeat(2,minmax(0,1fr))}.b-row .bp:hover{transform:rotate(var(--r))}.intro{grid-template-columns:1fr}.intro .pol{max-width:240px}
     .work .head{flex-direction:column;align-items:flex-start}.it{grid-template-columns:1fr;gap:6px;margin-bottom:22px}
     .info{opacity:1;transform:none;pointer-events:auto}.name .t{white-space:normal}.work.lit .name{opacity:1}.bg.on{opacity:0}.work.lit .bgs::after{opacity:0}
     .rest,.ask{grid-template-columns:1fr}.case{grid-template-columns:1fr;padding:18px}
-    .spread{left:0;transform:none;width:auto;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;padding:18px 16px 24px}.print{flex:0 0 72%;margin-left:0;scroll-snap-align:center}.print:hover{transform:translateY(var(--y)) rotate(var(--r))}
   }
 </style>
 </head>
@@ -298,14 +295,19 @@
     <svg class="doodle d-hero" aria-hidden="true"><use href="#d-gondola"/></svg>
   </div>
   <div class="lead-wrap">
-    <button class="lead-card" id="lead-card" aria-label="Open Nous in the drawer below">
-      <span class="lc-top"><span class="lc-n">One of the five, already out of the drawer</span><svg class="doodle lc-d" aria-hidden="true"><use href="#d-chat"/></svg></span>
-      <img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese">
-      <span class="lc-t">Nous</span>
-      <span class="lc-s">Other bots learn how you talk; this one learns how you decide.</span>
-      <span class="lc-k"><b>49 → 71%</b> behavior prediction</span>
-      <span class="lc-go">Open it, then the other four ↓</span>
-    </button>
+    <div class="board">
+      <span class="board-l">The five, as they look today · pick one</span>
+      <div class="b-top">
+        <button class="bp big" data-k="nous" style="--r:-1.6deg" aria-label="Open Nous in the drawer below"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span>Nous</span></button>
+        <div class="slip">Other bots learn how you talk; this one learns how you decide.<b>49 → 71%</b><small>behavior prediction</small><span class="go">Click a print to open it ↓</span></div>
+      </div>
+      <div class="b-row">
+        <button class="bp" data-k="lc" style="--r:-2.5deg;--t:4deg" aria-label="Open Lecture Companion in the drawer below"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span>Lecture Companion</span></button>
+        <button class="bp" data-k="xhs" style="--r:2deg;--t:-2deg" aria-label="Open xhs-threads in the drawer below"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span>xhs-threads</span></button>
+        <button class="bp" data-k="jp" style="--r:-1.5deg;--t:3deg" aria-label="Open JobPilot in the drawer below"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span>JobPilot</span></button>
+        <button class="bp" data-k="mc" style="--r:2.5deg;--t:-4deg" aria-label="Open MusiClaw in the drawer below"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span>MusiClaw</span></button>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -321,14 +323,6 @@
 
 <section class="five" id="five">
   <div class="fh"><svg class="doodle d-note" aria-hidden="true"><use href="#d-notebook"/></svg><div><h2>The five, each shipped alone</h2><p>File them by what you want to check. Point at a card to peek; click to pull it out. The products serve Chinese users, so the screens are in Chinese.</p></div></div>
-  <p class="spread-n">All five, as they look today. Pick one, or file them by a lens below.</p>
-  <div class="spread" id="spread">
-    <button class="print" data-k="lc" style="--r:-2.2deg;--y:10px" aria-label="Open Lecture Companion in the drawer"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese" loading="lazy"><span><b>Lecture Companion</b></span></button>
-    <button class="print" data-k="xhs" style="--r:1.6deg;--y:-8px" aria-label="Open xhs-threads in the drawer"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese" loading="lazy"><span><b>xhs-threads</b></span></button>
-    <button class="print" data-k="nous" style="--r:-1deg;--y:14px" aria-label="Open Nous in the drawer"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese" loading="lazy"><span><b>Nous</b></span></button>
-    <button class="print" data-k="jp" style="--r:2.2deg;--y:-4px" aria-label="Open JobPilot in the drawer"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese" loading="lazy"><span><b>JobPilot</b></span></button>
-    <button class="print" data-k="mc" style="--r:-1.6deg;--y:12px" aria-label="Open MusiClaw in the drawer"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese" loading="lazy"><span><b>MusiClaw</b></span></button>
-  </div>
   <section class="drawer">
     <div class="tabs" role="group" aria-label="File the five by">
       <button data-l="pm" style="--c:var(--pm)" aria-pressed="true">Product</button>
@@ -422,9 +416,7 @@
     if(on&&!reduce)setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),120);
   });
   function pull(k){const c=stack.querySelector('[data-k="'+k+'"]');if(!c)return;closeAll(c);c.classList.add('open');c.querySelector('.head').setAttribute('aria-expanded','true');c.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
-  const lc=document.getElementById('lead-card');
-  if(lc)lc.addEventListener('click',()=>pull('nous'));
-  document.querySelectorAll('.print').forEach(b=>b.addEventListener('click',()=>pull(b.dataset.k)));
+  document.querySelectorAll('.bp').forEach(b=>b.addEventListener('click',()=>pull(b.dataset.k)));
   function setLens(l,push){
     if(!ORDER[l])l='pm';
     const cards=[...stack.children],first=new Map(cards.map(c=>[c,c.getBoundingClientRect().top]));

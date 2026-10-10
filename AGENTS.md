@@ -24,7 +24,7 @@ This assignment questions whether that form is right. It is one candidate, not t
 
 ## Gallery
 - `index.html` is the gallery: 25 cells, each = thumbnail + direction name + one line on what this version tries or changes + link.
-- Three acts: v01–v10 go wide; v11–v18 narrow to two or three lines and combine; v19–v25 refine one line only.
+- Three acts: v01–v10 go wide; v11–v18 narrow to two or three lines and combine; v19–v25 converge on one line. (The three-act split is ours; the brief only says go wide, narrow down, converge by v20–v25, and needs 25 distinct pages.)
 - End with the final choice and why.
 
 ## Judging criteria (from my own reactions to early versions)
@@ -40,7 +40,7 @@ This assignment questions whether that form is right. It is one candidate, not t
 - Grow directions out of the five projects' own visual language first (ledger, seat map, transcript, thought threads, cognitive radar, terminal...).
 - Act 2 combinations (v11–v18): a combination must change the layout axis of its base version; carry over voice, type, mechanism and material. Swapping one component only (as the first v12 did) reads as the same page.
 - Act 2 combinations must also carry one visual device from act 1 (ink, halftone, physical objects, photos), not only structure and voice; without it the page reads plain.
-- Act 3 refinements (v19–v25) stay on one line and may look alike, but each must change one meaningful decision (hierarchy, what the first screen shows, how a case opens, how much personal content, mobile layout), named in its gallery note. A font or colour change alone is never a version.
+- Act 3 versions (v19–v25) stay on one line, but each must change one meaningful decision (hierarchy, what the first screen shows, how a case opens, how much personal content, mobile layout), named in its gallery note, and the change must be visible on the first or second screen: 25 distinct pages is the requirement. A font or colour change alone is never a version.
 - A version that is dropped stays in the gallery with its verdict and the reason; dropped versions are part of the story.
 - After each version: update its gallery cell, then one commit whose message is that gallery line.
 
