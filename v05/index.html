@@ -70,8 +70,22 @@
   .node.proj .n{font:11.5px var(--mono);color:var(--muted);margin:6px 0 0;line-height:1.7}
   .node.proj .n b{color:var(--ink);font-weight:500}
   .node.proj .more{display:none}
-  .node.proj.open .more{display:block}
-  .node.proj.open{z-index:10;box-shadow:0 2px 4px rgba(0,0,0,.06),0 24px 60px rgba(20,30,40,.18)}
+  .modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;background:rgba(20,24,28,.45);padding:24px}
+  .modal.on{display:grid}
+  .modal .box{position:relative;width:min(760px,100%);max-height:calc(100vh - 48px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 30px 80px rgba(10,15,20,.35)}
+  .modal .hd{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--line);font:500 10.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--card)}
+  .modal .hd b{color:var(--ink);font-weight:500}
+  .modal .hd b::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--amber);margin-right:8px;vertical-align:1px}
+  .modal .x{cursor:pointer;color:var(--muted);font:12px var(--mono)}
+  .modal .bd{padding:16px 20px 20px}
+  .modal h2{margin:0 0 2px;font:600 24px/1.2 var(--sans);color:var(--ink)}
+  .modal .sub{font:12px var(--mono);color:var(--muted);margin:0 0 12px}
+  .modal img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:6px;margin:10px 0 12px}
+  .modal p{margin:0 0 10px;font-size:14.5px}
+  .modal .n{font:12.5px var(--mono);color:var(--muted);line-height:1.8}
+  .modal .n b{color:var(--ink);font-weight:500}
+  .modal .ft{display:flex;justify-content:space-between;align-items:center;font:12px var(--mono);color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+  .modal .ft a{font:13px var(--mono);margin-right:10px}
   .node.proj .tg{cursor:pointer;color:var(--ink);font:12px var(--mono);text-decoration:underline;text-decoration-color:var(--amber);text-underline-offset:3px}
 
   /* output */
@@ -94,7 +108,7 @@
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
-<div class="hint">scroll, drag, or arrow keys to explore · click a rule to filter · click a product for details</div>
+<div class="hint">scroll, drag, or arrow keys to explore · click a rule to filter · click details for a product</div>
 
 <div class="vp" id="vp">
 <div class="world" id="world">
@@ -201,6 +215,8 @@
 </div>
 </div>
 
+<div class="modal" id="modal"><div class="box" role="dialog" aria-modal="true"><div class="hd"><b>Project</b><span class="x" data-x>close ×</span></div><div class="bd" id="mbd"></div></div></div>
+
 <script>
 (function(){
   const vp=document.getElementById('vp'), world=document.getElementById('world'), svg=document.getElementById('wires');
@@ -235,7 +251,16 @@
     draw();
   }
   rules.forEach(r=>{ r.setAttribute('tabindex','0'); const f=()=>{r.classList.toggle('on');applyFilter();}; r.addEventListener('click',f); r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}}); });
-  document.querySelectorAll('[data-tg]').forEach(t=>t.addEventListener('click',()=>{ const n=t.closest('.node.proj'); n.classList.toggle('open'); t.textContent=n.classList.contains('open')?'close ↑':'details →'; draw(); }));
+  const modal=document.getElementById('modal'), mbd=document.getElementById('mbd');
+  function openModal(n){
+    const title=n.querySelector('h2').textContent, sub=n.querySelector('.sub').textContent, pipe=n.querySelector('.pipe').outerHTML, lead=n.querySelector('.bd > p').outerHTML, nums=n.querySelector('.n').outerHTML, more=n.querySelector('.more').innerHTML;
+    mbd.innerHTML='<h2>'+title+'</h2><div class="sub">'+sub+'</div>'+pipe+lead+more+nums;
+    modal.classList.add('on'); modal.querySelector('.box').scrollTop=0;
+  }
+  function closeModal(){ modal.classList.remove('on'); }
+  document.querySelectorAll('[data-tg]').forEach(t=>t.addEventListener('click',e=>{ e.stopPropagation(); openModal(t.closest('.node.proj')); }));
+  modal.addEventListener('click',e=>{ if(e.target===modal||e.target.closest('[data-x]')) closeModal(); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
   /* pan + zoom */
   let x=0,y=0,scale=1,dragging=false,sx=0,sy=0,moved=false;
