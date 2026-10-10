@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jessie Chen — home page</title>
+<style>
+  body{margin:0;background:#fff;color:#000;font:16px/1.5 Times,"Times New Roman",Georgia,serif}
+  a{color:#0000ee}a:visited{color:#551a8b}
+  .back{position:fixed;top:10px;left:12px;font:12px monospace;color:#555;text-decoration:none}
+  .wrap{max-width:720px;margin:0 auto;padding:56px 20px 60px}
+  table.top{border-collapse:collapse;width:100%;margin-bottom:8px}
+  table.top td{vertical-align:top;padding:0}
+  table.top td.pic{width:140px;padding-right:20px}
+  table.top img{width:130px;height:130px;object-fit:contain;border:1px solid #999;background:#f6f6f6;display:block}
+  h1{font-size:26px;font-weight:bold;margin:0 0 2px}
+  h1 small{font-weight:normal;font-size:16px;margin-left:8px;font-family:"Songti SC","Noto Serif CJK SC",serif}
+  .aff{margin:0 0 10px}
+  .aff p{margin:0}
+  hr{border:0;border-top:1px solid #000;margin:14px 0}
+  h2{font-size:18px;font-weight:bold;margin:22px 0 8px}
+  p{margin:0 0 10px}
+  ol.pub{margin:0;padding-left:1.4em}
+  ol.pub li{margin:0 0 12px}
+  ol.pub b{font-weight:bold}
+  ol.pub i{font-style:italic}
+  .links{white-space:nowrap}
+  .links a{margin-right:2px}
+  .fig{margin:6px 0 4px;display:none}
+  .fig img{max-width:100%;border:1px solid #999}
+  li.open .fig{display:block}
+  .tog{font-size:14px;cursor:pointer;color:#0000ee;text-decoration:underline}
+  ul.plain{margin:0;padding-left:1.4em}
+  ul.plain li{margin:0 0 6px}
+  .note{font-size:14px;color:#333}
+  .upd{font-size:13px;color:#555;margin-top:30px;border-top:1px solid #999;padding-top:8px}
+  .upd a{color:#0000ee}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Gallery</a>
+<div class="wrap">
+
+<table class="top"><tr>
+  <td class="pic"><img src="../assets/img/jessie-wave.png" alt="Jessie Chen"></td>
+  <td>
+    <h1>Jessie Chen<small>陈亦奇</small></h1>
+    <div class="aff">
+      <p>MA candidate, Computational Social Science (economics track)</p>
+      <p>University of Chicago · class of 2027 · GPA 4.0</p>
+      <p>Previously: BSc Economics, The Chinese University of Hong Kong</p>
+      <p>Chicago / Shanghai</p>
+    </div>
+    <p>Email: <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a> &nbsp;|&nbsp; <a href="https://github.com/jessieyiqichen">GitHub</a> &nbsp;|&nbsp; <a href="https://jessieyiqichen.github.io/">Current site</a></p>
+  </td>
+</tr></table>
+
+<hr>
+
+<p>I build AI products and am looking for an <b>AI product manager</b> role. My position is that product judgment is proven by products that ship: in the past year I took five AI products from problem statement through development to launch on my own, and three of them still run in production every day. Every number on this page can name its dashboard, its metric and its read date (2026-09 unless noted).</p>
+
+<h2>Shipped products</h2>
+<p class="note">Listed in launch order. Click <span style="text-decoration:underline">[figure]</span> to show a screenshot. Products and case-study pages are in Chinese; code and demos for JobPilot are in English.</p>
+<ol class="pub">
+  <li><b>Lecture Companion.</b> Real-time lecture AI assistant. <i>Solo build, 2025.</i> A question in class is one click on a transcript sentence; multimodal retrieval fills in whiteboard and formulas. North Star: after-class review. 63 marks, 59 with zero typing; 3-stage rollout, zero rollbacks; ASR cost cut to one quarter.
+    <span class="links">[<a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">case study</a>] [<a href="https://jessieyiqichen.github.io/lc-demo/">demo</a>] [<a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">walkthrough</a>] [<span class="tog" data-t>figure</span>]</span>
+    <div class="fig"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface" loading="lazy"></div></li>
+  <li><b>xhs-threads.</b> Recovering the train of thought behind Xiaohongshu bookmarks. <i>Solo build, 2026.</i> The user only saves; the AI threads, annotates, and an independent reviewer model checks the output. 11 threads, 63 nodes; 90% of calls on the light tier; ¥0.05–0.10 per item.
+    <span class="links">[<a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">case study</a>] [<a href="https://47.94.34.146:8443/demo">demo</a>] [<a href="https://47.94.34.146:8443/try">try it</a>] [<span class="tog" data-t>figure</span>]</span>
+    <div class="fig"><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive" loading="lazy"></div></li>
+  <li><b>Nous.</b> Cognitive-twin message agent. <i>Three clients, 2026.</i> A nine-dimension cognitive model learns how you decide, not how you talk; it judges whether to reply, drafts in your way, and warns before you agree to something you will not do. Behavior prediction 49→71%; Feishu bot, Mac assistant and Web in daily use; correction flywheel closed.
+    <span class="links">[<a href="https://jessieyiqichen.github.io/projects/nous.html">case study</a>] [<a href="https://jessieyiqichen.github.io/demos/nous.html">demo</a>] [<a href="https://web-ten-omega-72.vercel.app/agent">sandbox</a>] [<span class="tog" data-t>figure</span>]</span>
+    <div class="fig"><img src="../assets/img/nous.png" alt="Nous floating assistant" loading="lazy"></div></li>
+  <li><b>JobPilot.</b> AI job-search strategist. <i>Solo build, open source, 2026.</i> The job search is blocked by people, not information; a cognitive model plus language samples give a personal diagnosis and messaging that sounds like you. 349 jobs collected, 37 high-score; 31 CLI commands, 544 tests, CI; six trade-offs, each with a written why.
+    <span class="links">[<a href="https://jessieyiqichen.github.io/projects/job-pilot.html">case study</a>] [<a href="https://jobpilot-demo-delta.vercel.app">demo</a>] [<a href="https://github.com/jessieyiqichen/job-pilot">code</a>] [<span class="tog" data-t>figure</span>]</span>
+    <div class="fig"><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page" loading="lazy"></div></li>
+  <li><b>MusiClaw.</b> Shanghai musical-theatre market data platform. <i>Solo build, 2026.</i> Public ticketing data turned into a product that updates itself daily: seat-map snapshots for 86 shows, cast attribution, four content pipelines feeding a real data account; fixed 24-hour post-publish review. The AI's scope of responsibility is written down.
+    <span class="links">[<a href="https://jessieyiqichen.github.io/projects/musiclaw.html">case study</a>] [<a href="https://jessieyiqichen.github.io/musiclaw-demo/">dashboard</a>] [<span class="tog" data-t>figure</span>]</span>
+    <div class="fig"><img src="../assets/img/musiclaw.png" alt="MusiClaw dashboard" loading="lazy"></div></li>
+</ol>
+
+<h2>How I work</h2>
+<ul class="plain">
+  <li><b>Pain point before solution.</b> Confirm which layer the bottleneck lives in before building; get the layer wrong and no feature fixes it.</li>
+  <li><b>Staged rollout and attribution.</b> One layer of change per stage, so a problem points at its layer immediately.</li>
+  <li><b>Define the metric before the number.</b> Marks reviewed after class, not made in class; daily actives by UV, not PV.</li>
+  <li><b>Cost is a product parameter.</b> Every model call logged and routed by tier; a shadow run proves quality holds before cost is cut.</li>
+</ul>
+
+<h2>Contact</h2>
+<p>For any project in depth, or the full résumé, write to <a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a>.</p>
+
+<div class="upd">Last updated: September 2026. Hand-written HTML, no frameworks, no tracking. <a href="../">Back to the gallery</a>.</div>
+</div>
+<script>
+document.querySelectorAll('[data-t]').forEach(function(t){t.addEventListener('click',function(){var li=t.closest('li');li.classList.toggle('open');t.textContent=li.classList.contains('open')?'hide figure':'figure';});});
+</script>
+</body>
+</html>
