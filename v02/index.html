@@ -23,7 +23,7 @@
 
   /* letters: drawn as particles on a canvas */
   .L{display:grid;place-items:center;cursor:pointer}
-  .L b{font:600 clamp(48px,9vw,120px)/1 var(--serif);color:var(--ink);opacity:0;position:absolute}
+  .L b{font:600 clamp(48px,9vw,120px)/1 var(--serif);color:var(--ink);position:absolute;transition:opacity .15s}
   .L canvas{position:absolute;inset:0;width:100%;height:100%}
   .L small{position:absolute;left:12px;bottom:10px;font:italic 13px var(--serif);color:var(--ink);padding:2px 8px;overflow:hidden}
   .L small::before{content:"";position:absolute;inset:0;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .35s ease;z-index:-1}
@@ -103,6 +103,10 @@
   .mc .st{animation:mst 8s ease-in-out infinite}
   @keyframes mst{0%,10%{fill:var(--line)}25%,80%{fill:var(--acc)}95%,100%{fill:var(--line)}}
   .blank{background:var(--bg)}
+  .P{cursor:pointer;background:#fff}
+  .P img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;opacity:.85;transition:opacity .25s}
+  .P:hover img,.P.on img{opacity:1}
+  .P.on{outline:2px solid var(--acc);outline-offset:-2px}
   @media (prefers-reduced-motion:reduce){.S *{animation:none!important}}
   .S .tag{position:absolute;left:12px;bottom:10px;font:italic 13px var(--serif);color:var(--muted)}
   .S:hover .tag{color:var(--ink)}
@@ -152,7 +156,7 @@
   <div class="c S" data-p="lc"><svg viewBox="0 0 100 100" class="lc" aria-hidden="true"><g><line class="k ln" x1="14" y1="78" x2="78" y2="78"/><line class="k ln" x1="14" y1="78" x2="62" y2="78"/><line class="k ln" x1="14" y1="78" x2="84" y2="78"/><line class="k ln" x1="14" y1="78" x2="70" y2="78"/></g><circle class="af dot" cx="50" cy="38" r="4"/></svg><span class="tag">Lecture Companion</span></div>
   <div class="c T"><h2>Lecture Companion<span>real-time lecture AI assistant</span></h2><p>A question in class became one click on a transcript sentence. The bottleneck was input friction, not model capability.</p></div>
   <div class="c N"><div><b>63</b><small>marks, 59 with zero typing</small></div><div><b>¼</b><small>ASR cost after optimization</small></div></div>
-  <div class="c blank"></div>
+  <div class="c P" data-p="lc"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion interface" loading="lazy"></div>
 
   <div class="X" id="x-lc"><div class="side"><span>Lecture Companion</span></div><div class="in"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion"><div><h3>Lecture Companion</h3><p class="s">real-time lecture AI assistant, solo build</p><p>What it proves: interaction design, a metrics system, cost engineering. Multimodal retrieval fills in whiteboard and formulas. The North Star is after-class review behavior; cost lives in a usage ledger, line by line.</p><p class="n"><b>63</b> marks, 59 zero-typing. <b>3</b>-stage rollout, 0 rollbacks. ASR cost cut to <b>1/4</b>.</p><div class="lk"><a href="https://jessieyiqichen.github.io/projects/lecture-companion.html">Case study</a><a href="https://jessieyiqichen.github.io/lc-demo/">Live demo</a><a href="https://jessieyiqichen.github.io/lecture-companion-walkthrough/">Guided walkthrough</a><small>links open pages in Chinese</small></div></div></div><span class="x" data-close>close ×</span></div>
 
@@ -161,7 +165,7 @@
   <div class="c L" data-about><b>E</b><canvas aria-hidden="true"></canvas><small>about</small></div>
   <div class="c S" data-p="xhs"><svg viewBox="0 0 100 100" class="xhs" aria-hidden="true"><polyline class="a th" points="16,70 34,30 50,56 64,22 78,48 88,80"/><g><circle class="m nd" cx="16" cy="70" r="3.5"/><circle class="m nd" cx="34" cy="30" r="3.5"/><circle class="m nd" cx="50" cy="56" r="3.5"/><circle class="m nd" cx="64" cy="22" r="3.5"/><circle class="m nd" cx="78" cy="48" r="3.5"/><circle class="m nd" cx="88" cy="80" r="3.5"/></g></svg><span class="tag">xhs-threads</span></div>
   <div class="c T"><h2>xhs-threads<span>thought threads from bookmarks</span></h2><p>Bookmarking is frequent, organizing never happens. The user only saves; the AI threads, annotates and checks its own output.</p></div>
-  <div class="c blank"></div>
+  <div class="c P" data-p="xhs"><img src="../assets/img/xhs-threads.png" alt="xhs-threads archive" loading="lazy"></div>
 
   <div class="X" id="x-xhs"><div class="side"><span>xhs-threads</span></div><div class="in"><img src="../assets/img/xhs-threads.png" alt="xhs-threads"><div><h3>xhs-threads</h3><p class="s">thought threads from Xiaohongshu bookmarks, solo build</p><p>What it proves: differentiated positioning and an AI evaluation system. Differentiation came from a survey of four competitor types; output quality is gated by an independent reviewer model.</p><p class="n"><b>11</b> threads, <b>63</b> nodes (2026-09). <b>90%</b> of calls on the light tier. ¥<b>0.05–0.10</b> per item.</p><div class="lk"><a href="https://jessieyiqichen.github.io/projects/xhs-threads.html">Case study</a><a href="https://47.94.34.146:8443/demo">Guided demo</a><a href="https://47.94.34.146:8443/try">Try it</a><small>links open pages in Chinese</small></div></div></div><span class="x" data-close>close ×</span></div>
 
@@ -170,14 +174,14 @@
   <div class="c N"><div><b>49→71%</b><small>behavior prediction</small></div><div><b>3</b><small>clients live, daily use</small></div></div>
   <div class="c L" data-about><b>S</b><canvas aria-hidden="true"></canvas><small>about</small></div>
   <div class="c S" data-p="nous"><svg viewBox="0 0 100 100" class="nous" aria-hidden="true"><g class="rad"><polygon class="k" points="50,12 74.4,20.9 87.4,43.4 82.9,69 63,85.7 37,85.7 17.1,69 12.6,43.4 25.6,20.9"/><polygon class="a" points="50,26 66,33 72,46 70,64 60,74 40,72 28,62 26,46 36,32" opacity=".9"/></g><circle class="af ax" cx="50" cy="12" r="4"/></svg><span class="tag">Nous</span></div>
-  <div class="c blank"></div>
+  <div class="c P" data-p="nous"><img src="../assets/img/nous.png" alt="Nous floating assistant" loading="lazy"></div>
 
   <div class="X" id="x-nous"><div class="side"><span>Nous</span></div><div class="in"><img src="../assets/img/nous.png" alt="Nous"><div><h3>Nous</h3><p class="s">cognitive-twin message agent, three clients</p><p>What it proves: the full path from research to product. A nine-dimension cognitive model judges whether to reply and drafts in your way. Feishu bot, Mac floating assistant and Web, all in daily production use; the correction flywheel is closed.</p><p class="n">Behavior prediction <b>49→71%</b>. <b>3</b> clients live. Correction flywheel <b>closed</b>.</p><div class="lk"><a href="https://jessieyiqichen.github.io/projects/nous.html">Case study</a><a href="https://jessieyiqichen.github.io/demos/nous.html">Guided demo</a><a href="https://web-ten-omega-72.vercel.app/agent">Vision sandbox</a><small>links open pages in Chinese</small></div></div></div><span class="x" data-close>close ×</span></div>
 
   <!-- row 4: S -->
   <div class="c S" data-p="jobpilot"><svg viewBox="0 0 100 100" class="jp" aria-hidden="true"><text x="12" y="30" fill="var(--muted)" font-family="ui-monospace,Menlo,monospace" font-size="11">$</text><line class="k cmd" x1="24" y1="27" x2="80" y2="27"/><rect class="af cur" x="82" y="19" width="5" height="11"/><g><polyline class="a ck" points="14,52 19,57 28,46"/><polyline class="a ck" points="14,68 19,73 28,62"/><polyline class="a ck" points="14,84 19,89 28,78"/></g><line class="k" x1="36" y1="52" x2="70" y2="52" opacity=".35"/><line class="k" x1="36" y1="68" x2="62" y2="68" opacity=".35"/><line class="k" x1="36" y1="84" x2="76" y2="84" opacity=".35"/></svg><span class="tag">JobPilot</span></div>
   <div class="c T"><h2>JobPilot<span>AI job-search strategist, open source</span></h2><p>The job search is blocked by people, not information. A cognitive model plus language samples give a diagnosis that sounds like you.</p></div>
-  <div class="c blank"></div>
+  <div class="c P" data-p="jobpilot"><img src="../assets/img/job-pilot.png" alt="JobPilot strategist page" loading="lazy"></div>
   <div class="c L" data-about><b>S</b><canvas aria-hidden="true"></canvas><small>about</small></div>
   <div class="c N"><div><b>544</b><small>tests, 31 CLI commands</small></div><div><b>349</b><small>jobs collected, 37 high-score</small></div></div>
 
@@ -187,7 +191,7 @@
   <div class="c N"><div><b>86</b><small>shows snapshotted daily</small></div><div><b>24h</b><small>fixed post-publish review</small></div></div>
   <div class="c S" data-p="musiclaw"><svg viewBox="0 0 100 100" class="mc" aria-hidden="true"><path class="k" d="M12 12 Q50 2 88 12" opacity=".5"/><rect class="st" x="10" y="22" width="9" height="9" rx="2" style="animation-delay:0.00s"/><rect class="st" x="22" y="22" width="9" height="9" rx="2" style="animation-delay:0.23s"/><rect class="st" x="34" y="22" width="9" height="9" rx="2" style="animation-delay:0.46s"/><rect class="st" x="46" y="22" width="9" height="9" rx="2" style="animation-delay:0.69s"/><rect class="st" x="58" y="22" width="9" height="9" rx="2" style="animation-delay:0.92s"/><rect class="st" x="70" y="22" width="9" height="9" rx="2" style="animation-delay:1.15s"/><rect class="st" x="82" y="22" width="9" height="9" rx="2" style="animation-delay:1.38s"/><rect class="st" x="10" y="36" width="9" height="9" rx="2" style="animation-delay:1.61s"/><rect class="st" x="22" y="36" width="9" height="9" rx="2" style="animation-delay:1.84s"/><rect class="st" x="34" y="36" width="9" height="9" rx="2" style="animation-delay:2.07s"/><rect class="st" x="46" y="36" width="9" height="9" rx="2" style="animation-delay:2.30s"/><rect class="st" x="58" y="36" width="9" height="9" rx="2" style="animation-delay:2.53s"/><rect class="st" x="70" y="36" width="9" height="9" rx="2" style="animation-delay:2.76s"/><rect class="st" x="82" y="36" width="9" height="9" rx="2" style="animation-delay:2.99s"/><rect class="st" x="10" y="50" width="9" height="9" rx="2" style="animation-delay:3.22s"/><rect class="st" x="22" y="50" width="9" height="9" rx="2" style="animation-delay:3.45s"/><rect class="st" x="34" y="50" width="9" height="9" rx="2" style="animation-delay:3.68s"/><rect class="st" x="46" y="50" width="9" height="9" rx="2" style="animation-delay:3.91s"/><rect class="st" x="58" y="50" width="9" height="9" rx="2" style="animation-delay:4.14s"/><rect class="st" x="70" y="50" width="9" height="9" rx="2" style="animation-delay:4.37s"/><rect class="st" x="82" y="50" width="9" height="9" rx="2" style="animation-delay:4.60s"/><rect class="st" x="10" y="64" width="9" height="9" rx="2" style="animation-delay:4.83s"/><rect class="st" x="22" y="64" width="9" height="9" rx="2" style="animation-delay:5.06s"/><rect class="st" x="34" y="64" width="9" height="9" rx="2" style="animation-delay:5.29s"/><rect class="st" x="46" y="64" width="9" height="9" rx="2" style="animation-delay:5.52s"/><rect class="st" x="58" y="64" width="9" height="9" rx="2" style="animation-delay:5.75s"/><rect class="st" x="70" y="64" width="9" height="9" rx="2" style="animation-delay:5.98s"/><rect class="st" x="82" y="64" width="9" height="9" rx="2" style="animation-delay:6.21s"/></svg><span class="tag">MusiClaw</span></div>
   <div class="c T"><h2>MusiClaw<span>Shanghai musical-theatre market data</span></h2><p>Public ticketing data turned into a product that updates itself daily and feeds a real content account.</p></div>
-  <div class="c blank"></div>
+  <div class="c P" data-p="musiclaw"><img src="../assets/img/musiclaw.png" alt="MusiClaw dashboard" loading="lazy"></div>
   <div class="c L" data-about><b>I</b><canvas aria-hidden="true"></canvas><small>about</small></div>
 
   <div class="X" id="x-musiclaw"><div class="side"><span>MusiClaw</span></div><div class="in"><img src="../assets/img/musiclaw.png" alt="MusiClaw"><div><h3>MusiClaw</h3><p class="s">Shanghai musical-theatre market data, solo build</p><p>What it proves: a data product with a content operations loop. Seat-map snapshots, cast attribution analysis, four content pipelines. What the AI may and may not decide is written down.</p><p class="n"><b>86</b> shows snapshotted daily. <b>4</b> content pipelines. Fixed <b>24h</b> post-publish review.</p><div class="lk"><a href="https://jessieyiqichen.github.io/projects/musiclaw.html">Case study</a><a href="https://jessieyiqichen.github.io/musiclaw-demo/">Dashboard</a><small>links open pages in Chinese</small></div></div></div><span class="x" data-close>close ×</span></div>
@@ -228,10 +232,10 @@
   panel.querySelector('[data-close-panel]').addEventListener('click',closePanel);
 
   /* project rows expand in place */
-  function closeRows(){document.querySelectorAll('.X.on').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.S.on').forEach(s=>s.classList.remove('on'));}
+  function closeRows(){document.querySelectorAll('.X.on').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.S.on,.P.on').forEach(s=>s.classList.remove('on'));}
   document.querySelectorAll('[data-p]').forEach(el=>el.addEventListener('click',()=>{
     const x=document.getElementById('x-'+el.dataset.p); const was=x.classList.contains('on');
-    closeRows(); if(!was){x.classList.add('on');el.classList.add('on');x.classList.add('in');x.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'});}
+    closeRows(); if(!was){x.classList.add('on');document.querySelectorAll('[data-p="'+el.dataset.p+'"]').forEach(s=>s.classList.add('on'));x.classList.add('in');x.scrollIntoView({behavior:reduce?'auto':'smooth',block:'nearest'});}
   }));
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeRows));
   addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();closeRows();}});
@@ -254,8 +258,11 @@
       } }
       draw();
     }
+    const glyph=tile.querySelector('b');
     function draw(){
       ctx.clearRect(0,0,W,H);
+      glyph.style.opacity = t>0.03 ? 0 : 1;
+      if(t===0) return;
       for(const p of pts){
         const k=ease(Math.min(1,Math.max(0,(t-p.ph)/(1-p.ph))));              // each dot starts a little later
         const x=p.x+p.dx*k, y=p.y+p.dy*k, r=p.r0+(p.r1-p.r0)*k;
