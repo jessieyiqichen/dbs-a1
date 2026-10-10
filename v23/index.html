@@ -59,13 +59,13 @@
   .spot{position:absolute;z-index:4;border-radius:10px;box-shadow:0 0 0 9999px rgba(18,18,28,.58);opacity:0;pointer-events:none;transition:left .45s var(--ease),top .45s var(--ease),width .45s var(--ease),height .45s var(--ease),opacity .3s}
   .touring .spot.on{opacity:1}
   .touring .mk{opacity:0}.touring .mk.on{opacity:1;stroke-width:3.5}.touring .bd{opacity:0}
-  .walk{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:8px;margin:12px 0 2px;padding:5px 14px 5px 5px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:13px;transition:transform .2s}
-  .walk img{width:26px;height:26px;border-radius:50%;background:#fff;object-fit:cover}
+  .walk{all:unset;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;margin:12px 0 2px;padding:5px 14px 5px 5px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:13px;transition:transform .2s}
+  .more .walk img{flex:none;width:26px;height:26px;box-shadow:none;border-radius:50%;background:#fff;object-fit:cover}
   .walk:hover{transform:translateY(-1px)}.walk:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .touring .walk,.touring .calls,.touring figcaption{display:none}
   .guide{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;margin-top:14px}
   .guide[hidden]{display:none}
-  .guide>img{width:56px;height:56px;border-radius:14px;background:#fff;object-fit:cover;object-position:50% 40%;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+  .more .guide>img{width:56px;height:56px;border-radius:14px;background:#fff;object-fit:cover;object-position:50% 40%;box-shadow:0 1px 2px rgba(0,0,0,.15)}
   .gb{position:relative;background:#fff;border-radius:12px;padding:12px 14px 10px;box-shadow:0 1px 2px rgba(0,0,0,.1),0 8px 18px rgba(0,0,0,.08)}
   .gb::before{content:"";position:absolute;left:-7px;top:18px;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
   .gt{position:relative;margin:0;font-size:15px;line-height:1.5;color:var(--ink)}.gt b{font:400 22px/1.1 var(--serif);margin-right:4px}
