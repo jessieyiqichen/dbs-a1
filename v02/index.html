@@ -16,14 +16,14 @@
   a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}
   .back{position:fixed;top:14px;left:16px;font:13px var(--serif);color:var(--muted);z-index:9}
 
-  .wall{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line);margin-top:52px}
-  .c{border-right:1px solid var(--line);border-bottom:1px solid var(--line);aspect-ratio:4/3;position:relative;overflow:hidden;background:var(--bg)}
+  .wall{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line);margin:52px auto 0;width:min(100%,880px)}
+  .c{border-right:1px solid var(--line);border-bottom:1px solid var(--line);aspect-ratio:1;position:relative;overflow:hidden;background:var(--bg)}
   .c.w2{grid-column:span 2;aspect-ratio:2/1}
   .c.w3{grid-column:span 3;aspect-ratio:3/1}
 
   /* letters: drawn as particles on a canvas */
   .L{display:grid;place-items:center;cursor:pointer}
-  .L b{font:600 clamp(64px,13vw,170px)/1 var(--serif);color:var(--ink);position:absolute;transition:opacity .15s}
+  .L b{font:600 clamp(56px,10vw,128px)/1 var(--serif);color:var(--ink);position:absolute;transition:opacity .15s}
   .L canvas{position:absolute;inset:0;width:100%;height:100%}
   .L small{position:absolute;left:12px;bottom:10px;font:italic 13px var(--serif);color:var(--ink);padding:2px 8px;overflow:hidden}
   .L small::before{content:"";position:absolute;inset:0;background:var(--acc);transform:scaleX(0);transform-origin:left;transition:transform .35s ease;z-index:-1}
@@ -112,10 +112,10 @@
   .S:hover .tag{color:var(--ink)}
 
   /* text tiles */
-  .T{padding:26px 30px;display:flex;flex-direction:column;justify-content:space-between}
-  .T h2{margin:0;font:600 clamp(20px,2.2vw,30px)/1.2 var(--serif);color:var(--ink)}
+  .T{padding:20px 22px;display:flex;flex-direction:column;justify-content:space-between}
+  .T h2{margin:0;font:600 clamp(18px,2vw,24px)/1.2 var(--serif);color:var(--ink)}
   .T h2 span{display:block;font:italic 400 13px/1.4 var(--serif);color:var(--muted);margin-top:4px}
-  .T p{margin:0;font-size:clamp(14px,1.25vw,17px);color:var(--body);max-width:36ch}
+  .T p{margin:0;font-size:14.5px;color:var(--body);max-width:34ch}
   .N{padding:16px 18px;display:flex;flex-direction:column;justify-content:center;gap:10px}
   .N div{line-height:1.2}
   .N b{display:block;font:600 clamp(22px,2.6vw,34px)/1 var(--serif);color:var(--ink)}
@@ -123,10 +123,10 @@
 
   /* corner tiles */
   .seal{display:grid;place-items:center}
-  .seal span{font:400 clamp(28px,4vw,48px)/1.2 var(--cn);color:var(--ink);letter-spacing:.2em;writing-mode:vertical-rl;border:1.5px solid var(--acc);color:var(--acc);padding:10px 6px}
+  .seal span{font:400 clamp(24px,3.2vw,38px)/1.2 var(--cn);color:var(--ink);letter-spacing:.2em;writing-mode:vertical-rl;border:1.5px solid var(--acc);color:var(--acc);padding:10px 6px}
   .me{display:grid;place-items:center}
   .me img{width:70%;height:70%;object-fit:contain}
-  .C{padding:26px 30px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+  .C{padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px}
   .C .mini{width:30%;max-width:120px;height:auto;margin-bottom:10px}
   .C b{font-weight:600;color:var(--ink);font-size:16px}
   .C a{display:block;font-size:14px}
@@ -139,7 +139,7 @@
   @media (prefers-reduced-motion:reduce){.c{opacity:1;transform:none;transition:none}}
 
 
-  footer{padding:20px 24px 40px;font-size:12px;color:var(--muted)}
+  footer{width:min(100%,880px);margin:0 auto;padding:20px 0 40px;font-size:12px;color:var(--muted)}
   @media (max-width:760px){
     .wall{grid-template-columns:repeat(2,1fr)}
     .c{aspect-ratio:1}
