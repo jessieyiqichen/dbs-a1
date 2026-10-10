@@ -20,6 +20,7 @@ Source: the live personal site, index.html as of 2026-09-21. Numbers follow that
 ## Contact
 - Email: jessiechenyiqi@outlook.com
 - GitHub: https://github.com/jessieyiqichen
+- Résumé PDF: assets/Jessie_Chen_Resume.pdf (English, product track; phone number removed before publishing)
 - Footer: © 2026 Jessie Chen · Hand-written HTML/CSS, no frameworks, no tracking
 
 ## Five projects
