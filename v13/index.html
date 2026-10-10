@@ -3,150 +3,138 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>v13 · One screen, the work open — Jessie Chen</title>
+<title>v13 · Contact sheet — Jessie Chen</title>
 <style>
   @font-face{font-family:Hanken;src:url("../assets/fonts/HankenGrotesk.woff2") format("woff2");font-weight:100 900;font-display:swap}
-  @font-face{font-family:Hanken;src:url("../assets/fonts/HankenGrotesk-Italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
   @font-face{font-family:"Barlow Condensed";src:url("../assets/fonts/BarlowCondensed-SemiBold.woff2") format("woff2");font-weight:600;font-display:swap}
-  :root{--bg:#eceae5;--ink:#151515;--body:#3c3c3a;--muted:#7c7b77;--line:#dedcd6;--card:#fff;--acc:#2f5bd3;
+  :root{--table:#ecebe8;--ink:#151515;--body:#3c3c3a;--muted:#7c7b77;--line:#dcdad4;--film:#161514;--marker:#2344b8;
     --sans:Hanken,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--cond:"Barlow Condensed","Arial Narrow",sans-serif}
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--body);font:15px/1.5 var(--sans);overflow:hidden}
-  a{color:var(--ink)}
+  body{margin:0;background:radial-gradient(ellipse at 50% 45%,#fbfbf9 0%,var(--table) 70%);color:var(--body);font:15px/1.5 var(--sans);overflow:hidden}
+  a{color:var(--ink);text-underline-offset:3px}
   .back{position:fixed;top:10px;left:14px;z-index:40;font-size:12px;color:var(--muted);text-decoration:none}
-  .screen{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:14px;padding:34px 3vw 18px}
+  .screen{height:100%;display:grid;grid-template-rows:auto 1fr;padding:30px 3vw 22px;gap:14px}
+  .label{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+  .label b{font:600 24px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+  .label b span{font-family:"Songti SC","Noto Serif CJK SC",serif;font-weight:400;font-size:14px;letter-spacing:.1em;color:var(--muted);margin-left:8px;text-transform:none}
+  .label p{margin:0;font-size:14px;color:var(--body)}
+  .label nav{margin-left:auto;font-size:13px;display:flex;gap:16px}
 
-  .me{display:flex;align-items:center;gap:14px}
-  .me img{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:50% 40%;background:#fff;border:1px solid var(--line)}
-  .me b{display:block;font:600 22px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
-  .me span{display:block;font-size:13px;color:var(--muted);margin-top:3px}
-  .me nav{margin-left:auto;font-size:13px;display:flex;gap:16px;align-items:center}
-  .me nav button{all:unset;cursor:pointer;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  .table{position:relative;min-height:0;display:grid;place-items:center}
+  .sheet{position:relative;background:#fff;padding:2.2% 2.6% 2%;width:min(100%,calc((100vh - 120px) * 1.42));box-shadow:0 1px 2px rgba(0,0,0,.12),0 18px 44px rgba(0,0,0,.14);transform:rotate(-.4deg);transition:transform .5s cubic-bezier(.3,.7,.2,1)}
+  body.open .sheet{transform:translateX(-19%) rotate(-.4deg) scale(.74)}
+  .sheet .stamp{display:flex;justify-content:space-between;font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 1.2%}
+  .strip{position:relative;background:var(--film);padding:4.2% 1.6%;display:grid;grid-template-columns:repeat(3,1fr);gap:1.6%;margin-bottom:2.4%}
+  .strip::before,.strip::after{content:"";position:absolute;left:1.2%;right:1.2%;height:2.2%;min-height:6px;background:repeating-linear-gradient(90deg,#e9e6dc 0 10px,transparent 10px 22px);border-radius:2px;opacity:.85}
+  .strip::before{top:1.2%}.strip::after{bottom:1.2%}
+  .fr{all:unset;position:relative;cursor:zoom-in;display:block;background:#000;aspect-ratio:16/10.5}
+  .fr img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
+  .fr.me img{object-position:50% 38%}
+  .fr .no{position:absolute;left:0;bottom:-15%;font:600 11px var(--cond);color:#e9e6dc;letter-spacing:.08em}
+  .fr .cap{position:absolute;right:0;bottom:-15%;font:600 11px var(--cond);color:#e9e6dc;text-transform:uppercase;letter-spacing:.08em}
+  .fr .mark{position:absolute;inset:-7%;border:3px solid var(--marker);border-radius:10px;opacity:0;transform:rotate(-1.2deg) scale(1.04);transition:opacity .25s,transform .35s cubic-bezier(.2,1.3,.4,1);pointer-events:none}
+  .fr.on .mark{opacity:1;transform:rotate(-1.2deg)}
+  .fr:focus-visible{outline:2px solid var(--marker);outline-offset:4px}
+  .hint{font-size:12.5px;color:var(--muted);margin:0;text-align:right}
 
-  .win{min-height:0;background:var(--card);border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,.06),0 24px 60px rgba(0,0,0,.12);display:grid;grid-template-rows:auto 1fr;overflow:hidden;width:min(100%,1280px);margin:0 auto}
-  .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--line)}
-  .bar .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:17px}
-  .bar h1{margin:0;font:600 24px/1 var(--cond);text-transform:uppercase;letter-spacing:.01em;color:var(--ink)}
-  .bar .role{font-size:13px;color:var(--muted)}
-  .bar .step{margin-left:auto;font-size:12.5px;color:var(--muted)}
-  .bd{min-height:0;display:grid;grid-template-columns:minmax(0,1.75fr) minmax(280px,1fr)}
-  .shot{position:relative;min-height:0;background:#f6f5f2;display:grid;place-items:center;padding:16px;border-right:1px solid var(--line)}
-  .frame{position:relative;max-height:100%;aspect-ratio:16/10;width:100%;max-width:calc((100vh - 230px) * 1.6);border-radius:8px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.1),0 10px 24px rgba(0,0,0,.1);cursor:pointer}
-  .frame img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
-  .spot{position:absolute;border-radius:8px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);pointer-events:none;opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1)}
-  .frame.on .spot{opacity:1}
-  .side{min-height:0;overflow:auto;padding:18px 20px 16px;display:flex;flex-direction:column;gap:12px}
-  .side q{display:block;font:600 26px/1.08 var(--cond);text-transform:uppercase;color:var(--ink);quotes:"“" "”"}
-  .notes{list-style:none;margin:0;padding:0}
-  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr;gap:10px;padding:8px 10px;border-radius:10px;font-size:14px;line-height:1.45;transition:background .2s}
+  .loupe{position:fixed;z-index:20;width:200px;height:200px;border-radius:50%;pointer-events:none;border:6px solid #1c1c1b;box-shadow:0 12px 30px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.5);background-repeat:no-repeat;background-color:#fff;opacity:0;transform:scale(.8);transition:opacity .15s,transform .15s}
+  .loupe.on{opacity:1;transform:none}
+
+  .card{position:fixed;z-index:15;top:70px;right:3vw;bottom:24px;width:min(460px,42vw);background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.12),0 24px 60px rgba(0,0,0,.18);padding:22px 24px;overflow:auto;transform:translateX(110%);transition:transform .5s cubic-bezier(.3,.7,.2,1)}
+  body.open .card{transform:none}
+  .card .x{all:unset;cursor:pointer;position:absolute;top:14px;right:16px;font-size:13px;color:var(--muted)}
+  .card .n{font:600 12px var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--marker)}
+  .card h2{margin:2px 0 2px;font:600 30px/1 var(--cond);text-transform:uppercase;color:var(--ink)}
+  .card .role{margin:0 0 12px;font-size:13px;color:var(--muted)}
+  .card q{display:block;margin:0 0 14px;font:600 22px/1.1 var(--cond);text-transform:uppercase;color:var(--ink);quotes:"“" "”"}
+  .view{position:relative;border-radius:6px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.12);margin:0 0 10px;cursor:pointer}
+  .view img{display:block;width:100%}
+  .spot{position:absolute;border-radius:6px;box-shadow:0 0 0 2px #fff,0 0 0 9999px rgba(20,20,20,.45);opacity:0;transition:all .45s cubic-bezier(.3,.7,.2,1);pointer-events:none}
+  .view.on .spot{opacity:1}
+  .notes{list-style:none;margin:0 0 12px;padding:0}
+  .notes button{all:unset;cursor:pointer;display:grid;grid-template-columns:22px 1fr;gap:10px;padding:7px 8px;border-radius:8px;font-size:14px;line-height:1.45}
   .notes button:hover,.notes button.on{background:#f1f0ec;color:var(--ink)}
-  .notes .n{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--muted);font-size:11px;line-height:17px;text-align:center;color:var(--muted)}
-  .notes button.on .n{background:var(--ink);border-color:var(--ink);color:#fff}
-  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-  .nums div{background:#f4f3ef;border-radius:10px;padding:8px 10px}
-  .nums b{display:block;font:600 22px/1.05 var(--cond);color:var(--ink)}
-  .nums span{display:block;font-size:11.5px;line-height:1.3;color:var(--muted)}
-  .lk{display:flex;flex-wrap:wrap;gap:8px;margin:0}
-  .lk a{text-decoration:none;font-size:13px;padding:6px 11px;border-radius:999px;border:1px solid var(--line)}
-  .lk a:hover{border-color:var(--ink)}
-  .side .pv{margin:0;font-size:12.5px;color:var(--muted)}
+  .notes .k{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--marker);color:var(--marker);font-size:11px;line-height:17px;text-align:center}
+  .notes button.on .k{background:var(--marker);color:#fff}
+  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+  .nums div{border-top:2px solid var(--ink);padding-top:6px}
+  .nums b{display:block;font:600 24px/1 var(--cond);color:var(--ink)}
+  .nums span{display:block;font-size:11.5px;line-height:1.3;color:var(--muted);margin-top:3px}
+  .lk a{margin-right:12px;font-size:14px}
+  .card p{margin:0 0 10px;font-size:14px}
+  .card ol{margin:0 0 10px;padding-left:1.1em;font-size:14px}.card li{margin:0 0 4px}.card li b{color:var(--ink)}
+  .card img.ph{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 35%;margin:0 0 12px}
 
-  .dock{justify-self:center;display:flex;gap:10px;padding:9px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.85);box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(20,20,20,.06)}
-  .dock .app,.dock a{all:unset;cursor:pointer;position:relative;width:56px;height:56px;border-radius:15px;display:grid;place-items:center;background:var(--t,#eeede8);transition:transform .15s}
-  .dock .app:hover,.dock a:hover,.dock .app:focus-visible,.dock a:focus-visible{transform:translateY(-4px)}
-  .dock .em{font-size:27px;line-height:1}
-  .dock .app i{position:absolute;bottom:-7px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--ink);opacity:0}
-  .dock .app.on i{opacity:1}
-  .dock .sep{width:1px;background:var(--line);margin:6px 2px}
-  .dock .gh{width:24px;height:24px}
-  .lbl{position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--ink);background:#fff;border:1px solid var(--line);padding:2px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none}
-  .dock .app:hover .lbl,.dock a:hover .lbl,.dock .app:focus-visible .lbl{opacity:1}
-
-  dialog{border:0;padding:0;border-radius:16px;width:min(760px,94vw);background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.25)}
-  dialog::backdrop{background:rgba(236,234,229,.8)}
-  .ab{display:grid;grid-template-columns:200px 1fr;gap:22px;padding:24px}
-  .ab img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px}
-  .ab h2{margin:0 0 8px;font:600 28px/1 var(--cond);text-transform:uppercase;color:var(--ink)}
-  .ab p{margin:0 0 10px;font-size:14.5px}
-  .ab ol{margin:0 0 10px;padding-left:1.1em;font-size:14px}.ab li{margin:0 0 4px}.ab b{color:var(--ink)}
-  .ab .x{all:unset;cursor:pointer;font-size:13px;text-decoration:underline}
-
-  @media (prefers-reduced-motion:reduce){.spot,.dock .app,.dock a{transition:none}}
-  @media (max-width:900px){body{overflow:auto}.screen{height:auto}.bd{grid-template-columns:1fr}.shot{border-right:0;border-bottom:1px solid var(--line)}.frame{max-width:none}.dock{position:sticky;bottom:8px;flex-wrap:wrap;justify-content:center}.ab{grid-template-columns:1fr}.ab img{max-width:200px}.me{flex-wrap:wrap}.me nav{margin-left:0}}
+  @media (prefers-reduced-motion:reduce){.sheet,.card,.fr .mark,.spot,.loupe{transition:none}}
+  @media (max-width:900px){body{overflow:auto}.screen{height:auto}.sheet{transform:none!important;width:100%}.strip{grid-template-columns:1fr 1fr}.card{position:static;width:auto;transform:none;display:none;margin-top:16px}body.open .card{display:block}.loupe{display:none}.label nav{margin-left:0}}
 </style>
 </head>
 <body>
 <a class="back" href="../">← Gallery</a>
 <div class="screen">
-  <header class="me">
-    <img src="../assets/img/jessie-face.png" alt="Jessie Chen, memoji portrait">
-    <div><b>Jessie Chen</b><span>Five AI products, shipped solo · AI product, UChicago class of 2027</span></div>
-    <nav><button id="about-btn">About me</button><a href="mailto:jessiechenyiqi@outlook.com">Email</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a></nav>
+  <header class="label">
+    <b>Jessie Chen<span>陈亦奇</span></b>
+    <p>Five AI products, shipped solo in the past year · AI product, University of Chicago class of 2027</p>
+    <nav><a href="mailto:jessiechenyiqi@outlook.com">Email</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a></nav>
   </header>
-
-  <section class="win" aria-live="polite">
-    <div class="bar"><span class="ic" id="w-ic"></span><h1 id="w-t"></h1><span class="role" id="w-r"></span><span class="step" id="w-s"></span></div>
-    <div class="bd">
-      <div class="shot"><div class="frame" id="frame"><img id="w-img" alt=""><span class="spot" id="spot"></span></div></div>
-      <div class="side">
-        <q id="w-q"></q>
-        <ol class="notes" id="w-notes"></ol>
-        <div class="nums" id="w-nums"></div>
-        <p class="pv" id="w-pv"></p>
-        <p class="lk" id="w-lk"></p>
-      </div>
+  <div class="table">
+    <div class="sheet" id="sheet">
+      <p class="stamp"><span>contact sheet · five products, one photographer</span><span>screens in Chinese</span></p>
+      <div class="strip"><button class="fr" data-i="0" style="--img:url(../assets/img/lecture-companion.png)" aria-label="Lecture Companion"><img src="../assets/img/lecture-companion.png" alt="Lecture Companion screenshot, in Chinese"><span class="no">1</span><span class="cap">Lecture Companion</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="1" style="--img:url(../assets/img/xhs-threads.png)" aria-label="xhs-threads"><img src="../assets/img/xhs-threads.png" alt="xhs-threads screenshot, in Chinese"><span class="no">2</span><span class="cap">xhs-threads</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="2" style="--img:url(../assets/img/nous.png)" aria-label="Nous"><img src="../assets/img/nous.png" alt="Nous screenshot, in Chinese"><span class="no">3</span><span class="cap">Nous</span><span class="mark" aria-hidden="true"></span></button></div>
+      <div class="strip"><button class="fr" data-i="3" style="--img:url(../assets/img/job-pilot.png)" aria-label="JobPilot"><img src="../assets/img/job-pilot.png" alt="JobPilot screenshot, in Chinese"><span class="no">4</span><span class="cap">JobPilot</span><span class="mark" aria-hidden="true"></span></button><button class="fr" data-i="4" style="--img:url(../assets/img/musiclaw.png)" aria-label="MusiClaw"><img src="../assets/img/musiclaw.png" alt="MusiClaw screenshot, in Chinese"><span class="no">5</span><span class="cap">MusiClaw</span><span class="mark" aria-hidden="true"></span></button><button class="fr me" data-i="me" style="--img:url(../assets/photos/ice-cave.jpg)" aria-label="About me"><img src="../assets/photos/ice-cave.jpg" alt="Jessie in an ice cave"><span class="no">6</span><span class="cap">Who shot these</span><span class="mark" aria-hidden="true"></span></button></div>
+      <p class="hint">Hover a frame to look closer. Click to pick it.</p>
     </div>
-  </section>
-
-  <nav class="dock" aria-label="The five products and links"><button class="app" data-i="0" style="--t:#e3eaf8" aria-label="Lecture Companion"><span class="lbl">Lecture Companion</span><span class="em">🎓</span><i></i></button><button class="app" data-i="1" style="--t:#f8e3e0" aria-label="xhs-threads"><span class="lbl">xhs-threads</span><span class="em">🔖</span><i></i></button><button class="app" data-i="2" style="--t:#ebe4f7" aria-label="Nous"><span class="lbl">Nous</span><span class="em">💬</span><i></i></button><button class="app" data-i="3" style="--t:#e0f1e8" aria-label="JobPilot"><span class="lbl">JobPilot</span><span class="em">🧭</span><i></i></button><button class="app" data-i="4" style="--t:#f7ecd9" aria-label="MusiClaw"><span class="lbl">MusiClaw</span><span class="em">🎭</span><i></i></button><span class="sep"></span>
-    <a href="mailto:jessiechenyiqi@outlook.com" aria-label="Email"><span class="lbl">jessiechenyiqi@outlook.com</span><span class="em">✉️</span></a>
-    <a href="../assets/Jessie_Chen_Resume.pdf" aria-label="Résumé"><span class="lbl">résumé (pdf)</span><span class="em">📄</span></a>
-    <a href="https://github.com/jessieyiqichen" aria-label="GitHub"><span class="lbl">github.com/jessieyiqichen</span><svg class="gh" viewBox="0 0 16 16" aria-hidden="true"><path fill="#151515" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-  </nav>
-</div>
-
-<dialog id="about"><div class="ab">
-  <img src="../assets/photos/ice-cave.jpg" alt="Jessie inside an ice cave">
-  <div>
-    <h2>Jessie Chen · 陈亦奇</h2>
-    <p>MA in Computational Social Science (economics track), University of Chicago, GPA 4.0, class of 2027. BSc Economics, The Chinese University of Hong Kong. Born in Wuhan; Chicago and Shanghai now. Off hours: music, travel, skiing and musicals; two cats, Titi and Pupu, and two dogs, Damai and Dami.</p>
-    <ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in.</li><li><b>Staged rollout.</b> One layer of change per stage.</li><li><b>Metric before number.</b> Every number names its dashboard and read date.</li><li><b>Cost is a product parameter.</b> A shadow run proves quality first.</li></ol>
-    <p>Looking for AI product manager roles, AI products first. The products serve Chinese users, so screens and case studies are in Chinese.</p>
-    <button class="x" id="about-x">Close</button>
   </div>
-</div></dialog>
+</div>
+<div class="loupe" id="loupe" aria-hidden="true"></div>
+<aside class="card" id="card" aria-live="polite"></aside>
 
 <script type="application/json" id="data">[{"t": "Lecture Companion", "img": "lecture-companion", "role": "Real-time lecture AI assistant", "q": "59 of 63 questions asked with zero typing", "p": "The bottleneck for asking questions in class is input friction, not model capability. I compressed a question into one click on a transcript sentence, and used multimodal retrieval to fill in whiteboard and formulas. The North Star is after-class review behavior; cost is managed line by line in a usage ledger.", "proves": "interaction design, a metrics system, cost engineering", "nums": [["63", "marks, 59 with zero typing"], ["3", "rollout stages, zero rollbacks"], ["¼", "ASR cost after a shadow run"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/lecture-companion.html"], ["Live demo", "https://jessieyiqichen.github.io/lc-demo/"], ["Walkthrough", "https://jessieyiqichen.github.io/lecture-companion-walkthrough/"]], "boxes": [[29.44, 35.33, 18.06, 24.89, "Each blue dot is a mark: one click on a transcript sentence the student did not follow. No typing."], [73.75, 23.56, 25.0, 46.0, "The AI explains that sentence, with the board captured at the moment of the click."], [29.03, 6.0, 70.42, 8.44, "A real public lecture, recorded and processed: MIT 14.12, Game Theory."]], "emo": "🎓", "tint": "#e3eaf8"}, {"t": "xhs-threads", "img": "xhs-threads", "role": "Thought threads from Xiaohongshu bookmarks", "q": "90% of model calls on the light tier, ¥0.05–0.10 per item", "p": "Bookmarking is frequent; organizing almost never happens. I turned organizing into zero-label, proactive archiving: the user only saves, the AI threads, annotates and checks. Differentiation came from a survey of four competitor types; output quality is gated by an independent reviewer model.", "proves": "differentiated positioning, an AI evaluation system", "nums": [["11 · 63", "threads · nodes, read 2026-09"], ["90%", "of calls on the light tier"], ["¥0.05–0.10", "per item"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/xhs-threads.html"], ["Guided demo", "https://47.94.34.146:8443/demo"], ["Try it", "https://47.94.34.146:8443/try"]], "boxes": [[13.75, 29.78, 28.06, 19.33, "The promise: turn your bookmarks back into your thinking."], [60.56, 16.0, 24.58, 16.89, "A thread: saved posts on a coffee-stall idea, grouped into one train of thought, 3 nodes."], [14.03, 63.11, 32.64, 8.44, "You only save. The AI does the threading, unattended, around the clock."]], "emo": "🔖", "tint": "#f8e3e0"}, {"t": "Nous", "img": "nous", "role": "Cognitive-twin message agent, three clients", "q": "Behavior prediction up from 49% to 71%", "p": "Other bots learn how you talk; this one learns how you decide. A message agent driven by a nine-dimension cognitive model: it judges whether to reply, drafts in your way, and raises a quality warning when you are about to say yes to something you will not do. Feishu bot, Mac floating assistant and Web, all three in daily production use.", "proves": "the full path from research to product", "nums": [["49→71%", "behavior prediction"], ["3", "clients live"], ["closed", "correction flywheel"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/nous.html"], ["Guided demo", "https://jessieyiqichen.github.io/demos/nous.html"], ["Vision sandbox", "https://web-ten-omega-72.vercel.app/agent"]], "boxes": [[2.64, 29.11, 40.69, 12.89, "A colleague asks: free this weekend to sort the quarterly data? Needed Monday."], [63.47, 34.22, 25.69, 12.44, "Nous drafts the reply in my voice: busy, but I’ll do it this weekend; Monday OK?"], [63.47, 44.22, 25.56, 11.78, "The quality warning: I will probably say yes, and by habit start on Sunday night, so the draft buys a day."]], "emo": "💬", "tint": "#ebe4f7"}, {"t": "JobPilot", "img": "job-pilot", "role": "AI job-search strategist, open source", "q": "544 tests behind 31 commands, all six trade-offs written down", "p": "The job search is blocked by people, not information. Existing tools stop at the behavior layer; JobPilot plugs in a cognitive model and language samples to give personal diagnosis and messaging that sounds like you. All six product trade-offs have a written why.", "proves": "product insight, feature trade-offs, engineering quality", "nums": [["349 · 37", "jobs collected · high-score"], ["31 · 544", "CLI commands · tests, 2026-09"], ["CI", "plus a read-only live demo"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/job-pilot.html"], ["Live demo", "https://jobpilot-demo-delta.vercel.app"], ["GitHub", "https://github.com/jessieyiqichen/job-pilot"]], "boxes": [[10.69, 17.56, 78.61, 14.44, "One-line diagnosis: nothing applied yet, but 37 high-score roles are waiting. Apply first, strategy later."], [10.69, 35.33, 20.56, 12.89, "37 high-score roles out of 349 collected."], [12.08, 57.33, 75.56, 26.44, "This week’s plan: each role scored, each with the next step."]], "emo": "🧭", "tint": "#e0f1e8"}, {"t": "MusiClaw", "img": "musiclaw", "role": "Shanghai musical-theatre market data", "q": "86 shows snapshotted every day, no one pressing a button", "p": "Public ticketing data turned into a data product that updates itself daily: seat-map snapshots for 86 shows, cast attribution analysis, four content pipelines, feeding a real data account. The AI's scope of responsibility is fully documented.", "proves": "a data product, a content operations loop", "nums": [["86", "shows snapshotted daily"], ["4", "content pipelines"], ["24 h", "fixed post-publish review"]], "lk": [["Case study", "https://jessieyiqichen.github.io/projects/musiclaw.html"], ["Dashboard", "https://jessieyiqichen.github.io/musiclaw-demo/"]], "boxes": [[59.58, 9.33, 32.92, 68.22, "Today’s pick: a sold-out run, flagged on the poster."], [2.64, 63.56, 42.78, 10.44, "100% sold, 1,928 of 1,928 seats, 45.1K want to see it."], [49.86, 81.33, 40.56, 10.67, "It updates itself every day; the next run is at 06:00."]], "emo": "🎭", "tint": "#f7ecd9"}]</script>
 <script>
 (function(){
   let D;try{D=JSON.parse(document.getElementById('data').textContent)}catch(e){console.error('product data unreadable',e);return}
-  const $=id=>document.getElementById(id),apps=[...document.querySelectorAll('.dock .app')],frame=$('frame'),spot=$('spot');
+  const body=document.body,card=document.getElementById('card'),loupe=document.getElementById('loupe'),frs=[...document.querySelectorAll('.fr')];
   const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let cur=0,k=-1;
-  function light(j){const b=D[cur].boxes[j];if(!b)return;k=j;Object.assign(spot.style,{left:b[0]+'%',top:b[1]+'%',width:b[2]+'%',height:b[3]+'%'});frame.classList.add('on');$('w-notes').querySelectorAll('button').forEach((x,n)=>x.classList.toggle('on',n===j))}
-  function dark(){k=-1;frame.classList.remove('on');$('w-notes').querySelectorAll('button').forEach(x=>x.classList.remove('on'))}
-  function open(i){
-    if(!D[i])return;cur=i;const d=D[i];
-    $('w-ic').textContent=d.emo;$('w-ic').style.background=d.tint;$('w-t').textContent=d.t;$('w-r').textContent=d.role+' · solo build';$('w-s').textContent=(i+1)+' of '+D.length+' · ← → to switch';
-    $('w-img').src='../assets/img/'+d.img+'.png';$('w-img').alt=d.t+' screenshot, in Chinese';
-    $('w-q').textContent=d.q;
-    $('w-notes').innerHTML=d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="n">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('');
-    $('w-nums').innerHTML=d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('');
-    $('w-pv').textContent='Proves: '+d.proves+'. Screen in Chinese; notes translate it.';
-    $('w-lk').innerHTML=d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('');
-    apps.forEach((a,n)=>{a.classList.toggle('on',n===i);a.setAttribute('aria-pressed',n===i)});dark();
+  let cur=null,k=-1;
+  /* loupe: 2.6x of the frame under the cursor */
+  frs.forEach(f=>{
+    f.addEventListener('mousemove',e=>{
+      const im=f.querySelector('img'),r=f.getBoundingClientRect(),Z=2.6,R=100;
+      const ar=(im.naturalWidth/im.naturalHeight)||1.6;
+      let dw,dh;if(r.height*ar>=r.width){dh=r.height;dw=r.height*ar}else{dw=r.width;dh=r.width/ar}
+      const me=f.classList.contains('me'),ox=me?(r.width-dw)*.5:0,oy=me?(r.height-dh)*.38:0;
+      const mx=e.clientX-r.left-ox,my=e.clientY-r.top-oy;
+      loupe.style.backgroundImage='url("'+im.currentSrc+'")';
+      loupe.style.backgroundSize=(dw*Z)+'px '+(dh*Z)+'px';
+      loupe.style.backgroundPosition=(R-mx*Z)+'px '+(R-my*Z)+'px';
+      loupe.style.left=(e.clientX-R)+'px';loupe.style.top=(e.clientY-R)+'px';loupe.classList.add('on');
+    });
+    f.addEventListener('mouseleave',()=>loupe.classList.remove('on'));
+  });
+  function light(j){const v=card.querySelector('.view'),d=D[cur];if(!v||!d||!d.boxes[j])return;k=j;const b=d.boxes[j],s=v.querySelector('.spot');Object.assign(s.style,{left:b[0]+'%',top:b[1]+'%',width:b[2]+'%',height:b[3]+'%'});v.classList.add('on');card.querySelectorAll('.notes button').forEach((x,n)=>x.classList.toggle('on',n===j))}
+  function pick(i){
+    frs.forEach(f=>f.classList.toggle('on',f.dataset.i===String(i)));
+    if(i==='me'){cur='me';
+      card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">frame 6</p><h2>Who shot these</h2><p class="role">Jessie Chen · 陈亦奇</p><img class="ph" src="../assets/photos/ice-cave.jpg" alt="Jessie inside an ice cave"><p>MA in Computational Social Science (economics track), University of Chicago, GPA 4.0, class of 2027. BSc Economics, The Chinese University of Hong Kong. Born in Wuhan; Chicago and Shanghai now. Off hours: music, travel, skiing and musicals; two cats, Titi and Pupu, and two dogs, Damai and Dami.</p><ol><li><b>Pain point before solution.</b> Find the layer the bottleneck lives in.</li><li><b>Staged rollout.</b> One layer of change per stage.</li><li><b>Metric before number.</b> Every number names its dashboard and read date.</li><li><b>Cost is a product parameter.</b> A shadow run proves quality first.</li></ol><p class="lk"><a href="mailto:jessiechenyiqi@outlook.com">jessiechenyiqi@outlook.com</a><a href="../assets/Jessie_Chen_Resume.pdf">Résumé (PDF)</a><a href="https://github.com/jessieyiqichen">GitHub</a></p>';
+    }else{const d=D[i];if(!d)return;cur=i;
+      card.innerHTML='<button class="x" data-x>close ✕</button><p class="n">frame '+(i+1)+'</p><h2>'+esc(d.t)+'</h2><p class="role">'+esc(d.role)+' · solo build</p><q>'+esc(d.q)+'</q>'+
+        '<div class="view"><img src="../assets/img/'+d.img+'.png" alt="'+esc(d.t)+' screenshot, in Chinese"><span class="spot"></span></div>'+
+        '<ol class="notes">'+d.boxes.map((b,j)=>'<li><button data-j="'+j+'"><span class="k">'+(j+1)+'</span><span>'+esc(b[4])+'</span></button></li>').join('')+'</ol>'+
+        '<div class="nums">'+d.nums.map(([a,b])=>'<div><b>'+esc(a)+'</b><span>'+esc(b)+'</span></div>').join('')+'</div>'+
+        '<p class="lk">'+d.lk.map(([a,u])=>'<a href="'+esc(u)+'">'+esc(a)+' ↗</a>').join('')+'</p>';
+    }
+    body.classList.add('open');card.scrollTop=0;
   }
-  apps.forEach(a=>a.addEventListener('click',()=>open(+a.dataset.i)));
-  $('w-notes').addEventListener('mouseover',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
-  $('w-notes').addEventListener('focusin',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
-  $('w-notes').addEventListener('click',e=>{const b=e.target.closest('button');if(b)light(+b.dataset.j)});
-  $('w-notes').addEventListener('mouseleave',dark);
-  frame.addEventListener('click',()=>light((k+1)%3));
-  addEventListener('keydown',e=>{if($('about').open)return;if(e.key==='ArrowRight')open((cur+1)%D.length);if(e.key==='ArrowLeft')open((cur+D.length-1)%D.length)});
-  $('about-btn').addEventListener('click',()=>$('about').showModal());$('about-x').addEventListener('click',()=>$('about').close());
-  $('about').addEventListener('click',e=>{if(e.target===$('about'))$('about').close()});
-  open(0);
+  function close(){body.classList.remove('open');frs.forEach(f=>f.classList.remove('on'));cur=null}
+  frs.forEach(f=>f.addEventListener('click',()=>{const i=f.dataset.i==='me'?'me':+f.dataset.i;if(cur===i)close();else pick(i)}));
+  card.addEventListener('click',e=>{if(e.target.closest('[data-x]'))return close();const b=e.target.closest('.notes button');if(b)return light(+b.dataset.j);if(e.target.closest('.view'))light((k+1)%3)});
+  card.addEventListener('mouseover',e=>{const b=e.target.closest('.notes button');if(b)light(+b.dataset.j)});
+  addEventListener('keydown',e=>{
+    if(e.key==='Escape')close();
+    const order=[0,1,2,3,4,'me'];if(cur===null)return;const n=order.indexOf(cur);
+    if(e.key==='ArrowRight')pick(order[(n+1)%6]);if(e.key==='ArrowLeft')pick(order[(n+5)%6]);
+  });
 })();
 </script>
 </body>
