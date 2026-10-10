@@ -115,3 +115,4 @@
 - v24 我想要的是直接把标题换成问题。改为：大标题就是 "Are you hiring for product, engineering, or data?"，三个词本身是按钮（各自镜头颜色的荧光笔），点一个其余两个变淡，下面一行写明页面已按该角度归档，抽屉归档、抽出领头产品并滚过去；原标题"五个 AI 产品从空白到上线"挪到下面一句。去掉了原来那排小标签。
 - v25：Claude 提出把整页收成一封完整的信：顶部导航改成信头（左日期，右链接，去掉和名片重复的名字），页底 "Have questions?" 改成落款（Yours, 名字、大字邮箱、简历和 GitHub、P.S. 每个产品都有可打开的 demo）；顺带修手机 bug（打开的卡片单栏、不左右晃）。我说试。gallery 加了三幕各一句结论和 Final choice 草稿（选 v25，理由待我确认）；进度 25 / 25。导览讲解是否改第一人称、Final choice 的措辞待我确认；部署 Vercel 待我同意。
 - v25 我提出想要动态的 Memoji 在整个网页里走动讲解、讲的时候有聚光灯阴影。Claude 方案：右下角 Memoji 探头邀请"40 秒导览"，点开后整页变暗只亮当前一处，Memoji 颠步走到旁边用第一人称讲，八站（标题问题 → 名片 → 抽屉 → 截图三个蓝圈 → 数字 → 落款），Next/Back/Skip/Esc；我提供了三个 Memoji 姿势（灯泡指向、比心、派对），去掉 EXIF 后放进 assets/img。按站换姿势：讲东西用灯泡、讲自己和落款用比心、讲数字用派对，休息时挥手。卡片里的 "Walk me through it" 改为从第 4 站开始整页导览。讲解词待我过目。
+- 我确认 Final choice 选 v25，并让部署 gallery。Claude 用 Vercel CLI 部署整个仓库（vercel.json：无框架、无构建、根目录输出），gallery 是首页。线上地址 https://dbs-a1.vercel.app ，25 个版本页、字体、图片、简历 PDF 全部返回 200。
