@@ -116,16 +116,24 @@
   const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 
   let typing=0;
-  async function typeInto(el,text){
-    if(reduce||plain){ el.textContent+=text; return; }
-    typing++;
-    const cur=document.createElement('span'); cur.className='cur'; el.after(cur);
-    for(let i=0;i<text.length;i++){
-      if(plain){ el.textContent+=text.slice(i); break; }          // "plain version" pressed mid-sentence: finish at once
-      const ch=text[i]; el.textContent+=ch;
-      await sleep(ch===' '?14:(/[.,:;]/.test(ch)?120:22+Math.random()*26));
-    }
-    cur.remove(); typing--;
+  const delayFor=ch=>ch===' '?14:(/[.,:;]/.test(ch)?120:22+Math.random()*26);
+  // Types character by character on an animation-frame clock. Always letter by letter;
+  // "reduce motion" only stops the cursor blinking. If frames stall, it catches up without skipping the effect.
+  function typeInto(el,text){
+    if(plain){ el.textContent+=text; return Promise.resolve(); }
+    return new Promise(res=>{
+      typing++;
+      const cur=document.createElement('span'); cur.className='cur'; el.after(cur);
+      let i=0, due=performance.now()+delayFor(text[0]||'a');
+      function step(now){
+        if(plain){ el.textContent+=text.slice(i); return fin(); }
+        let n=0;
+        while(i<text.length && now>=due && n<3){ const ch=text[i++]; el.textContent+=ch; due+=delayFor(ch); n++; }
+        if(i<text.length) requestAnimationFrame(step); else fin();
+      }
+      function fin(){ cur.remove(); typing--; res(); }
+      requestAnimationFrame(step);
+    });
   }
   function mkWord(c){
     if(c.href){ const a=document.createElement('a'); a.href=c.href; a.textContent=c.w; return a; }
@@ -136,7 +144,7 @@
     p.append(document.createTextNode(c.pre||'')); p.append(mkWord(c)); return p;
   }
   async function reveal(node){
-    if(reduce||plain){ node.querySelectorAll('img').forEach(i=>i.classList.add('in')); return; }
+    if(plain){ node.querySelectorAll('img').forEach(i=>i.classList.add('in')); return; }
     await sleep(60); node.querySelectorAll('img').forEach(i=>i.classList.add('in'));
   }
   async function expand(w){
@@ -161,7 +169,7 @@
     }
     if(n.lines){
       const wrap=document.createElement('div'); wrap.className='sub'; anchor.after(wrap);
-      for(const c of n.lines){ const p=mkLine(c); wrap.append(p); if(!(reduce||plain)) await sleep(140); }
+      for(const c of n.lines){ const p=mkLine(c); wrap.append(p); if(!plain) await sleep(140); }
     }
   }
   document.addEventListener('click',e=>{ const w=e.target.closest('.w'); if(w) expand(w); });
