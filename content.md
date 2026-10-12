@@ -8,7 +8,7 @@ Source: the live personal site, index.html as of 2026-09-21. Numbers follow that
 ## Identity
 - Name: Jessie Chen (陈亦奇 Chen Yiqi)
 - One line: AI Product · Chicago / Shanghai · Open to Opportunities
-- Now: MA in Computational Social Science (economics track), University of Chicago, GPA 4.0, class of 2027
+- Now: MA in Computational Social Science (economics track), University of Chicago, class of 2027
 - Before: BSc Economics, The Chinese University of Hong Kong
 - Looking for: AI product manager roles (AI products first)
 - Stack: product definition · AI engineering · data analysis · full-stack development
