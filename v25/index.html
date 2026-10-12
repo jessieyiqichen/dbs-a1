@@ -98,6 +98,23 @@
   .gm-n button:focus-visible,.gm-start:focus-visible,.gm-img:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .gm-hi{display:flex;align-items:center;gap:10px}.gm-hi p{margin:0;font-size:14px;color:var(--ink)}
   .gm-x{all:unset;cursor:pointer;margin-left:2px;color:#8a867c;font-size:16px;line-height:1}
+  /* the greeting: on arrival my memoji asks, in the middle of the page, whether to take the tour */
+  .hello{border:0;padding:84px 28px 24px;width:min(420px,calc(100vw - 40px));box-sizing:border-box;overflow:visible;background:#fffdf7;border-radius:18px;text-align:center;color:var(--ink);box-shadow:0 2px 4px rgba(0,0,0,.12),0 24px 50px rgba(0,0,0,.3)}
+  .hello::backdrop{background:rgba(24,21,16,.5)}
+  .hello[open]{animation:hello-in .45s var(--ease)}
+  @keyframes hello-in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+  .hello img{position:absolute;left:50%;top:-86px;width:160px;height:160px;transform:translateX(-50%);filter:drop-shadow(0 8px 12px rgba(0,0,0,.25))}
+  .hello h2{margin:0;font:400 30px/1.1 var(--serif)}
+  .hello p{margin:10px auto 0;max-width:30ch;font-size:15.5px;line-height:1.5;text-wrap:balance}
+  .hello-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+  .hello-row button{all:unset;cursor:pointer;padding:10px 20px;border-radius:999px;border:1px solid rgba(0,0,0,.28);font-size:14.5px}
+  .hello-row .pri{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+  .hello-x{all:unset;cursor:pointer;position:absolute;right:14px;top:10px;padding:4px;font-size:20px;line-height:1;color:#6f6b62}
+  .hello-row button:focus-visible,.hello-x:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  body:has(.hello[open]) .gm{opacity:0}
+  .hello-thumb .hello{position:fixed;inset:0;margin:auto;height:fit-content;z-index:95;animation:none}
+  .hello-thumb::after{content:"";position:fixed;inset:0;z-index:94;background:rgba(24,21,16,.5)}
+  @media (prefers-reduced-motion:reduce){.hello[open]{animation:none}}
   .calls .k{width:20px;height:20px;box-sizing:border-box;border-radius:50%;border:1.5px solid #2344b8;color:#2344b8;font:600 11px/17px var(--sans);text-align:center}
   .hiw{margin:0 0 12px;font-size:15px}
   .strip{max-width:1180px;margin:0 auto;padding:0 4vw 50px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
@@ -440,6 +457,13 @@
   <svg class="doodle d-coffee" aria-hidden="true"><use href="#d-coffee"/></svg>
 </section>
 <div class="tshade" id="tshade" hidden></div>
+<dialog class="hello" id="hello" aria-labelledby="hello-h">
+  <img src="../assets/img/jessie-wave.png" alt="">
+  <button type="button" class="hello-x" id="hello-x" aria-label="Not now">×</button>
+  <h2 id="hello-h">Hi, I’m Jessie.</h2>
+  <p>Want me to walk you through this page? Eight stops, about 40 seconds.</p>
+  <div class="hello-row"><button type="button" class="pri" id="hello-go">Show me</button><button type="button" id="hello-no">I’ll look around</button></div>
+</dialog>
 <div class="gm rest" id="gm" aria-live="polite">
   <div class="gm-b" id="gm-b">
     <div class="gm-hi" id="gm-hi"><p>Want a 40-second tour?</p><button type="button" class="gm-start" id="gm-start">Show me</button><button type="button" class="gm-x" id="gm-x" aria-label="Not now">×</button></div>
@@ -513,6 +537,16 @@
   $('gm-start').addEventListener('click',()=>startTour(0));
   $('gm-img').addEventListener('click',()=>{if(!tour)startTour(0)});
   $('gm-x').addEventListener('click',()=>{$('gm-b').hidden=true});
+  // The greeting opens on arrival. "Show me" starts the tour; anything else closes it and leaves the memoji in its corner.
+  const hello=$('hello');
+  $('hello-go').addEventListener('click',()=>{hello.close();startTour(0)});
+  $('hello-no').addEventListener('click',()=>hello.close());
+  $('hello-x').addEventListener('click',()=>hello.close());
+  // a click on the dimmed page around the card (the dialog's own box, outside its edges) closes it too
+  hello.addEventListener('click',e=>{if(e.target!==hello)return;const r=hello.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)hello.close()});
+  // In the gallery's thumbnail (a page inside a frame) the greeting is only drawn, so it never takes the gallery's focus.
+  if(window.self!==window.top){hello.setAttribute('open','');document.body.classList.add('hello-thumb')}
+  else if(hello.showModal){hello.showModal();$('hello-go').focus()}
   $('gm-next').addEventListener('click',()=>{if(!tour)return;if(tour.i<STOPS.length-1)show(tour.i+1);else endTour()});
   $('gm-back').addEventListener('click',()=>{if(tour&&tour.i>0)show(tour.i-1)});
   $('gm-skip').addEventListener('click',endTour);
@@ -520,7 +554,10 @@
   let raf=0;addEventListener('scroll',()=>{if(!tour||raf)return;raf=requestAnimationFrame(()=>{raf=0;place(true)})},{passive:true});
   addEventListener('resize',()=>place(true));
   document.addEventListener('keydown',e=>{if(!tour)return;if(e.key==='Escape')endTour();else if(e.key==='ArrowRight')$('gm-next').click();else if(e.key==='ArrowLeft')$('gm-back').click()});
-  $('gm-b').hidden=true;setTimeout(()=>{if(!tour)$('gm-b').hidden=false},1400);
+  // the corner question waits until the greeting is closed, so the same question is never asked twice at once
+  $('gm-b').hidden=true;
+  if(hello.open)hello.addEventListener('close',()=>setTimeout(()=>{if(!tour)$('gm-b').hidden=false},350),{once:true});
+  else setTimeout(()=>{if(!tour)$('gm-b').hidden=false},1400);
   function setLens(l,push){
     if(!ORDER[l])l='pm';
     const cards=[...stack.children],first=new Map(cards.map(c=>[c,c.getBoundingClientRect().top]));
