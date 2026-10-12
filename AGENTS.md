@@ -41,7 +41,7 @@ This assignment questions whether that form is right. It is one candidate, not t
 - Act 2 combinations (v11–v18): a combination must change the layout axis of its base version; carry over voice, type, mechanism and material. Swapping one component only (as the first v12 did) reads as the same page.
 - Act 2 combinations must also carry one visual device from act 1 (ink, halftone, physical objects, photos), not only structure and voice; without it the page reads plain.
 - Act 3 versions (v19–v25) stay on one line, but each must change one meaningful decision (hierarchy, what the first screen shows, how a case opens, how much personal content, mobile layout), named in its gallery note, and the change must be visible on the first or second screen: 25 distinct pages is the requirement. A font or colour change alone is never a version.
-- A version that is dropped stays in the gallery with its verdict and the reason; dropped versions are part of the story.
+- A dropped attempt is recorded in `log.md` and the commit history, not in the gallery. Each gallery note describes only the page now in that slot, checked against that page, and any version number it names points to the page now in that slot. A note may keep the reason for a decision, never the story of a page the reader cannot open.
 - After each version: update its gallery cell, then one commit whose message is that gallery line.
 
 ## Work log
