@@ -120,3 +120,4 @@
 - 我说照片和 memoji 坏了：是浏览器面板用 file:// 直接打开了 v25/index.html，这种方式只显示那一个文件、读不到 ../assets；线上 dbs-a1.vercel.app 的 22 张图本地和线上都在，v25 线上照片和 memoji 正常。
 - 复核：Claude 又派一个没看过前面结论的子代理把改后的 25 条说明和结尾段落全部对照源码重查，查出 1 处：Final choice 把蓝色记号圈算在 v13、v15 头上，实际 v21 才有（v13 是方形聚光、v15 没有），改为"the name card and the marker rings (v21), the guided walk (v13, v15)"。Claude 自己又改了 v25 一句（名字在页脚也有，"只在名片和落款"不对）。
 - 我说看不出 v25 和 v24 的区别。截两版首屏对比：首屏只差左上角从名字换成日期、右下角多一个 memoji 问"Want a 40-second tour?"；落款在页面最底下。原说明开头是抽象的"Closes the letter the page opens"，大半篇幅讲信头和落款，看得见的变化被埋了。改为开头直说"两处改动，首屏上的是 memoji 导览"（v24 的讲解只在打开的卡片里，v25 "Show me" 走整页八站），再说信头和落款。页面本身没动。
+- 我问 A1 要求是否都满足。Claude 对照作业 PDF 逐条查：AGENTS.md 写了访客和目标；gallery 25 格都链到对应页面且有缩略图；25 页线上都返回 200；纯 HTML/CSS/JS，无 package.json、无外部脚本或样式表、无 localStorage/fetch；GitHub 仓库公开、173 次提交、第一次提交从空仓库开始。查出 v02 的返回链接写成了小写"← gallery"（能用，但不合 AGENTS.md 的固定写法），改成"← Gallery"。提交方式：两个链接（Vercel、GitHub）交到 Google Classroom。
