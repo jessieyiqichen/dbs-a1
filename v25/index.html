@@ -462,12 +462,12 @@
   <img src="../assets/img/jessie-wave.png" alt="">
   <button type="button" class="hello-x" id="hello-x" aria-label="Not now">×</button>
   <h2 id="hello-h">Hi, I’m Jessie.</h2>
-  <p>Want me to walk you through this page? Eight stops, about 40 seconds.</p>
+  <p>Want me to walk you through this page? Six stops, about 30 seconds.</p>
   <div class="hello-row"><button type="button" class="pri" id="hello-go">Show me</button><button type="button" id="hello-no">I’ll look around</button></div>
 </dialog>
 <div class="gm rest" id="gm" aria-live="polite">
   <div class="gm-b" id="gm-b">
-    <div class="gm-hi" id="gm-hi"><p>Want a 40-second tour?</p><button type="button" class="gm-start" id="gm-start">Show me</button><button type="button" class="gm-x" id="gm-x" aria-label="Not now">×</button></div>
+    <div class="gm-hi" id="gm-hi"><p>Want a 30-second tour?</p><button type="button" class="gm-start" id="gm-start">Show me</button><button type="button" class="gm-x" id="gm-x" aria-label="Not now">×</button></div>
     <div id="gm-step" hidden><p class="gm-t" id="gm-t"></p><div class="gm-n"><span class="gm-c" id="gm-c"></span><button type="button" id="gm-back">Back</button><button type="button" class="pri" id="gm-next">Next</button><button type="button" id="gm-skip">Skip</button></div></div>
   </div>
   <button type="button" class="gm-img" id="gm-img" aria-label="Start the tour"><img src="../assets/img/jessie-wave.png" alt="Jessie’s memoji"></button>
@@ -485,27 +485,32 @@
     if(!e.target.closest('.head'))return;
     const on=!card.classList.contains('open');closeAll(card);card.classList.toggle('open',on);card.querySelector('.head').setAttribute('aria-expanded',on);
     if(on&&!reduce)setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),120);
+    if(on&&tour&&tour.i===PICK){tour.picked=card;setTimeout(()=>show(PICK),reduce?0:450)}
   });
   stack.addEventListener('mouseover',e=>{const li=e.target.closest('.calls li');if(!li)return;const c=li.closest('.card'),j=li.dataset.j;c.querySelectorAll('.calls li').forEach(x=>x.classList.toggle('on',x===li));c.querySelectorAll('.mk').forEach(m=>m.classList.toggle('on',m.dataset.j===j))});
   stack.addEventListener('mouseout',e=>{const li=e.target.closest('.calls li');if(!li||li.contains(e.relatedTarget))return;li.closest('.card').querySelectorAll('.calls .on,.mk.on').forEach(x=>x.classList.remove('on'))});
   // the page-wide tour: my memoji walks to each thing, the rest of the page goes dark
-  stack.querySelectorAll('.card').forEach(c=>{c.querySelector('.view').insertAdjacentHTML('afterend','<button class="walk" type="button"><img src="../assets/img/jessie-face.png" alt="">Walk me through it · 30 s</button>')});
+  stack.querySelectorAll('.card').forEach(c=>{c.querySelector('.view').insertAdjacentHTML('afterend','<button class="walk" type="button"><img src="../assets/img/jessie-face.png" alt="">Walk me through it</button>')});
   const $=id=>document.getElementById(id),gm=$('gm'),shade=$('tshade'),gmImg=gm.querySelector('.gm-img img'),POSE={wave:'jessie-wave',idea:'memoji-idea',heart:'memoji-heart',party:'memoji-party'};
   const openCard=()=>{let c=stack.querySelector('.card.open');if(!c){c=stack.firstElementChild;closeAll(c);c.classList.add('open');c.querySelector('.head').setAttribute('aria-expanded','true')}return c};
-  const ring=j=>()=>openCard().querySelectorAll('.mk')[j];
+  // Six stops: the question, me, the card already out, then the visitor pulls one out themselves, the tabs, the sign-off.
+  const closed=()=>[...stack.querySelectorAll('.card:not(.open)')];
+  const nameOf=c=>c.querySelector('.nm').textContent;
+  const unionOf=els=>{const rs=els.map(e=>e.getBoundingClientRect());const l=Math.min(...rs.map(r=>r.left)),t=Math.min(...rs.map(r=>r.top));return{left:l,top:t,width:Math.max(...rs.map(r=>r.right))-l,height:Math.max(...rs.map(r=>r.bottom))-t}};
   const STOPS=[
-    {el:()=>document.querySelector('h1.al-b'),pose:'idea',say:()=>'Hi, I’m Jessie. First, tell me what you’re hiring for: tap product, engineering or data, and the page files itself that way.'},
+    {el:()=>document.querySelector('h1.al-b'),pose:'idea',say:()=>'First, what are you hiring for? Tap product, engineering or data, and the page files itself that way.'},
     {el:()=>document.querySelector('.ncard'),pose:'heart',say:()=>'That’s me: AI product, between Chicago and Shanghai, finishing an MA at UChicago, class of 2027. My email is right on the card.'},
-    {el:()=>document.querySelector('.divider'),pad:[64,14,14,14],pose:'idea',say:()=>'These are the five, each shipped on my own. The tabs file them by what you want to check.'},
-    {el:ring(0),pose:'idea',say:()=>openCard().querySelectorAll('.calls li')[0].textContent.replace(/^\d/,'')},
-    {el:ring(1),pose:'idea',say:()=>openCard().querySelectorAll('.calls li')[1].textContent.replace(/^\d/,'')},
-    {el:ring(2),pose:'idea',say:()=>openCard().querySelectorAll('.calls li')[2].textContent.replace(/^\d/,'')},
-    {el:()=>openCard().querySelector('.nums'),pose:'party',say:()=>{const n=openCard().querySelector('.nums>div');return [n.querySelector('b').textContent,n.querySelector('span').textContent+'. That is the number this one lives by.']}},
-    {el:()=>document.querySelector('.signoff'),pose:'heart',say:()=>'That’s the tour. If you want to go deeper on any of the five, write to me.'}
+    {el:()=>openCard(),pose:'idea',say:()=>['This one is out already: '+nameOf(openCard())+'.','Every card opens the same way: the screen with three ringed spots to look at, one line on what it does, the numbers it lives by, and links to try it.']},
+    {el:()=>tour.picked||closed()[0],box:()=>tour.picked?null:unionOf(closed()),pose:'idea',say:()=>tour.picked?'There it is: '+nameOf(tour.picked)+'. Take a look; press Next when you’re ready.':'Your turn: pull out another one. Click any card; I’ll wait. Or press Next and I’ll pull one out for you.'},
+    {el:()=>document.querySelector('.divider'),pad:[64,14,14,14],pose:'idea',say:()=>'The tabs file the five by what you want to check: product, engineering, or data and cost. Whatever leads that file comes out first.'},
+    {el:()=>document.querySelector('.signoff'),pose:'heart',say:()=>'That’s the tour. To go deeper on any of the five, write to me; my email is right here.'}
   ];
+  const PICK=3;
+  // pull a card out on the visitor's behalf, as a click on its head would
+  function pick(card){closeAll(card);card.classList.add('open');card.querySelector('.head').setAttribute('aria-expanded','true');tour.picked=card}
   let tour=null,moveT=0;
   function pose(k){gmImg.src='../assets/img/'+POSE[k]+'.png'}
-  function rectOf(st){const e=st.el();if(!e)return null;const r=e.getBoundingClientRect(),p=st.pad||[12,12,12,12];return{left:r.left-p[3],top:r.top-p[0],width:r.width+p[1]+p[3],height:r.height+p[0]+p[2]}}
+  function rectOf(st){const e=st.el();if(!e)return null;const r=(st.box&&st.box())||e.getBoundingClientRect(),p=st.pad||[12,12,12,12];return{left:r.left-p[3],top:r.top-p[0],width:r.width+p[1]+p[3],height:r.height+p[0]+p[2]}}
   function place(snap){
     if(!tour)return;const st=STOPS[tour.i],r=rectOf(st);if(!r)return;
     shade.classList.toggle('snap',!!snap);gm.classList.toggle('snap',!!snap);
@@ -526,7 +531,7 @@
     moveT=setTimeout(()=>{gm.classList.remove('walking');gm.classList.add('talk');setTimeout(()=>gm.classList.remove('talk'),520)},reduce?0:1300);
   }
   function startTour(i){
-    tour={i:0};gm.classList.remove('rest');gm.classList.add('touring');shade.hidden=false;
+    tour={i:0,picked:null};gm.classList.remove('rest');gm.classList.add('touring');shade.hidden=false;
     $('gm-b').hidden=false;$('gm-hi').hidden=true;$('gm-step').hidden=false;
     const r=gm.getBoundingClientRect();gm.classList.add('snap');gm.style.left=r.left+'px';gm.style.top=r.top+'px';gm.offsetWidth;gm.classList.remove('snap');
     show(i||0);$('gm-next').focus({preventScroll:true});
@@ -548,10 +553,10 @@
   // In the gallery's thumbnail (a page inside a frame) the greeting is only drawn, so it never takes the gallery's focus.
   if(window.self!==window.top){hello.setAttribute('open','');document.body.classList.add('hello-thumb')}
   else if(hello.showModal){hello.showModal();$('hello-go').focus()}
-  $('gm-next').addEventListener('click',()=>{if(!tour)return;if(tour.i<STOPS.length-1)show(tour.i+1);else endTour()});
+  $('gm-next').addEventListener('click',()=>{if(!tour)return;if(tour.i===PICK&&!tour.picked&&closed().length){pick(closed()[0]);show(PICK);return}if(tour.i<STOPS.length-1)show(tour.i+1);else endTour()});
   $('gm-back').addEventListener('click',()=>{if(tour&&tour.i>0)show(tour.i-1)});
   $('gm-skip').addEventListener('click',endTour);
-  stack.addEventListener('click',e=>{const w=e.target.closest('.walk');if(w){const c=w.closest('.card');closeAll(c);c.classList.add('open');startTour(3)}});
+  stack.addEventListener('click',e=>{const w=e.target.closest('.walk');if(w){const c=w.closest('.card');closeAll(c);c.classList.add('open');startTour(2)}});
   let raf=0;addEventListener('scroll',()=>{if(!tour||raf)return;raf=requestAnimationFrame(()=>{raf=0;place(true)})},{passive:true});
   addEventListener('resize',()=>place(true));
   document.addEventListener('keydown',e=>{if(!tour)return;if(e.key==='Escape')endTour();else if(e.key==='ArrowRight')$('gm-next').click();else if(e.key==='ArrowLeft')$('gm-back').click()});
